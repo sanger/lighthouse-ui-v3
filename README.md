@@ -71,13 +71,17 @@ To serve the application with hot reloading:
 
 This project is linted using [ESLint](https://github.com/eslint/eslint). To lint the code, run:
 
-    npm run lint .
+    npm run lint
+
+You can also auto-format the Javascript using Prettier via the command:
+
+    npm run format
 
 ## Testing
 
 ### Running tests
 
-To run the Jest test suite:
+To run the Vitest test suite:
 
     npm test
 

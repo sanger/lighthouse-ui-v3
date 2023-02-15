@@ -15,6 +15,9 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
   },
+  modules: [
+    'nuxt-vitest'
+  ],
   runtimeConfig: {
     lighthouseBaseURL: '/lighthouse',
     lighthouseApiKey: process.env.LIGHTHOUSE_API_KEY || 'lighthouse_ui_read_write_dev',
