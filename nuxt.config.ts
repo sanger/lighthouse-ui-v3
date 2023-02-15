@@ -16,7 +16,8 @@ export default defineNuxtConfig({
     },
   },
   modules: [
-    'nuxt-vitest'
+    'nuxt-vitest',
+    'bootstrap-vue-next/nuxt',
   ],
   runtimeConfig: {
     lighthouseBaseURL: '/lighthouse',
@@ -34,4 +35,5 @@ export default defineNuxtConfig({
       bioseroCherrypick: process.env.FEATURE_FLAG_BIOSERO_CHERRYPICK,
     },
   },
+  ssr: false, // Client-side rendering only because of limitations in bootstrap-vue-next
 })
