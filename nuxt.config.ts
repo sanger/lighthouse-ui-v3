@@ -20,13 +20,16 @@ export default defineNuxtConfig({
     'bootstrap-vue-next/nuxt',
   ],
   runtimeConfig: {
-    lighthouseBaseURL: '/lighthouse',
-    lighthouseApiKey: process.env.LIGHTHOUSE_API_KEY || 'lighthouse_ui_read_write_dev',
-    labwhereBaseURL: process.env.LABWHERE_BASE_URL || 'http://labwhere',
-    sequencescapeBaseURL: process.env.SEQUENCESCAPE_BASE_URL || 'http://sequencescape',
-    sprintBaseURL: process.env.SPRINT_BASE_URL || 'http://sprint',
-    baracodaBaseURL: process.env.BARACODA_BASE_URL || 'http://baracoda',
     public: {
+      // TODO: Make values in this section private by moving them out to the root level of this runtimeConfig.
+      //       This can only be done when the ssr value below can be set to true.
+      lighthouseBaseURL: process.env.LIGHTHOUSE_BASE_URL || 'http://lighthouse',
+      lighthouseApiKey: process.env.LIGHTHOUSE_API_KEY || 'lighthouse_ui_read_write_dev',
+      labwhereBaseURL: process.env.LABWHERE_BASE_URL || 'http://labwhere',
+      sequencescapeBaseURL: process.env.SEQUENCESCAPE_BASE_URL || 'http://sequencescape',
+      sprintBaseURL: process.env.SPRINT_BASE_URL || 'http://sprint',
+      baracodaBaseURL: process.env.BARACODA_BASE_URL || 'http://baracoda',
+
       asynchronous: process.env.ASYNCHRONOUS,
       projectId: process.env.PROJECT_ID,
       studyId: process.env.STUDY_ID,
