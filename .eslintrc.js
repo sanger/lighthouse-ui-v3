@@ -8,7 +8,12 @@ module.exports = {
     'prettier', // Need to be near last. https://github.com/prettier/eslint-config-prettier#installation
   ],
   rules: {
-    // override/add rules settings here, such as:
-    // 'vue/no-unused-vars': 'error'
+    'no-undef': ['off'], // Nuxt 3 uses auto-imports
+    'vue/multi-word-component-names': [
+      'error',
+      {
+        ignores: ['imports', 'index', 'reports'], // These are page names
+      },
+    ],
   },
 }
