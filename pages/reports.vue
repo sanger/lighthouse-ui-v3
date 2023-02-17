@@ -38,8 +38,6 @@
         </p>
         <b-table
           ref="reports_table"
-          v-model:sort-by="sortBy"
-          v-model:sort-desc="sortDesc"
           :items="items"
           :fields="fields"
           sort-icon-left
@@ -47,16 +45,15 @@
         >
           <!-- A virtual column -->
           <template #cell(index)="data">{{ data.index + 1 }}</template>
-          <template #cell(selected)="row">
-            <b-form-group class="selected">
-              <input v-model="row.item.selected" type="checkbox" />
-            </b-form-group>
-          </template>
-
           <template #cell(download_link)="data">
             <b-button variant="primary" :href="data.item.download_url" download>
               Download
             </b-button>
+          </template>
+          <template #cell(delete)="data">
+            <b-form-group class="selected">
+              <input v-model="data.item.toDelete" type="checkbox" />
+            </b-form-group>
           </template>
         </b-table>
       </b-col>
@@ -71,15 +68,13 @@ import statuses from '@/modules/statuses'
 export default {
   data() {
     return {
-      sortBy: 'filename',
-      sortDesc: true,
       fields: [
         // A virtual column that doesn't exist in items
         { key: 'index', label: '' },
-        { key: 'filename', sortable: true },
+        'filename',
         'size',
         { key: 'download_link', label: '' },
-        { key: 'selected', label: 'Delete' },
+        'delete',
       ],
       status: statuses.Idle,
       alertMessage: '',
@@ -88,7 +83,7 @@ export default {
   },
   computed: {
     reportsToDelete() {
-      return this.items.filter((item) => item.selected === true).map((item) => item.filename)
+      return this.items.filter((item) => item.toDelete === true).map((item) => item.filename)
     },
     // TODO: DPL-561 - abstract and create functions dynamically.
     isIdle() {
@@ -113,7 +108,7 @@ export default {
       if (response.success) {
         const reports = response.reports.map((report) => ({
           ...report,
-          selected: false,
+          toDelete: false,
         }))
         return reports
       } else {
@@ -151,6 +146,7 @@ export default {
     },
     async provider() {
       this.items = await this.reportsProvider()
+      this.items.sort((a, b) => b.filename.localeCompare(a.filename)) // Inverse sort by filename
     },
     setStatus(status, message) {
       this.status = statuses[status]
