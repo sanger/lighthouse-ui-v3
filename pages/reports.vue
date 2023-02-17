@@ -142,7 +142,6 @@ export default {
     },
     refreshTable() {
       this.provider()
-      this.$refs.reports_table.refresh()
     },
     async provider() {
       this.items = await this.reportsProvider()
