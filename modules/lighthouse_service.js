@@ -283,11 +283,11 @@ const generateTestRun = async (plateSpecs) => {
  */
 const getTestRuns = async (currentPage, maxResults) => {
   try {
-    const headers = { headers: { Authorization: config.lighthouseApiKey } }
+    const headers = { Authorization: config.lighthouseApiKey }
 
     const response = await useFetch(
       `${config.lighthouseBaseURL}/cherrypick-test-data?max_results=${maxResults}&page=${currentPage}&sort=-_created`,
-      headers
+      { headers }
     )
 
     response.data.value._items.forEach((run) => {
@@ -313,12 +313,11 @@ const getTestRuns = async (currentPage, maxResults) => {
  */
 const getTestRun = async (id) => {
   try {
-    const headers = { headers: { Authorization: config.lighthouseApiKey } }
+    const headers = { Authorization: config.lighthouseApiKey }
 
-    const response = await useFetch(
-      `${config.lighthouseBaseURL}/cherrypick-test-data/${id}`,
-      headers
-    )
+    const response = await useFetch(`${config.lighthouseBaseURL}/cherrypick-test-data/${id}`, {
+      headers,
+    })
 
     return {
       success: true,
