@@ -23,19 +23,19 @@ export default defineNuxtConfig({
     public: {
       // TODO: Make values in this section private by moving them out to the root level of this runtimeConfig.
       //       This can only be done when the ssr value below can be set to true.
-      lighthouseBaseURL: process.env.LIGHTHOUSE_BASE_URL || 'http://lighthouse',
-      lighthouseApiKey: process.env.LIGHTHOUSE_API_KEY || 'lighthouse_ui_read_write_dev',
-      labwhereBaseURL: process.env.LABWHERE_BASE_URL || 'http://labwhere',
-      sequencescapeBaseURL: process.env.SEQUENCESCAPE_BASE_URL || 'http://sequencescape',
-      sprintBaseURL: process.env.SPRINT_BASE_URL || 'http://sprint',
-      baracodaBaseURL: process.env.BARACODA_BASE_URL || 'http://baracoda',
+      lighthouseBaseURL: 'http://lighthouse',
+      lighthouseApiKey: 'lighthouse_ui_read_write_dev',
+      labwhereBaseURL: 'http://labwhere',
+      sequencescapeBaseURL: 'http://sequencescape',
+      sprintBaseURL: 'http://sprint',
+      baracodaBaseURL: 'http://baracoda',
 
-      asynchronous: process.env.ASYNCHRONOUS,
-      projectId: process.env.PROJECT_ID,
-      studyId: process.env.STUDY_ID,
-      printers: process.env.PRINTERS || 'a,b,c',
-      uatActions: process.env.FEATURE_FLAG_UAT_ACTIONS,
-      bioseroCherrypick: process.env.FEATURE_FLAG_BIOSERO_CHERRYPICK,
+      asynchronous: '',
+      projectId: '',
+      studyId: '',
+      printers: 'a,b,c',
+      uatActions: 'false',
+      bioseroCherrypick: 'false',
     },
   },
   ssr: false, // Client-side rendering only because of limitations in bootstrap-vue-next
