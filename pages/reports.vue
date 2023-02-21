@@ -26,13 +26,13 @@
         </p>
         <!-- TODO: DPL-561 - better in a component of its own? -->
         <p>
-          <b-alert :show="isError" dismissible variant="danger">
+          <b-alert v-model="isError" variant="danger">
             {{ alertMessage }}
           </b-alert>
-          <b-alert :show="isSuccess" dismissible variant="success">
+          <b-alert v-model="isSuccess" variant="success">
             {{ alertMessage }}
           </b-alert>
-          <b-alert :show="isBusy" dismissible variant="warning">
+          <b-alert v-model="isBusy" variant="warning">
             {{ alertMessage }}
           </b-alert>
         </p>
