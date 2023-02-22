@@ -24,18 +24,7 @@
             Delete Reports
           </b-button>
         </p>
-        <!-- TODO: DPL-561 - better in a component of its own? -->
-        <p>
-          <b-alert v-model="isError" variant="danger">
-            {{ alertMessage }}
-          </b-alert>
-          <b-alert v-model="isSuccess" variant="success">
-            {{ alertMessage }}
-          </b-alert>
-          <b-alert v-model="isBusy" variant="warning">
-            {{ alertMessage }}
-          </b-alert>
-        </p>
+        <StatusAlert ref="statusAlert" />
         <b-table
           ref="reports_table"
           :items="items"
@@ -63,7 +52,6 @@
 
 <script>
 import lighthouse from '@/modules/lighthouse_service'
-import statuses from '@/modules/statuses'
 
 export default {
   data() {
@@ -76,8 +64,6 @@ export default {
         { key: 'download_link', label: '' },
         'delete',
       ],
-      status: statuses.Idle,
-      alertMessage: '',
       items: [],
     }
   },
@@ -85,18 +71,8 @@ export default {
     reportsToDelete() {
       return this.items.filter((item) => item.toDelete === true).map((item) => item.filename)
     },
-    // TODO: DPL-561 - abstract and create functions dynamically.
-    isIdle() {
-      return this.status === statuses.Idle
-    },
-    isSuccess() {
-      return this.status === statuses.Success
-    },
-    isError() {
-      return this.status === statuses.Error
-    },
     isBusy() {
-      return this.status === statuses.Busy
+      return this.$refs.statusAlert?.isBusy
     },
   },
   created() {
@@ -148,8 +124,7 @@ export default {
       this.items.sort((a, b) => b.filename.localeCompare(a.filename)) // Inverse sort by filename
     },
     setStatus(status, message) {
-      this.status = statuses[status]
-      this.alertMessage = message
+      this.$refs.statusAlert.setStatus(status, message)
     },
   },
 }

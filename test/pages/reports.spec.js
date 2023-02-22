@@ -2,7 +2,6 @@ import { mount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
 import ReportsJson from '../data/reports'
 import Reports from '@/pages/reports.vue'
-import statuses from '@/modules/statuses'
 import lighthouse from '@/modules/lighthouse_service'
 
 vi.mock('@/modules/lighthouse_service', () => {
@@ -32,51 +31,6 @@ describe('Reports', () => {
 
   it('is a Vue instance', () => {
     expect(wrapper.findComponent(Reports).exists()).toBeTruthy()
-  })
-
-  describe('setting the status', () => {
-    it('default should be idle', () => {
-      expect(wrapper.vm.isIdle).toBeTruthy()
-    })
-
-    it('when success', () => {
-      wrapper = mount(Reports, {
-        data() {
-          return {
-            status: statuses.Success,
-            alertMessage: 'I am a success',
-          }
-        },
-      })
-      expect(wrapper.vm.isSuccess).toBeTruthy()
-      expect(wrapper.find('.alert').text()).toMatch('I am a success')
-    })
-
-    it('when error', () => {
-      wrapper = mount(Reports, {
-        data() {
-          return {
-            status: statuses.Error,
-            alertMessage: 'I am a failure',
-          }
-        },
-      })
-      expect(wrapper.vm.isError).toBeTruthy()
-      expect(wrapper.find('.alert').text()).toMatch('I am a failure')
-    })
-
-    it('when busy', () => {
-      wrapper = mount(Reports, {
-        data() {
-          return {
-            status: statuses.Busy,
-            alertMessage: 'I am busy',
-          }
-        },
-      })
-      expect(wrapper.vm.isBusy).toBeTruthy()
-      expect(wrapper.find('.alert').text()).toMatch('I am busy')
-    })
   })
 
   describe('#reportsProvider', () => {
