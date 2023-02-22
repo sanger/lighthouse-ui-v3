@@ -22,7 +22,7 @@ describe('Reports', () => {
       reports: ReportsJson.reports,
     })
 
-    wrapper = mount(Reports, {})
+    wrapper = mount(Reports)
   })
 
   afterEach(() => {
@@ -45,7 +45,8 @@ describe('Reports', () => {
         reports: 'There was an error',
       })
 
-      wrapper = mount(Reports, {})
+      wrapper = mount(Reports)
+
       await flushPromises()
       expect(wrapper.find('tbody').findAll('tr')).toHaveLength(0)
     })
@@ -57,10 +58,7 @@ describe('Reports', () => {
         success: true,
         reports: [ReportsJson.reports[0]],
       })
-      lighthouse.getReports.mockResolvedValue({
-        success: true,
-        reports: ReportsJson.reports,
-      })
+
       const button = wrapper.find('#createReport')
       await button.trigger('click')
       await flushPromises()
@@ -73,6 +71,7 @@ describe('Reports', () => {
         success: false,
         error: 'There was an error',
       })
+
       const button = wrapper.find('#createReport')
       await button.trigger('click')
       await flushPromises()
