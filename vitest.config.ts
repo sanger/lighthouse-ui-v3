@@ -4,6 +4,6 @@ export default defineVitestConfig({
   test: {
     root: '.',
     globals: true,
-    environment: "jsdom",
+    environment: 'jsdom',
   },
 })
