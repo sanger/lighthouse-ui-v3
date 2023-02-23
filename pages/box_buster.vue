@@ -18,13 +18,13 @@
         type="search"
         trim
         :state="labwhereState"
-        @change="refreshResults"
+        @keydown.enter="refreshResults"
       ></b-form-input>
     </b-form-group>
     <p>
-      <b-button id="refreshResults" variant="primary" :disabled="isBusy" @click="refreshResults"
-        >Search</b-button
-      >
+      <b-button id="refreshResults" variant="primary" :disabled="isBusy" @click="refreshResults">
+        Search
+      </b-button>
     </p>
     <p>
       <b-alert id="alert" v-model="isError" variant="danger">{{
@@ -270,6 +270,7 @@ export default {
       this.isBusy = true
       try {
         this.reset()
+
         if (this.barcode === '') {
           this.isBusy = false
           return []
@@ -292,13 +293,12 @@ export default {
       this.lighthouseResponse = defaultResponse
     },
     async findPlatesInLighthouse(labwhereResponse) {
-      this.currentState = `Checking ${$t(
+      this.currentState = `Checking ${this.$t(
         'plates',
-        labwhereResponse.length
+        labwhereResponse.barcodes.length
       )} in the Lighthouse service`
 
       const response = await lighthouse.findPlatesFromBarcodes(labwhereResponse)
-
       this.lighthouseResponse = response
 
       if (response.success) {
@@ -310,7 +310,9 @@ export default {
     async findPlates() {
       const response = await labwhere.getPlatesFromBoxBarcodes(this.barcode)
       this.labwhereResponse = response
+
       let plates = []
+
       if (response.success) {
         plates = this.findPlatesInLighthouse(response)
       } else {
@@ -318,6 +320,8 @@ export default {
         // Requirements were that we should allow plate lookups
         plates = this.findPlatesInLighthouse({ barcodes: [this.barcode] })
       }
+
+      console.log(plates)
       return plates
     },
     sortedPlates(plates) {
@@ -328,9 +332,6 @@ export default {
     },
     refreshResults() {
       this.provider()
-      if (this.$refs.plates_table) {
-        this.$refs.plates_table.refresh()
-      }
     },
     async provider() {
       this.plates = await this.platesProvider()
