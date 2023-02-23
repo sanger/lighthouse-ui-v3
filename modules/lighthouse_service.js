@@ -50,10 +50,15 @@ const getSearchDateString = (daysAgo) => {
 const getImports = async () => {
   try {
     const response = await useFetch(
+      `${config.lighthouseBaseURL}/imports`,
       // Get results for the past 4 weeks, in reverse date order, limited to 10000 results
-      `${
-        config.lighthouseBaseURL
-      }/imports?max_results=10000&sort=-date&where={"date": {"$gt": "${getSearchDateString(28)}"}}`
+      {
+        params: {
+          max_results: '10000',
+          sort: '-date',
+          where: `{"date": {"$gt": "${getSearchDateString(28)}"}}`,
+        },
+      }
     )
     return {
       success: true,

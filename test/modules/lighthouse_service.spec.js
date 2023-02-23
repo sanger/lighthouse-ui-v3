@@ -297,15 +297,19 @@ describe('lighthouse_service api', () => {
       await lighthouse.getImports()
 
       expect(useFetch.mock.calls).toHaveLength(1)
-
-      const urlString = useFetch.mock.calls[0][0]
-      const queryString = urlString.split('/imports?')[1]
-      const params = new URLSearchParams(queryString)
-
-      expect(params.get('max_results')).toBe('10000')
-      expect(params.get('sort')).toBe('-date')
-      expect(params.get('where')).toEqual(
-        expect.stringMatching(/\{"date": \{"\$gt": "\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}"\}\}/)
+      expect(useFetch).toHaveBeenNthCalledWith(
+        1,
+        `${config.lighthouseBaseURL}/imports`,
+        {
+          params: {
+            max_results: '10000',
+            sort: '-date',
+            where: expect.stringMatching(
+              /\{"date": \{"\$gt": "\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}"\}\}/
+            ),
+          },
+        },
+        expect.any(String)
       )
     })
 
