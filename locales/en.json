@@ -1,0 +1,9 @@
+{
+  "plates_with_maps": "@:plates with a map | @:plates with a map | @:plates with maps",
+  "plates_without_maps": "@:plates without a map | @:plates without a map | @:plates without maps",
+  "plates": "No plates | 1 plate | {n} plates",
+  "plates_in_the_box": "@:plates in the box | @:plates in the box | Total of @:plates in the box",
+  "fit_to_pick_samples": "No fit to pick samples | 1 fit to pick sample | Total of {n} fit to pick samples",
+  "plates_with_samples_that_must_be_sequenced": "@:plates with samples that must be sequenced",
+  "plates_with_samples_that_should_be_preferentially_sequenced": "@:plates with samples that should preferentially be sequenced"
+}
