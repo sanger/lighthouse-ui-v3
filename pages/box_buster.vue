@@ -35,7 +35,6 @@
       ref="plates_table"
       v-model:busy="isBusy"
       :items="plates"
-      :tbody-tr-class="rowClass"
       :fields="fields"
       caption-top
       show-empty
@@ -253,14 +252,14 @@ export default {
      * Set the styling of the table row based on whether the plate has plate map data and any fit to
      * pick samples.
      */
-    rowClass(item, type) {
-      if (item && type === 'row') {
-        if (!item.has_plate_map) return 'table-danger'
+    rowClass(plate) {
+      if (plate) {
+        if (!plate.has_plate_map) return 'danger'
 
-        if (item.count_fit_to_pick_samples === 0) return 'table-warning'
-
-        return 'table-success'
+        if (plate.count_fit_to_pick_samples === 0) return 'warning'
       }
+
+      return 'success'
     },
     async platesProvider() {
       this.prev_barcode = this.barcode
@@ -321,7 +320,6 @@ export default {
         plates = this.findPlatesInLighthouse({ barcodes: [this.barcode] })
       }
 
-      console.log(plates)
       return plates
     },
     sortedPlates(plates) {
@@ -331,10 +329,17 @@ export default {
       return plates.sort(sortCompare)
     },
     refreshResults() {
+      this.status = ''
       this.provider()
     },
     async provider() {
-      this.plates = await this.platesProvider()
+      const plates = await this.platesProvider()
+      this.plates = plates.map((plate) => {
+        return {
+          ...plate,
+          _rowVariant: this.rowClass(plate),
+        }
+      })
     },
   },
 }
