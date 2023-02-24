@@ -23,9 +23,9 @@
         <p class="text-right">
           <b-button
             id="printLabels"
-            block
+            class="container-fluid"
             size="lg"
-            variant="success"
+            variant="primary"
             :disabled="isBusy"
             @click="printLabels"
           >

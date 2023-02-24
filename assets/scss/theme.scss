@@ -6,21 +6,19 @@
 
 $theme-colors: (
   primary: rgb(102, 51, 153),
-  secondary: $secondary,
+  secondary: rgb(53, 73, 94),
   success: $success,
   danger: $danger,
   warning: $warning,
   info: $info,
 );
 
-$primary-dark: rgb(41, 20, 61);
-$grey-dark: rgb(53, 73, 94);
+$primary-dark: rgb(61, 45, 91);
 
 $custom-theme-colors: map-merge(
   $theme-colors,
   (
     'primary-dark': $primary-dark,
-    'grey-dark': $grey-dark,
   )
 );
 

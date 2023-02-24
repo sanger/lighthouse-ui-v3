@@ -1,5 +1,5 @@
 <template>
-  <b-navbar ref="navbar" toggleable="md" type="light" class="bg-white" variant="info">
+  <b-navbar ref="navbar" toggleable="md">
     <b-navbar-nav class="ms-auto">
       <b-nav-item to="/print_labels/destination_plates">Destination Plates</b-nav-item>
       <b-nav-item to="/print_labels/source_plates">Source Plates</b-nav-item>
