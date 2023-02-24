@@ -129,7 +129,9 @@ describe('BoxBuster', () => {
   })
 
   it('makes it easy to see when plates have a plate map', async () => {
-    await wrapper.setData({ plates: [plateA] })
+    labwhere.getPlatesFromBoxBarcodes.mockResolvedValue({ success: false })
+    lighthouse.findPlatesFromBarcodes.mockResolvedValue({ success: true, plates: [plateA] })
+    await wrapper.vm.refreshResults()
 
     const row = wrapper.find('table').findAll('tr').at(1)
 
@@ -139,8 +141,9 @@ describe('BoxBuster', () => {
   })
 
   it('makes it easy to see when plates have plate map data but no fit to pick samples', async () => {
-    const data = { plates: [plateE] }
-    await wrapper.setData(data)
+    labwhere.getPlatesFromBoxBarcodes.mockResolvedValue({ success: false })
+    lighthouse.findPlatesFromBarcodes.mockResolvedValue({ success: true, plates: [plateE] })
+    await wrapper.vm.refreshResults()
 
     const row = wrapper.find('table').findAll('tr').at(1)
 
@@ -153,8 +156,9 @@ describe('BoxBuster', () => {
   })
 
   it('makes it easy to see when plates do not have a plate map nor fit to pick samples', async () => {
-    const data = { plates: [plateC] }
-    await wrapper.setData(data)
+    labwhere.getPlatesFromBoxBarcodes.mockResolvedValue({ success: false })
+    lighthouse.findPlatesFromBarcodes.mockResolvedValue({ success: true, plates: [plateC] })
+    await wrapper.vm.refreshResults()
 
     const row = wrapper.find('table').findAll('tr').at(1)
 
@@ -283,7 +287,14 @@ describe('BoxBuster', () => {
         barcodes: BARCODES_PLATES,
       })
       expect(wrapper.vm.sortedPlates).toHaveBeenCalledWith(examplePlates)
-      expect(wrapper.vm.plates).toEqual(expectedSortedPlates)
+
+      const platesWithRowVariants = expectedSortedPlates.map((plate) => {
+        return {
+          ...plate,
+          _rowVariant: wrapper.vm.rowClass(plate),
+        }
+      })
+      expect(wrapper.vm.plates).toEqual(platesWithRowVariants)
     })
 
     it('findPlatesFromBarcodes can be successful and return no plates', async () => {

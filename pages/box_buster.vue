@@ -328,9 +328,9 @@ export default {
       }
       return plates.sort(sortCompare)
     },
-    refreshResults() {
+    async refreshResults() {
       this.status = ''
-      this.provider()
+      await this.provider()
     },
     async provider() {
       const plates = await this.platesProvider()
