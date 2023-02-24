@@ -7,8 +7,8 @@ export default defineNuxtPlugin(({ vueApp }) => {
     globalInjection: true,
     locale: 'en',
     messages: {
-      en
-    }
+      en,
+    },
   })
 
   vueApp.use(i18n)

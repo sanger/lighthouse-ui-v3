@@ -1,7 +1,6 @@
 import { mount } from '@vue/test-utils'
 import StatusAlert from '@/components/StatusAlert'
 import statuses from '~/modules/statuses'
-import flushPromises from 'flush-promises'
 
 describe('StatusAlert.vue', () => {
   let wrapper
