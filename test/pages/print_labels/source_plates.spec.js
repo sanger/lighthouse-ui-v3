@@ -22,6 +22,7 @@ vi.mock('@/modules/sprint_general_labels', () => {
     },
   }
 })
+
 vi.mock('@/modules/csv', () => {
   return {
     default: {
