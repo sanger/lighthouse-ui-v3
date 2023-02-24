@@ -6,10 +6,8 @@ const config = useRuntimeConfig()
 
 vi.mock('#app', () => {
   return {
-    useRuntimeConfig: vi.fn().mockImplementation(() => {
-      return {
-        printers: 'printer_1',
-      }
+    useRuntimeConfig: vi.fn().mockReturnValue({
+      printers: 'printer_1',
     }),
   }
 })

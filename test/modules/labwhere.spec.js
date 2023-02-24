@@ -4,10 +4,8 @@ import labwhere from '@/modules/labwhere'
 vi.mock('#app', () => {
   return {
     useFetch: vi.fn(),
-    useRuntimeConfig: vi.fn().mockImplementation(() => {
-      return {
-        lighthouseBaseURL: 'http://lighthouseBaseURL',
-      }
+    useRuntimeConfig: vi.fn().mockReturnValue({
+      lighthouseBaseURL: 'http://lighthouseBaseURL',
     }),
   }
 })

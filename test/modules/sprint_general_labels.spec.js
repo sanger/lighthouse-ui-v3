@@ -7,10 +7,8 @@ const config = useRuntimeConfig()
 vi.mock('#app', () => {
   return {
     useFetch: vi.fn(),
-    useRuntimeConfig: vi.fn().mockImplementation(() => {
-      return {
-        sprintBaseURL: 'http://sprintBaseURL',
-      }
+    useRuntimeConfig: vi.fn().mockReturnValue({
+      sprintBaseURL: 'http://sprintBaseURL',
     }),
   }
 })

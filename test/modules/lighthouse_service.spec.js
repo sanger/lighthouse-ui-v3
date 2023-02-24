@@ -8,11 +8,9 @@ const config = useRuntimeConfig()
 vi.mock('#app', () => {
   return {
     useFetch: vi.fn(),
-    useRuntimeConfig: vi.fn().mockImplementation(() => {
-      return {
-        lighthouseBaseURL: 'http://lighthouseBaseURL',
-        lighthouseApiKey: 'secretKey123',
-      }
+    useRuntimeConfig: vi.fn().mockReturnValue({
+      lighthouseBaseURL: 'http://lighthouseBaseURL',
+      lighthouseApiKey: 'secretKey123',
     }),
   }
 })

@@ -3,10 +3,8 @@ import Baracoda from '@/modules/baracoda'
 vi.mock('#app', () => {
   return {
     useFetch: vi.fn(),
-    useRuntimeConfig: vi.fn().mockImplementation(() => {
-      return {
-        baracodaBaseURL: 'http://baracodaBaseURL',
-      }
+    useRuntimeConfig: vi.fn().mockReturnValue({
+      baracodaBaseURL: 'http://baracodaBaseURL',
     }),
   }
 })
