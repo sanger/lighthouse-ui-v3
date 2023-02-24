@@ -1,0 +1,9 @@
+@import 'theme.scss';
+
+.nav-item {
+  padding: 0 10px;
+}
+
+.nav-item:not(:last-child) {
+  border-right: 1px solid $primary-dark;
+}

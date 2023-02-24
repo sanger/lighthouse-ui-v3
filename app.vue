@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import './assets/scss/app.scss'
-
 export default {
   data() {
     return {
@@ -42,3 +40,11 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+@import './assets/scss/main.scss';
+</style>
+
+<style lang="scss" scoped>
+@import './assets/scss/app-scoped.scss';
+</style>
