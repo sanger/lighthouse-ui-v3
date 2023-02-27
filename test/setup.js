@@ -13,7 +13,7 @@ vi.mock('#app', () => {
       sprintBaseURL: 'http://sprintBaseURL',
       baracodaBaseURL: 'http://baracodaBaseURL',
 
-      asynchronous: 'true',
+      asynchronous: 'false',
       projectId: '5',
       studyId: '10',
       printers: 'a,b,c',
