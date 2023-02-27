@@ -2,12 +2,6 @@ import api from '@/modules/api'
 import labwhere from '@/modules/labwhere'
 import lighthouse from '@/modules/lighthouse_service'
 
-vi.mock('#app', () => {
-  return {
-    useRuntimeConfig: vi.fn(),
-  }
-})
-
 describe('api', () => {
   describe('#createSamples', () => {
     beforeEach(() => {

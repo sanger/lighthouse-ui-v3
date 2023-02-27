@@ -5,16 +5,6 @@ import lighthouse from '@/modules/lighthouse_service'
 
 const config = useRuntimeConfig()
 
-vi.mock('#app', () => {
-  return {
-    useFetch: vi.fn(),
-    useRuntimeConfig: vi.fn().mockReturnValue({
-      lighthouseBaseURL: 'http://lighthouseBaseURL',
-      lighthouseApiKey: 'secretKey123',
-    }),
-  }
-})
-
 describe('lighthouse_service api', () => {
   afterEach(() => {
     useFetch.mockClear()

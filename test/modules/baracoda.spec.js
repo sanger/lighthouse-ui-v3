@@ -1,14 +1,5 @@
 import Baracoda from '@/modules/baracoda'
 
-vi.mock('#app', () => {
-  return {
-    useFetch: vi.fn(),
-    useRuntimeConfig: vi.fn().mockReturnValue({
-      baracodaBaseURL: 'http://baracodaBaseURL',
-    }),
-  }
-})
-
 const errorResponse = new Error('There was an error')
 
 describe('PlateBarcode', () => {

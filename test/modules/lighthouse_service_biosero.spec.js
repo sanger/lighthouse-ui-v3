@@ -3,16 +3,6 @@ import lighthouseBiosero from '@/modules/lighthouse_service_biosero'
 
 const config = useRuntimeConfig()
 
-vi.mock('#app', () => {
-  return {
-    useFetch: vi.fn(),
-    useRuntimeConfig: vi.fn().mockReturnValue({
-      lighthouseBaseURL: 'http://lighthouseBaseURL',
-      lighthouseApiKey: 'lighthouse-api-key',
-    }),
-  }
-})
-
 describe('lighthouse_service_biosero api', () => {
   afterEach(() => {
     vi.resetAllMocks()

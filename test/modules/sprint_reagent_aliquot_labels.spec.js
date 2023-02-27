@@ -6,15 +6,6 @@ import { headers as SprintHeaders } from '@/modules/sprint_constants'
 
 const config = useRuntimeConfig()
 
-vi.mock('#app', () => {
-  return {
-    useFetch: vi.fn(),
-    useRuntimeConfig: vi.fn().mockReturnValue({
-      sprintBaseURL: 'http://sprintBaseURL',
-    }),
-  }
-})
-
 // TODO: DPL-561 - move out into helper
 const errorResponse = new Error('There was an error')
 

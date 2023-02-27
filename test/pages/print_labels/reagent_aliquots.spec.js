@@ -4,14 +4,6 @@ import PrintLabels from '@/modules/sprint_reagent_aliquot_labels'
 
 const config = useRuntimeConfig()
 
-vi.mock('#app', () => {
-  return {
-    useRuntimeConfig: vi.fn().mockReturnValue({
-      printers: 'printer_1',
-    }),
-  }
-})
-
 vi.mock('@/modules/sprint_reagent_aliquot_labels', () => {
   return {
     default: vi.fn(),

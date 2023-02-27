@@ -4,14 +4,6 @@ import Sprint from '@/modules/sprint_general_labels'
 
 const config = useRuntimeConfig()
 
-vi.mock('#app', () => {
-  return {
-    useRuntimeConfig: vi.fn().mockReturnValue({
-      printers: 'printer_1',
-    }),
-  }
-})
-
 vi.mock('@/modules/sprint_general_labels', () => {
   return {
     default: {

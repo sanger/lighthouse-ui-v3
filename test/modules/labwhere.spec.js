@@ -1,15 +1,6 @@
 import PlatesJson from '../data/labwhere_plates'
 import labwhere from '@/modules/labwhere'
 
-vi.mock('#app', () => {
-  return {
-    useFetch: vi.fn(),
-    useRuntimeConfig: vi.fn().mockReturnValue({
-      lighthouseBaseURL: 'http://lighthouseBaseURL',
-    }),
-  }
-})
-
 describe('Labwhere', () => {
   describe('#getPlatesFromBoxBarcodes', () => {
     let boxBarcodes
