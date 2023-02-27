@@ -2,13 +2,8 @@ import { mount } from '@vue/test-utils'
 import Imports from '@/pages/imports'
 import lighthouse from '@/modules/lighthouse_service'
 
-vi.mock('@/modules/lighthouse_service', () => {
-  return {
-    default: {
-      getImports: vi.fn().mockResolvedValue({ success: false }),
-    },
-  }
-})
+vi.mock('@/modules/lighthouse_service')
+lighthouse.getImports.mockResolvedValue({ success: false })
 
 describe('Imports', () => {
   let wrapper

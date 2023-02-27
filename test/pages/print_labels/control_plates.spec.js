@@ -4,14 +4,7 @@ import Sprint from '@/modules/sprint_general_labels'
 
 const config = useRuntimeConfig()
 
-vi.mock('@/modules/sprint_general_labels', () => {
-  return {
-    default: {
-      printLabels: vi.fn(),
-      createLabelFields: vi.fn(),
-    },
-  }
-})
+vi.mock('@/modules/sprint_general_labels')
 
 describe('print control plate labels', () => {
   let wrapper, printers

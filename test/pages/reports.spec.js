@@ -4,14 +4,7 @@ import ReportsJson from '../data/reports'
 import Reports from '@/pages/reports.vue'
 import lighthouse from '@/modules/lighthouse_service'
 
-vi.mock('@/modules/lighthouse_service', () => {
-  return {
-    default: {
-      createReport: vi.fn(),
-      getReports: vi.fn(),
-    },
-  }
-})
+vi.mock('@/modules/lighthouse_service')
 
 describe('Reports', () => {
   let wrapper

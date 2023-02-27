@@ -7,22 +7,7 @@ import barcodes from '@/test/data/barcodes'
 
 const config = useRuntimeConfig()
 
-vi.mock('@/modules/sprint_general_labels', () => {
-  return {
-    default: {
-      printLabels: vi.fn(),
-    },
-  }
-})
-
-vi.mock('@/modules/csv', () => {
-  return {
-    default: {
-      parse: vi.fn(),
-      read: vi.fn(),
-    },
-  }
-})
+vi.mock('@/modules/csv')
 
 describe('print destination plate labels', () => {
   let wrapper, printers

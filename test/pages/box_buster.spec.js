@@ -5,21 +5,8 @@ import lighthouse from '@/modules/lighthouse_service'
 import BoxBuster from '@/pages/box_buster.vue'
 import { plateA, plateB, plateC, plateD, plateE, plateF } from '@/test/data/lighthouse_plates'
 
-vi.mock('@/modules/labwhere', () => {
-  return {
-    default: {
-      getPlatesFromBoxBarcodes: vi.fn(),
-    },
-  }
-})
-
-vi.mock('@/modules/lighthouse_service', () => {
-  return {
-    default: {
-      findPlatesFromBarcodes: vi.fn(),
-    },
-  }
-})
+vi.mock('@/modules/labwhere')
+vi.mock('@/modules/lighthouse_service')
 
 // When rendering HTML browsers compress whitespace
 // When writing tests, we are more concerned with what the users sees, and don't really care about

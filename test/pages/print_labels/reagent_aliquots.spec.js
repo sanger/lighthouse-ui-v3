@@ -4,11 +4,7 @@ import PrintLabels from '@/modules/sprint_reagent_aliquot_labels'
 
 const config = useRuntimeConfig()
 
-vi.mock('@/modules/sprint_reagent_aliquot_labels', () => {
-  return {
-    default: vi.fn(),
-  }
-})
+vi.mock('@/modules/sprint_reagent_aliquot_labels')
 
 describe('print destination plate labels', () => {
   let wrapper, printers
