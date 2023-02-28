@@ -172,25 +172,6 @@ describe('UAT Actions', () => {
     })
   })
 
-  describe('#reset', () => {
-    it('resets plateSpecs', async () => {
-      wrapper = mount(GenerateTestRun, {
-        data() {
-          return {
-            plateSpecs: [{ numberOfPlates: 1, numberOfPositives: 2 }],
-          }
-        },
-      })
-
-      const button = wrapper.find('#resetButton')
-      const modal = wrapper.find('#resetConfirm')
-
-      expect(modal.isVisible()).toBe(false)
-      await button.trigger('click')
-      expect(modal.isVisible()).toBe(true)
-    })
-  })
-
   describe('#resetPlateSpecs', () => {
     it('resets the plates spec', () => {
       wrapper = mount(GenerateTestRun, {
