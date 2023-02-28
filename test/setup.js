@@ -4,6 +4,7 @@ import en from '../locales/en.json'
 
 vi.mock('#app', () => {
   return {
+    navigateTo: vi.fn(),
     useFetch: vi.fn(),
     useRuntimeConfig: vi.fn().mockReturnValue({
       lighthouseBaseURL: 'http://lighthouseBaseURL',
