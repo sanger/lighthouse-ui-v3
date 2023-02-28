@@ -33,15 +33,9 @@
                 disabled
                 placeholder="Upload File..."
               />
-              <span class="input-group-btn">
-                <button
-                  class="btn btn-secondary spacer rounded-0 rounded-end"
-                  type="button"
-                  @click.prevent="browseFiles"
-                >
-                  Browse
-                </button>
-              </span>
+              <button class="btn btn-secondary spacer" type="button" @click.prevent="browseFiles">
+                Browse
+              </button>
             </div>
           </div>
         </form>
