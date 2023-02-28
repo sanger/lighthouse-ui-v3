@@ -62,18 +62,18 @@ describe('Imports', () => {
       expect(resp).toEqual([])
     })
 
-    it('on failure it shows an error message', () => {
+    it('on failure it shows an error message', async () => {
       response = { success: false, error: 'an error message' }
-      wrapper.vm.handleItemsResponse(response)
 
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(/an error message/)
-      })
+      wrapper.vm.handleItemsResponse(response)
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(/an error message/)
     })
   })
 
   describe('table filtering', () => {
-    it('filters based on entered search term', () => {
+    it('filters based on entered search term', async () => {
       wrapper.vm.items = [
         {
           date: 'something',
@@ -92,10 +92,10 @@ describe('Imports', () => {
       ]
       wrapper.vm.filter = 'me!'
 
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.find('#imports-table').html()).toMatch(/pick me!/)
-        expect(wrapper.find('#imports-table').html()).not.toMatch(/I should be hidden/)
-      })
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.find('#imports-table').html()).toMatch(/pick me!/)
+      expect(wrapper.find('#imports-table').html()).not.toMatch(/I should be hidden/)
     })
   })
 })

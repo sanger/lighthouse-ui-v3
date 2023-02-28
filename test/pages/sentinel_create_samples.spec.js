@@ -88,7 +88,7 @@ describe('lighthouse sentinel cherrypick', () => {
   describe('#handleSentinelSampleCreationResponse', () => {
     let response
 
-    it('on success it populates the table', () => {
+    it('on success it populates the table', async () => {
       response = [
         {
           data: {
@@ -110,15 +110,15 @@ describe('lighthouse sentinel cherrypick', () => {
         },
       ]
       wrapper.vm.handleSentinelSampleCreationResponse(response)
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
-          /Sentinel samples successfully created in sequencescape/
-        )
-      })
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
+        /Sentinel samples successfully created in sequencescape/
+      )
       expect(wrapper.vm.items).toEqual(response.map((r) => r.data).map((r) => r.data))
     })
 
-    it('on failure it shows an error message', () => {
+    it('on failure it shows an error message', async () => {
       response = [
         {
           errors: ['an error 1'],
@@ -129,15 +129,15 @@ describe('lighthouse sentinel cherrypick', () => {
       ]
 
       wrapper.vm.handleSentinelSampleCreationResponse(response)
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
-          /an error 1, an error 2, an error 3/
-        )
-      })
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
+        /an error 1, an error 2, an error 3/
+      )
       expect(wrapper.vm.items).toEqual([])
     })
 
-    it('on partial success/failure, last request successful', () => {
+    it('on partial success/failure, last request successful', async () => {
       response = [
         {
           errors: ['an error 1'],
@@ -166,9 +166,9 @@ describe('lighthouse sentinel cherrypick', () => {
       ]
 
       wrapper.vm.handleSentinelSampleCreationResponse(response)
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(/an error 1, an error 2/)
-      })
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(/an error 1, an error 2/)
       expect(wrapper.vm.items).toEqual(
         response
           .slice(2)
@@ -177,7 +177,7 @@ describe('lighthouse sentinel cherrypick', () => {
       )
     })
 
-    it('on partial success/failure, last request failed', () => {
+    it('on partial success/failure, last request failed', async () => {
       response = [
         {
           errors: ['an error 2'],
@@ -206,11 +206,11 @@ describe('lighthouse sentinel cherrypick', () => {
       ]
 
       wrapper.vm.handleSentinelSampleCreationResponse(response)
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
-          /Some samples were successfully created however: an error 2, an error 1/
-        )
-      })
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
+        /Some samples were successfully created however: an error 2, an error 1/
+      )
       expect(wrapper.vm.items).toEqual(
         response
           .slice(1, 3)
