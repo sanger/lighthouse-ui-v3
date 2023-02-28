@@ -35,7 +35,7 @@
               />
               <span class="input-group-btn">
                 <button
-                  class="btn btn-primary-dark spacer rounded-0 rounded-end"
+                  class="btn btn-secondary spacer rounded-0 rounded-end"
                   type="button"
                   @click.prevent="browseFiles"
                 >
