@@ -340,7 +340,7 @@ const getTestRun = async (id) => {
 const errorResponse = (error) => {
   let msg = error.response
     ? error.response.data.value._error.message
-    : 'An unexpected error has occured'
+    : 'An unexpected error has occurred'
   if (error.response && error.response.data.value._issues) {
     let output = ''
 

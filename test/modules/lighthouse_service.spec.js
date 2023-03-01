@@ -686,7 +686,7 @@ describe('lighthouse_service api', () => {
       const result = await lighthouse.generateTestRun(plateSpecs)
 
       expect(result.success).toBeFalsy()
-      expect(result.error).toBe('An unexpected error has occured')
+      expect(result.error).toBe('An unexpected error has occurred')
     })
 
     it('when the request errors, from crawler, with no _issues', async () => {
@@ -788,7 +788,7 @@ describe('lighthouse_service api', () => {
       const result = await lighthouse.getTestRuns(currentPage, maxResults)
 
       expect(result.success).toBeFalsy()
-      expect(result.error).toBe('An unexpected error has occured')
+      expect(result.error).toBe('An unexpected error has occurred')
     })
   })
 
@@ -849,7 +849,7 @@ describe('lighthouse_service api', () => {
       const result = await lighthouse.getTestRun(id)
 
       expect(result.success).toBeFalsy()
-      expect(result.error).toBe('An unexpected error has occured')
+      expect(result.error).toBe('An unexpected error has occurred')
     })
   })
 
