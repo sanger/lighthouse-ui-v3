@@ -78,19 +78,30 @@ export default {
   },
   methods: {
     async refresh() {
-      const response = await lighthouse.getTestRuns(this.currentPage, this.perPage)
+      const showError = (message) => {
+        this.showAlert(message, 'danger')
+        this.totalRows = 0
+        this.testRuns = []
+      }
+
+      let response
+
+      try {
+        response = await lighthouse.getTestRuns(this.currentPage, this.perPage)
+      } catch (error) {
+        showError('An unknown error has occurred')
+        return
+      }
 
       if (response.success) {
         this.totalRows = response.total
         this.testRuns = [...response.response]
       } else {
-        this.showAlert(data.error, 'danger')
-        this.totalRows = 0
-        this.testRuns = []
+        showError(response.error)
       }
     },
     showAlert(message, type) {
-      return this.$refs.alert.show(message, type)
+      this.$refs.alert.show(message, type)
     },
     isRunViewable(row) {
       // the status is always updated in Crawler to either failed or completed
