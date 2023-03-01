@@ -57,43 +57,41 @@
       </b-card-text>
 
       <b-form v-if="!totalPlatesReached" id="platesSpecForm">
-        <div class="card">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-auto my-auto">
-                <label for="numberOfPlates">Number of plates</label>
-              </div>
-              <div class="col-1 me-4">
-                <b-form-select
-                  id="numberOfPlates"
-                  v-model="form.numberOfPlates"
-                  :options="numberOfPlatesOptions()"
-                ></b-form-select>
-              </div>
+        <b-card>
+          <b-row>
+            <b-col cols="md-auto" class="my-auto">
+              <label for="numberOfPlates">Number of plates</label>
+            </b-col>
+            <b-col cols="1" class="me-4">
+              <b-form-select
+                id="numberOfPlates"
+                v-model="form.numberOfPlates"
+                :options="numberOfPlatesOptions()"
+              ></b-form-select>
+            </b-col>
 
-              <div class="col-md-auto my-auto">
-                <label for="numberOfPositives">Number of positive samples</label>
-              </div>
-              <div class="col-1 me-4">
-                <b-form-select
-                  id="numberOfPositives"
-                  v-model="form.numberOfPositives"
-                  :options="numberOfPositivesOptions()"
-                ></b-form-select>
-              </div>
+            <b-col cols="md-auto" class="my-auto">
+              <label for="numberOfPositives">Number of positive samples</label>
+            </b-col>
+            <b-col cols="1" class="me-4">
+              <b-form-select
+                id="numberOfPositives"
+                v-model="form.numberOfPositives"
+                :options="numberOfPositivesOptions()"
+              ></b-form-select>
+            </b-col>
 
-              <div class="col-1">
-                <b-button
-                  id="addButton"
-                  variant="outline-primary"
-                  :disabled="isBusy || totalPlates >= maxNumberOfPlates"
-                  @click="add"
-                  >Add</b-button
-                >
-              </div>
-            </div>
-          </div>
-        </div>
+            <b-col cols="1">
+              <b-button
+                id="addButton"
+                variant="primary"
+                :disabled="isBusy || totalPlates >= maxNumberOfPlates"
+                @click="add"
+                >Add</b-button
+              >
+            </b-col>
+          </b-row>
+        </b-card>
       </b-form>
 
       <b-card v-else id="maximumPlateMessage">
