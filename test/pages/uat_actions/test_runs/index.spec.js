@@ -142,12 +142,4 @@ describe('TestRuns.vue', () => {
       )
     })
   })
-
-  describe('#showAlert', () => {
-    it('calls alert show', () => {
-      wrapper.vm.$refs.alert.show = vi.fn()
-      wrapper.vm.showAlert('message', 'success')
-      expect(wrapper.vm.$refs.alert.show).toHaveBeenCalled()
-    })
-  })
 })

@@ -79,9 +79,9 @@ export default {
   methods: {
     async refresh() {
       const showError = (message) => {
-        this.showAlert(message, 'danger')
         this.totalRows = 0
         this.testRuns = []
+        this.$refs.alert.show(message, 'danger')
       }
 
       let response
@@ -99,9 +99,6 @@ export default {
       } else {
         showError(response.error)
       }
-    },
-    showAlert(message, type) {
-      this.$refs.alert.show(message, type)
     },
     isRunViewable(row) {
       // the status is always updated in Crawler to either failed or completed
