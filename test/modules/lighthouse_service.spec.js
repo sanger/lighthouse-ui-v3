@@ -640,7 +640,7 @@ describe('lighthouse_service api', () => {
 
       const headers = { headers: { Authorization: config.lighthouseApiKey } }
 
-      const expectedPath = /cherrypick-test-data/
+      const expectedPath = /\/cherrypick-test-data$/
       const expectedBody = {
         plate_specs: [
           [1, 2],
@@ -741,11 +741,16 @@ describe('lighthouse_service api', () => {
       const result = await lighthouse.getTestRuns(currentPage, maxResults)
       const headers = { Authorization: config.lighthouseApiKey }
 
-      const expectedPath = /cherrypick-test-data\?max_results=5&page=1&sort=-_created/
-
       expect(useFetch).toHaveBeenCalledWith(
-        expect.stringMatching(expectedPath),
-        { headers },
+        expect.stringMatching(/\/cherrypick-test-data$/),
+        {
+          headers,
+          params: {
+            max_results: 5,
+            page: 1,
+            sort: '_created',
+          },
+        },
         expect.any(String)
       )
       expect(result.success).toBeTruthy()

@@ -290,10 +290,14 @@ const getTestRuns = async (currentPage, maxResults) => {
   try {
     const headers = { Authorization: config.lighthouseApiKey }
 
-    const response = await useFetch(
-      `${config.lighthouseBaseURL}/cherrypick-test-data?max_results=${maxResults}&page=${currentPage}&sort=-_created`,
-      { headers }
-    )
+    const response = await useFetch(`${config.lighthouseBaseURL}/cherrypick-test-data`, {
+      headers,
+      params: {
+        max_results: maxResults,
+        page: currentPage,
+        sort: '_created',
+      },
+    })
 
     response.data.value._items.forEach((run) => {
       run.total_plates = run.plate_specs.reduce(function (acc, obj) {
