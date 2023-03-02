@@ -1,5 +1,5 @@
 // Lighthouse Service Module
-let config = useRuntimeConfig()
+const config = useRuntimeConfig()
 
 const handlePromise = async (promise) => {
   let rawResponse

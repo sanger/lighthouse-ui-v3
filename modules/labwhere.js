@@ -1,4 +1,4 @@
-let config = useRuntimeConfig()
+const config = useRuntimeConfig()
 
 const getPlatesFromBoxBarcodes = async (...boxBarcodes) => {
   try {
