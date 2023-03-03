@@ -28,6 +28,7 @@ export default defineNuxtConfig({
       baracodaBaseURL: 'http://baracoda',
 
       appTagline: 'Tagline',
+      projectAcronym: '',
       asynchronous: '',
       projectId: '',
       studyId: '',
