@@ -23,16 +23,17 @@ of the features include:
 
 <!-- toc -->
 
--   [Requirements for development](#requirements-for-development)
--   [Getting started](#getting-started)
-    -   [Configuring environment](#configuring-environment)
-    -   [Setup steps](#setup-steps)
--   [Running](#running)
--   [Testing](#testing)
-    -   [Running tests](#running-tests)
--   [Deployment](#deployment)
--   [Miscellaneous](#miscellaneous)
-    -   [Updating the Table of Contents](#updating-the-table-of-contents)
+- [Requirements for development](#requirements-for-development)
+- [Getting started](#getting-started)
+  - [Configuring environment](#configuring-environment)
+  - [Setup steps](#setup-steps)
+- [Running](#running)
+- [Linting](#linting)
+- [Testing](#testing)
+  - [Running tests](#running-tests)
+- [Deployment](#deployment)
+- [Miscellaneous](#miscellaneous)
+  - [Updating the Table of Contents](#updating-the-table-of-contents)
 
 <!-- tocstop -->
 
@@ -70,13 +71,17 @@ To serve the application with hot reloading:
 
 This project is linted using [ESLint](https://github.com/eslint/eslint). To lint the code, run:
 
-    npm run lint .
+    npm run lint
+
+You can also auto-format the Javascript using Prettier via the command:
+
+    npm run format
 
 ## Testing
 
 ### Running tests
 
-To run the Jest test suite:
+To run the Vitest test suite:
 
     npm test
 
@@ -98,4 +103,4 @@ The release version should align with the [standards](https://github.com/sanger/
 To update the table of contents after adding things to this README you can use the [markdown-toc](https://github.com/jonschlinkert/markdown-toc)
 node module. To run:
 
-    npx markdown-toc -i README.md
+    npx markdown-toc --bullets="-" -i -- README.md
