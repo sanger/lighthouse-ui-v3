@@ -3,18 +3,17 @@
 @import 'bootstrap/scss/maps';
 @import 'bootstrap/scss/mixins';
 @import 'bootstrap/scss/utilities';
+@import 'colours.scss';
 
 $theme-colors: (
-  primary: rgb(102, 51, 153),
-  secondary: rgb(53, 73, 94),
+  primary: $primary,
+  secondary: $secondary,
   success: $success,
   danger: $danger,
   warning: $warning,
   info: $info,
   dark: $dark,
 );
-
-$primary-dark: rgb(61, 45, 91);
 
 $custom-theme-colors: map-merge(
   $theme-colors,
