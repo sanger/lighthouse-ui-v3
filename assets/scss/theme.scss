@@ -5,6 +5,8 @@
 @import 'bootstrap/scss/utilities';
 @import 'colours.scss';
 
+$min-contrast-ratio: 3;
+
 $theme-colors: (
   primary: $primary,
   secondary: $secondary,
