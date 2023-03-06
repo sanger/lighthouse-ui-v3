@@ -638,7 +638,7 @@ describe('lighthouse_service api', () => {
 
       const result = await lighthouse.generateTestRun(plateSpecs)
 
-      const headers = { headers: { Authorization: config.lighthouseApiKey } }
+      const headers = { Authorization: config.lighthouseApiKey }
 
       const expectedPath = /\/cherrypick-test-data$/
       const expectedBody = {
