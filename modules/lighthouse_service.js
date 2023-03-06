@@ -263,7 +263,7 @@ const generateTestRun = async (plateSpecs) => {
     const body = {
       plate_specs: plateSpecsParam,
     }
-    const headers = { headers: { Authorization: config.lighthouseApiKey } }
+    const headers = { Authorization: config.lighthouseApiKey }
 
     const response = await useFetch(`${config.lighthouseBaseURL}/cherrypick-test-data`, {
       method: 'POST',
