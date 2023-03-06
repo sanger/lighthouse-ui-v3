@@ -81,13 +81,13 @@ You can also auto-format the Javascript using Prettier via the command:
 
 ### Running tests
 
-To run the Vitest test suite:
+To run the Vitest test suite with auto re-runs:
 
     npm test
 
-There are also some cypress tests which can be run as follows:
+Or else, for a single run and no file watching:
 
-    npx cypress run
+    npm test run
 
 ## Deployment
 

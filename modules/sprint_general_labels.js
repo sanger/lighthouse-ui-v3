@@ -106,7 +106,7 @@ const printDestinationPlateLabels = async ({ numberOfBarcodes, printer }) => {
     if (!response.success) throw response.error
 
     // we need to turn the barcodes into a bunch of label fields
-    const labelFields = createLabelFields({ ...response, text: 'LHTR' })
+    const labelFields = createLabelFields({ ...response, text: config.projectAcronym })
 
     // print the labels
     // TODO: DPL-561 - similar implementation to printLabels. Can we pass a function?

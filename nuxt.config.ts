@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   app: {
     head: {
-      title: 'Lighthouse',
+      title: `Lighthouse ${process.env.NUXT_PUBLIC_APP_TAGLINE?.toUpperCase() || 'TAGLINE'}`,
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -27,6 +27,8 @@ export default defineNuxtConfig({
       sprintBaseURL: 'http://sprint',
       baracodaBaseURL: 'http://baracoda',
 
+      appTagline: 'Tagline',
+      projectAcronym: '',
       asynchronous: '',
       projectId: '',
       studyId: '',

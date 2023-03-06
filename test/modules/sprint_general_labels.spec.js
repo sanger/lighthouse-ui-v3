@@ -37,7 +37,7 @@ const layout = {
     {
       x: 70,
       y: 3,
-      value: 'LHTR',
+      value: 'TEST',
       font: 'proportional',
       fontSize: 1.7,
     },
@@ -47,9 +47,9 @@ const layout = {
 const barcodes = ['DN111111', 'DN222222', 'DN333333']
 
 const labelFields = [
-  { barcode: 'DN111111', text: 'LHTR' },
-  { barcode: 'DN222222', text: 'LHTR' },
-  { barcode: 'DN333333', text: 'LHTR' },
+  { barcode: 'DN111111', text: 'TEST' },
+  { barcode: 'DN222222', text: 'TEST' },
+  { barcode: 'DN333333', text: 'TEST' },
 ]
 
 describe('Sprint', () => {
@@ -81,7 +81,7 @@ describe('Sprint', () => {
   })
 
   it('#createLabelFields', () => {
-    expect(Sprint.createLabelFields({ barcodes, text: 'LHTR' })).toEqual(labelFields)
+    expect(Sprint.createLabelFields({ barcodes, text: 'TEST' })).toEqual(labelFields)
   })
 
   describe('#printLabels', () => {
@@ -184,7 +184,7 @@ describe('Sprint', () => {
         const response = await Sprint.printDestinationPlateLabels(args)
         expect(mock).toHaveBeenCalledWith({
           printer: 'heron-bc3',
-          labelFields: Sprint.createLabelFields({ barcodes, text: 'LHTR' }),
+          labelFields: Sprint.createLabelFields({ barcodes, text: 'TEST' }),
         })
         expect(response.success).toBeTruthy()
         expect(response.message).toBe('Successfully printed 5 labels to heron-bc3')

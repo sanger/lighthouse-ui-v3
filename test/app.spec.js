@@ -6,6 +6,7 @@ describe('App', () => {
 
   beforeEach(() => {
     $config = {
+      appTagline: 'Test Tagline',
       uatActions: true,
       bioseroCherrypick: true,
     }
@@ -27,8 +28,8 @@ describe('App', () => {
   })
 
   it('has a navbar', () => {
-    expect(wrapper.find('nav').text()).toMatch(
-      /LighthouseReportsBox BusterSentinel Sample CreationSentinel CherrypickImportsPrint LabelsBeckman CherrypickBiosero Plate StateBiosero CherrypickUAT Actions/
+    expect(wrapper.find('nav').text()).toBe(
+      'LighthouseTest TaglineReportsBox BusterSentinel Sample CreationSentinel CherrypickImportsPrint LabelsBeckman CherrypickBiosero Plate StateBiosero CherrypickUAT Actions'
     )
   })
 })

@@ -14,6 +14,8 @@ vi.mock('#app', () => {
       sprintBaseURL: 'http://sprintBaseURL',
       baracodaBaseURL: 'http://baracodaBaseURL',
 
+      appTagline: 'Test Tagline',
+      projectAcronym: 'TEST',
       asynchronous: 'false',
       projectId: '5',
       studyId: '10',
