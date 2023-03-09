@@ -100,7 +100,10 @@ const printLabels = async ({ labelFields, printer }) => {
 */
 const printDestinationPlateLabels = async ({ numberOfBarcodes, printer }) => {
   try {
-    let response = await Baracoda.createBarcodes({ count: numberOfBarcodes })
+    let response = await Baracoda.createBarcodes({
+      barcodesGroup: config.destinationPlateBarcodesGroup,
+      count: numberOfBarcodes,
+    })
 
     // we don't want to proceed unless the barcodes have been created
     if (!response.success) throw response.error

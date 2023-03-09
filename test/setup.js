@@ -15,6 +15,7 @@ vi.mock('#app', () => {
       baracodaBaseURL: 'http://baracodaBaseURL',
 
       appTagline: 'Test Tagline',
+      destinationPlateBarcodesGroup: 'VI',
       projectAcronym: 'TEST',
       asynchronous: 'false',
       projectId: '5',
