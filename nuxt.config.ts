@@ -28,6 +28,7 @@ export default defineNuxtConfig({
       baracodaBaseURL: 'http://baracoda',
 
       appTagline: 'Tagline',
+      destinationPlateBarcodesGroup: '',
       projectAcronym: '',
       asynchronous: '',
       projectId: '',

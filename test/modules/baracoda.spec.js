@@ -1,5 +1,6 @@
 import Baracoda from '@/modules/baracoda'
 
+const config = useRuntimeConfig()
 const errorResponse = new Error('There was an error')
 
 describe('PlateBarcode', () => {
@@ -11,6 +12,21 @@ describe('PlateBarcode', () => {
   })
 
   describe('#createBarcodes', () => {
+    it('calls Baracoda via Fetch', async () => {
+      await Baracoda.createBarcodes({ barcodesGroup: 'ABC', count: 5 })
+
+      expect(useFetch).toHaveBeenCalledTimes(1)
+      expect(useFetch).toHaveBeenNthCalledWith(
+        1,
+        `${config.baracodaBaseURL}/barcodes_group/ABC/new`,
+        {
+          params: { count: 5 },
+          method: 'POST',
+        },
+        expect.any(String)
+      )
+    })
+
     it('successfully', async () => {
       useFetch.mockResolvedValue({
         data: {
@@ -23,7 +39,7 @@ describe('PlateBarcode', () => {
         },
       })
 
-      const response = await Baracoda.createBarcodes(5)
+      const response = await Baracoda.createBarcodes({ barcodesGroup: 'ABC', count: 5 })
 
       expect(response.success).toBeTruthy()
       expect(response.barcodes).toEqual(barcodes)
@@ -32,7 +48,7 @@ describe('PlateBarcode', () => {
     it('unsuccessfully', async () => {
       useFetch.mockRejectedValue(errorResponse)
 
-      const response = await Baracoda.createBarcodes(5)
+      const response = await Baracoda.createBarcodes({ barcodesGroup: 'ABC', count: 5 })
 
       expect(response.success).toBeFalsy()
       expect(response.error).toEqual(errorResponse)
