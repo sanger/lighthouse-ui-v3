@@ -22,7 +22,7 @@
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-vue": "^9.9.0",
     "flush-promises": "^1.0.2",
-    "jsdom": "^21.1.0",
+    "jsdom": "^21.1.1",
     "nuxt-vitest": "^0.6.8",
     "prettier": "^2.8.4",
     "sass": "^1.58.3",
