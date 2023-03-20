@@ -51,8 +51,6 @@
 </template>
 
 <script>
-import lighthouse from '@/modules/lighthouse_service'
-
 export default {
   data() {
     return {
@@ -80,7 +78,7 @@ export default {
   },
   methods: {
     async reportsProvider() {
-      const response = await lighthouse.getReports()
+      const response = await lighthouseService.getReports()
       if (response.success) {
         const reports = response.reports.map((report) => ({
           ...report,
@@ -96,7 +94,7 @@ export default {
         'Busy',
         'Report creation takes about 30s to complete, please do not refresh the page'
       )
-      const response = await lighthouse.createReport(this.$config)
+      const response = await lighthouseService.createReport(this.$config)
       if (response.success) {
         this.setStatus('Success', 'Report successfully created')
         this.refreshTable()
@@ -107,7 +105,7 @@ export default {
     async deleteReports() {
       if (this.reportsToDelete.length === 0) return
       this.setStatus('Busy', 'Deleting reports ...')
-      const response = await lighthouse.deleteReports(this.reportsToDelete)
+      const response = await lighthouseService.deleteReports(this.reportsToDelete)
 
       if (response.success) {
         this.setStatus('Success', 'Reports successfully deleted')

@@ -1,10 +1,9 @@
 import { mount } from '@vue/test-utils'
 import PrintDestinationPlateLabels from '@/pages/print_labels/destination_plates'
-import Sprint from '@/modules/sprint_general_labels'
 
 const config = useRuntimeConfig()
 
-vi.mock('@/modules/sprint_general_labels')
+vi.mock('@/utils/sprint_general_labels')
 
 describe('print destination plate labels', () => {
   let wrapper, printers
@@ -50,7 +49,7 @@ describe('print destination plate labels', () => {
     })
 
     it('successfully', async () => {
-      Sprint.printDestinationPlateLabels.mockReturnValue({
+      sprintGeneralLabels.printDestinationPlateLabels.mockReturnValue({
         success: true,
         message: 'Labels successfully printed',
       })
@@ -59,7 +58,7 @@ describe('print destination plate labels', () => {
     })
 
     it('unsuccessfully', async () => {
-      Sprint.printDestinationPlateLabels.mockReturnValue({
+      sprintGeneralLabels.printDestinationPlateLabels.mockReturnValue({
         success: false,
         error: 'There was an error',
       })

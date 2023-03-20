@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import statuses from '@/modules/statuses'
-
 export default {
   data() {
     return {

@@ -1,9 +1,9 @@
 import { mount } from '@vue/test-utils'
 import Imports from '@/pages/imports'
-import lighthouse from '@/modules/lighthouse_service'
 
-vi.mock('@/modules/lighthouse_service')
-lighthouse.getImports.mockResolvedValue({ success: false })
+vi.mock('@/utils/lighthouse_service')
+
+lighthouseService.getImports.mockResolvedValue({ success: false })
 
 describe('Imports', () => {
   let wrapper
@@ -29,11 +29,11 @@ describe('Imports', () => {
 
       wrapper.vm.handleItemsResponse = vi.fn()
 
-      lighthouse.getImports.mockResolvedValue(expectedResponse)
+      lighthouseService.getImports.mockResolvedValue(expectedResponse)
 
       await wrapper.vm.getItemsProvider()
 
-      expect(lighthouse.getImports).toHaveBeenCalled()
+      expect(lighthouseService.getImports).toHaveBeenCalled()
       expect(wrapper.vm.handleItemsResponse).toHaveBeenCalledWith(expectedResponse)
     })
   })

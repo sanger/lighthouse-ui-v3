@@ -1,10 +1,9 @@
 import { mount } from '@vue/test-utils'
 import AdHocPlate from '@/pages/print_labels/ad_hoc_plate'
-import Sprint from '@/modules/sprint_general_labels'
 
 const config = useRuntimeConfig()
 
-vi.mock('@/modules/sprint_general_labels')
+vi.mock('@/utils/sprint_general_labels')
 
 describe('Print ad-hoc plate labels', () => {
   let wrapper, printers
@@ -61,17 +60,17 @@ describe('Print ad-hoc plate labels', () => {
     })
 
     it('successfully', async () => {
-      Sprint.printLabels.mockReturnValue({
+      sprintGeneralLabels.printLabels.mockReturnValue({
         success: true,
         message: 'Labels successfully printed',
       })
       await wrapper.vm.printLabels()
-      expect(Sprint.printLabels).toHaveBeenCalled()
+      expect(sprintGeneralLabels.printLabels).toHaveBeenCalled()
       expect(wrapper.find('.alert').text()).toMatch('Labels successfully printed')
     })
 
     it('unsuccessfully', async () => {
-      Sprint.printLabels.mockReturnValue({
+      sprintGeneralLabels.printLabels.mockReturnValue({
         success: false,
         error: 'There was an error',
       })

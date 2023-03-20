@@ -58,8 +58,6 @@
 </template>
 
 <script>
-import Sprint from '@/modules/sprint_general_labels'
-import CSV from '@/modules/csv'
 import PrintLabelsRouter from '@/components/PrintLabelsRouter'
 import StatusAlert from '@/components/StatusAlert'
 
@@ -100,9 +98,9 @@ export default {
       this.$refs.statusAlert.setStatus('Busy', 'Printing labels…')
 
       const file = this.getFile()
-      const read = await CSV.read(file)
-      const labelFields = CSV.parse(read)
-      const response = await Sprint.printLabels({
+      const read = await csv.read(file)
+      const labelFields = csv.parse(read)
+      const response = await sprintGeneralLabels.printLabels({
         labelFields,
         printer: this.printer,
       })

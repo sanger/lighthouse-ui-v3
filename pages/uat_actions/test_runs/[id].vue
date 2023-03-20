@@ -51,10 +51,8 @@
 </template>
 
 <script>
-import lighthouse from '@/modules/lighthouse_service'
 import AlertDialog from '@/components/AlertDialog'
 import UATActionsRouter from '@/components/UATActionsRouter'
-import Sprint from '@/modules/sprint_general_labels'
 
 const config = useRuntimeConfig()
 
@@ -84,7 +82,7 @@ export default {
     },
   },
   async created() {
-    const response = await lighthouse.getTestRun(this.$route.params.id)
+    const response = await lighthouseService.getTestRun(this.$route.params.id)
     if (response.success) {
       this.run = response.response
     } else {
@@ -96,7 +94,7 @@ export default {
       return this.$refs.alert.show(message, type)
     },
     async print(labelFields, printer) {
-      const response = await Sprint.printLabels({
+      const response = await sprintGeneralLabels.printLabels({
         labelFields,
         printer,
       })

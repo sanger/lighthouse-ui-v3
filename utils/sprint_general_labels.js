@@ -1,5 +1,5 @@
-import Baracoda from '@/modules/baracoda'
-import { query, headers } from '@/modules/sprint_constants'
+import Baracoda from '@/utils/baracoda'
+import { query, headers } from '@/utils/sprint_constants'
 
 const config = useRuntimeConfig()
 

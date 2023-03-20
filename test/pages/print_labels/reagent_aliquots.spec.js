@@ -1,10 +1,9 @@
 import { mount } from '@vue/test-utils'
 import PrintReagentAliquotsLabels from '@/pages/print_labels/reagent_aliquots'
-import PrintLabels from '@/modules/sprint_reagent_aliquot_labels'
 
 const config = useRuntimeConfig()
 
-vi.mock('@/modules/sprint_reagent_aliquot_labels')
+vi.mock('@/utils/sprint_reagent_aliquot_labels')
 
 describe('print destination plate labels', () => {
   let wrapper, printers
@@ -132,12 +131,12 @@ describe('print destination plate labels', () => {
     })
 
     it('passes the correct arguments to PrintLabel', async () => {
-      PrintLabels.mockReturnValue({
+      sprintReagentAliquotLabels.mockReturnValue({
         success: true,
         message: 'Labels successfully printed',
       })
       await wrapper.vm.printLabels()
-      expect(PrintLabels).toHaveBeenCalledWith({
+      expect(sprintReagentAliquotLabels).toHaveBeenCalledWith({
         barcode: 'BARCODE',
         firstText: 'First line',
         secondText: 'Second line',
@@ -147,7 +146,7 @@ describe('print destination plate labels', () => {
     })
 
     it('successfully', async () => {
-      PrintLabels.mockReturnValue({
+      sprintReagentAliquotLabels.mockReturnValue({
         success: true,
         message: 'Labels successfully printed',
       })
@@ -156,7 +155,7 @@ describe('print destination plate labels', () => {
     })
 
     it('unsuccessfully', async () => {
-      PrintLabels.mockReturnValue({
+      sprintReagentAliquotLabels.mockReturnValue({
         success: false,
         error: 'There was an error',
       })

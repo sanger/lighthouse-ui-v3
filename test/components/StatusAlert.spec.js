@@ -1,6 +1,5 @@
 import { mount } from '@vue/test-utils'
 import StatusAlert from '@/components/StatusAlert'
-import statuses from '~/modules/statuses'
 
 describe('StatusAlert.vue', () => {
   let wrapper

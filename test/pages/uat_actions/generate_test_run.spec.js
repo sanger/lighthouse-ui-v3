@@ -1,11 +1,9 @@
 import { mount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
 import GenerateTestRun from '@/pages/uat_actions/generate_test_run.vue'
-import lighthouse from '@/modules/lighthouse_service'
 import AlertDialog from '@/components/AlertDialog'
-import statuses from '@/modules/statuses'
 
-vi.mock('@/modules/lighthouse_service')
+vi.mock('@/utils/lighthouse_service')
 
 describe('UAT Actions', () => {
   let wrapper
@@ -213,13 +211,13 @@ describe('UAT Actions', () => {
     })
 
     it('when the request is successful', async () => {
-      lighthouse.generateTestRun.mockResolvedValue({
+      lighthouseService.generateTestRun.mockResolvedValue({
         success: true,
         runId: 'anId123',
       })
 
       await wrapper.find('#generateTestRunButton').trigger('click')
-      expect(lighthouse.generateTestRun).toHaveBeenCalledWith([
+      expect(lighthouseService.generateTestRun).toHaveBeenCalledWith([
         { numberOfPlates: 1, numberOfPositives: 2 },
       ])
       expect(navigateTo).toHaveBeenCalled()
@@ -227,20 +225,20 @@ describe('UAT Actions', () => {
     })
 
     it('when the request fails', async () => {
-      lighthouse.generateTestRun.mockResolvedValue({
+      lighthouseService.generateTestRun.mockResolvedValue({
         success: false,
         error: 'There was an error',
       })
 
       await wrapper.find('#generateTestRunButton').trigger('click')
-      expect(lighthouse.generateTestRun).toHaveBeenCalledWith([
+      expect(lighthouseService.generateTestRun).toHaveBeenCalledWith([
         { numberOfPlates: 1, numberOfPositives: 2 },
       ])
       expect(wrapper.vm.showAlert).toHaveBeenCalledWith('There was an error', 'danger')
     })
 
     it('updates the status', async () => {
-      lighthouse.generateTestRun.mockReturnValue({
+      lighthouseService.generateTestRun.mockReturnValue({
         success: true,
         runId: 'anId123',
       })

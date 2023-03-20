@@ -1,12 +1,10 @@
 import { mount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
-import labwhere from '@/modules/labwhere'
-import lighthouse from '@/modules/lighthouse_service'
 import BoxBuster from '@/pages/box_buster.vue'
 import { plateA, plateB, plateC, plateD, plateE, plateF } from '@/test/data/lighthouse_plates'
 
-vi.mock('@/modules/labwhere')
-vi.mock('@/modules/lighthouse_service')
+vi.mock('@/utils/labwhere')
+vi.mock('@/utils/lighthouse_service')
 
 // When rendering HTML browsers compress whitespace
 // When writing tests, we are more concerned with what the users sees, and don't really care about
@@ -99,7 +97,7 @@ describe('BoxBuster', () => {
       error: 'The box has no plates',
     })
 
-    lighthouse.findPlatesFromBarcodes.mockResolvedValue({
+    lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
       success: true,
       plates: [],
     })
@@ -117,7 +115,7 @@ describe('BoxBuster', () => {
 
   it('makes it easy to see when plates have a plate map', async () => {
     labwhere.getPlatesFromBoxBarcodes.mockResolvedValue({ success: false })
-    lighthouse.findPlatesFromBarcodes.mockResolvedValue({ success: true, plates: [plateA] })
+    lighthouseService.findPlatesFromBarcodes.mockResolvedValue({ success: true, plates: [plateA] })
     await wrapper.vm.refreshResults()
 
     const row = wrapper.find('table').findAll('tr').at(1)
@@ -129,7 +127,7 @@ describe('BoxBuster', () => {
 
   it('makes it easy to see when plates have plate map data but no fit to pick samples', async () => {
     labwhere.getPlatesFromBoxBarcodes.mockResolvedValue({ success: false })
-    lighthouse.findPlatesFromBarcodes.mockResolvedValue({ success: true, plates: [plateE] })
+    lighthouseService.findPlatesFromBarcodes.mockResolvedValue({ success: true, plates: [plateE] })
     await wrapper.vm.refreshResults()
 
     const row = wrapper.find('table').findAll('tr').at(1)
@@ -144,7 +142,7 @@ describe('BoxBuster', () => {
 
   it('makes it easy to see when plates do not have a plate map nor fit to pick samples', async () => {
     labwhere.getPlatesFromBoxBarcodes.mockResolvedValue({ success: false })
-    lighthouse.findPlatesFromBarcodes.mockResolvedValue({ success: true, plates: [plateC] })
+    lighthouseService.findPlatesFromBarcodes.mockResolvedValue({ success: true, plates: [plateC] })
     await wrapper.vm.refreshResults()
 
     const row = wrapper.find('table').findAll('tr').at(1)
@@ -163,7 +161,7 @@ describe('BoxBuster', () => {
       error: 'The box has no plates',
     })
 
-    lighthouse.findPlatesFromBarcodes.mockResolvedValue({
+    lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
       success: true,
       plates: [],
     })
@@ -182,7 +180,7 @@ describe('BoxBuster', () => {
       error: new Error(ERROR_LABWHERE),
     })
 
-    lighthouse.findPlatesFromBarcodes.mockResolvedValue({
+    lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
       success: true,
       plates: [],
     })
@@ -209,7 +207,7 @@ describe('BoxBuster', () => {
         success: true,
         barcodes: [],
       })
-      lighthouse.findPlatesFromBarcodes.mockResolvedValue({
+      lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
         success: true,
         plates: [],
       })
@@ -225,13 +223,13 @@ describe('BoxBuster', () => {
         success: true,
         barcodes: [plateA.plate_barcode],
       })
-      lighthouse.findPlatesFromBarcodes.mockResolvedValue({
+      lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
         success: true,
         plates: [],
       })
       await wrapper.vm.provider()
       await flushPromises()
-      expect(lighthouse.findPlatesFromBarcodes).toHaveBeenCalledWith({
+      expect(lighthouseService.findPlatesFromBarcodes).toHaveBeenCalledWith({
         success: true,
         barcodes: [plateA.plate_barcode],
       })
@@ -242,13 +240,13 @@ describe('BoxBuster', () => {
         success: false,
         error: new Error('Server Error'),
       })
-      lighthouse.findPlatesFromBarcodes.mockResolvedValue({
+      lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
         success: true,
         plates: [],
       })
       await wrapper.vm.provider()
       await flushPromises()
-      expect(lighthouse.findPlatesFromBarcodes).toHaveBeenCalledWith({
+      expect(lighthouseService.findPlatesFromBarcodes).toHaveBeenCalledWith({
         barcodes: [BARCODE_BOX],
       })
     })
@@ -260,7 +258,7 @@ describe('BoxBuster', () => {
         success: true,
         barcodes: BARCODES_PLATES,
       })
-      lighthouse.findPlatesFromBarcodes.mockResolvedValue({
+      lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
         success: true,
         plates: examplePlates,
       })
@@ -269,7 +267,7 @@ describe('BoxBuster', () => {
       wrapper.vm.sortedPlates.mockReturnValue(expectedSortedPlates)
       await wrapper.vm.provider()
       await flushPromises()
-      expect(lighthouse.findPlatesFromBarcodes).toHaveBeenCalledWith({
+      expect(lighthouseService.findPlatesFromBarcodes).toHaveBeenCalledWith({
         success: true,
         barcodes: BARCODES_PLATES,
       })
@@ -286,13 +284,13 @@ describe('BoxBuster', () => {
 
     it('findPlatesFromBarcodes can be successful and return no plates', async () => {
       const barcodes = [plateA.plate_barcode]
-      lighthouse.findPlatesFromBarcodes.mockResolvedValue({
+      lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
         success: true,
         plates: [],
       })
       wrapper.vm.findPlatesInLighthouse({ success: true, barcodes })
       await flushPromises()
-      expect(lighthouse.findPlatesFromBarcodes).toHaveBeenCalledWith({
+      expect(lighthouseService.findPlatesFromBarcodes).toHaveBeenCalledWith({
         success: true,
         barcodes,
       })
@@ -305,7 +303,7 @@ describe('BoxBuster', () => {
         success: true,
         barcodes: [],
       })
-      lighthouse.findPlatesFromBarcodes.mockResolvedValue({
+      lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
         success: false,
         error: new Error(ERROR_LIGHTHOUSE),
       })
@@ -313,7 +311,7 @@ describe('BoxBuster', () => {
       await wrapper.vm.provider()
 
       await flushPromises()
-      expect(lighthouse.findPlatesFromBarcodes).toHaveBeenCalledWith({
+      expect(lighthouseService.findPlatesFromBarcodes).toHaveBeenCalledWith({
         success: true,
         barcodes: [],
       })
@@ -345,7 +343,7 @@ describe('BoxBuster', () => {
       success: false,
       barcodes: [],
     })
-    lighthouse.findPlatesFromBarcodes.mockResolvedValue({
+    lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
       success: true,
       plates: examplePlates,
     })
@@ -353,7 +351,7 @@ describe('BoxBuster', () => {
     await wrapper.vm.provider()
     await flushPromises()
     expect(labwhere.getPlatesFromBoxBarcodes).toHaveBeenCalled()
-    expect(lighthouse.findPlatesFromBarcodes).toHaveBeenCalled()
+    expect(lighthouseService.findPlatesFromBarcodes).toHaveBeenCalled()
     expect(wrapper.find('tbody').findAll('tr')).toHaveLength(6)
     const tableBodyText = wrapper.find('tbody').text()
     expect(tableBodyText).toContain('AP-rna-2-0-10-8')
@@ -381,7 +379,7 @@ describe('BoxBuster', () => {
       success: true,
       barcodes: [],
     })
-    lighthouse.findPlatesFromBarcodes.mockResolvedValue({
+    lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
       success: false,
     })
     await wrapper.vm.provider()
@@ -391,7 +389,7 @@ describe('BoxBuster', () => {
   })
 
   it('will clear the barcode field after a barcode is entered', async () => {
-    lighthouse.findPlatesFromBarcodes.mockResolvedValue({
+    lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
       success: true,
       plates: examplePlates,
     })

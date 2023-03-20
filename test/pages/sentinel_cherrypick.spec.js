@@ -1,7 +1,5 @@
 import { mount } from '@vue/test-utils'
 import SentinelCherrypick from '@/pages/sentinel_cherrypick'
-import labwhere from '@/modules/labwhere'
-import sequencescape from '@/modules/sequencescape'
 
 describe('sentinel cherrypick', () => {
   let wrapper

@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import api from '@/modules/api'
 import AlertDialog from '@/components/AlertDialog'
 
 export default {

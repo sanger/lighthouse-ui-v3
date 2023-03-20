@@ -1,8 +1,8 @@
 import PrintLabels, {
   createLayout,
   createPrintRequestBody,
-} from '@/modules/sprint_reagent_aliquot_labels'
-import { headers as SprintHeaders } from '@/modules/sprint_constants'
+} from '@/utils/sprint_reagent_aliquot_labels'
+import { headers as SprintHeaders } from '@/utils/sprint_constants'
 
 const config = useRuntimeConfig()
 

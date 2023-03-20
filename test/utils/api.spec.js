@@ -1,7 +1,3 @@
-import api from '@/modules/api'
-import labwhere from '@/modules/labwhere'
-import lighthouse from '@/modules/lighthouse_service'
-
 describe('api', () => {
   describe('#createSamples', () => {
     beforeEach(() => {
@@ -34,13 +30,13 @@ describe('api', () => {
         },
       ]
 
-      lighthouse.createPlatesFromBarcodes = vi.fn().mockReturnValue(expected)
+      lighthouseService.createPlatesFromBarcodes = vi.fn().mockReturnValue(expected)
 
       const result = await api.createSamples(boxBarcode)
 
       expect(result).toEqual(expected)
       expect(labwhere.getPlatesFromBoxBarcodes).toHaveBeenCalledWith(boxBarcode)
-      expect(lighthouse.createPlatesFromBarcodes).toHaveBeenCalledWith(labwhereResponse)
+      expect(lighthouseService.createPlatesFromBarcodes).toHaveBeenCalledWith(labwhereResponse)
     })
 
     it('getPlatesFromBoxBarcodes is successful, createPlatesFromBarcodes all fail', async () => {
@@ -55,13 +51,13 @@ describe('api', () => {
         },
       ]
 
-      lighthouse.createPlatesFromBarcodes = vi.fn().mockReturnValue(expected)
+      lighthouseService.createPlatesFromBarcodes = vi.fn().mockReturnValue(expected)
 
       const result = await api.createSamples(boxBarcode)
 
       expect(result).toEqual(expected)
       expect(labwhere.getPlatesFromBoxBarcodes).toHaveBeenCalledWith(boxBarcode)
-      expect(lighthouse.createPlatesFromBarcodes).toHaveBeenCalledWith(labwhereResponse)
+      expect(lighthouseService.createPlatesFromBarcodes).toHaveBeenCalledWith(labwhereResponse)
     })
 
     it('getPlatesFromBoxBarcodes is successful, createPlatesFromBarcodes partially fail', async () => {
@@ -80,18 +76,18 @@ describe('api', () => {
         },
       ]
 
-      lighthouse.createPlatesFromBarcodes = vi.fn().mockReturnValue(expected)
+      lighthouseService.createPlatesFromBarcodes = vi.fn().mockReturnValue(expected)
 
       const result = await api.createSamples(boxBarcode)
 
       expect(result).toEqual(expected)
       expect(labwhere.getPlatesFromBoxBarcodes).toHaveBeenCalledWith(boxBarcode)
-      expect(lighthouse.createPlatesFromBarcodes).toHaveBeenCalledWith(labwhereResponse)
+      expect(lighthouseService.createPlatesFromBarcodes).toHaveBeenCalledWith(labwhereResponse)
     })
 
     it('getPlatesFromBoxBarcodes fails', async () => {
       labwhere.getPlatesFromBoxBarcodes = vi.fn().mockReturnValue([])
-      lighthouse.createPlatesFromBarcodes = vi.fn()
+      lighthouseService.createPlatesFromBarcodes = vi.fn()
 
       const expected = [
         {
@@ -102,7 +98,7 @@ describe('api', () => {
 
       expect(result).toEqual(expected)
       expect(labwhere.getPlatesFromBoxBarcodes).toHaveBeenCalledWith(boxBarcode)
-      expect(lighthouse.createPlatesFromBarcodes).not.toHaveBeenCalled()
+      expect(lighthouseService.createPlatesFromBarcodes).not.toHaveBeenCalled()
     })
   })
 })
