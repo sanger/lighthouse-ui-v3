@@ -1,7 +1,6 @@
 import ReportsJson from '../data/reports'
 import RobotsJson from '../data/robots'
 import FailureTypesJson from '../data/failures_types.json'
-import lighthouse from '@/modules/lighthouse_service'
 
 const config = useRuntimeConfig()
 
@@ -20,7 +19,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockResolvedValue(response)
 
-      const result = await lighthouse.createPlatesFromBarcodes({
+      const result = await lighthouseService.createPlatesFromBarcodes({
         barcodes,
       })
 
@@ -52,7 +51,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockResolvedValue(response)
 
-      const result = await lighthouse.createPlatesFromBarcodes({
+      const result = await lighthouseService.createPlatesFromBarcodes({
         barcodes,
       })
 
@@ -83,7 +82,7 @@ describe('lighthouse_service api', () => {
       useFetch.mockImplementationOnce(() => response1)
       useFetch.mockImplementationOnce(() => response2)
 
-      const result = await lighthouse.createPlatesFromBarcodes({
+      const result = await lighthouseService.createPlatesFromBarcodes({
         barcodes,
       })
 
@@ -135,7 +134,7 @@ describe('lighthouse_service api', () => {
       useFetch.mockImplementationOnce(() => response1)
       useFetch.mockImplementationOnce(() => response2)
 
-      const result = await lighthouse.createPlatesFromBarcodes({
+      const result = await lighthouseService.createPlatesFromBarcodes({
         barcodes,
       })
 
@@ -179,7 +178,7 @@ describe('lighthouse_service api', () => {
       useFetch.mockImplementationOnce(() => response1)
       useFetch.mockImplementationOnce(() => response2)
 
-      const result = await lighthouse.createPlatesFromBarcodes({
+      const result = await lighthouseService.createPlatesFromBarcodes({
         barcodes,
       })
 
@@ -221,7 +220,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockResolvedValue(response)
 
-      const result = await lighthouse.findPlatesFromBarcodes({
+      const result = await lighthouseService.findPlatesFromBarcodes({
         barcodes,
       })
       const expected = { success: true, plates }
@@ -259,7 +258,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockImplementationOnce(() => response)
 
-      const result = await lighthouse.findPlatesFromBarcodes({
+      const result = await lighthouseService.findPlatesFromBarcodes({
         barcodes,
       })
       const expected = { success: true, plates }
@@ -282,7 +281,7 @@ describe('lighthouse_service api', () => {
 
   describe('#getImports', () => {
     it('submits the correct lighthouse query string to fetch', async () => {
-      await lighthouse.getImports()
+      await lighthouseService.getImports()
 
       expect(useFetch.mock.calls).toHaveLength(1)
       expect(useFetch).toHaveBeenNthCalledWith(
@@ -304,13 +303,13 @@ describe('lighthouse_service api', () => {
     it('returns data successfully', async () => {
       const expected = { data: { value: { items: [] } } }
       useFetch.mockResolvedValue(expected)
-      const response = await lighthouse.getImports()
+      const response = await lighthouseService.getImports()
       expect(response.data).toEqual(expected.data.value)
     })
 
     it('when there is an error', async () => {
       useFetch.mockImplementationOnce(() => Promise.reject(new Error('There was an error')))
-      const response = await lighthouse.getImports()
+      const response = await lighthouseService.getImports()
       expect(response.error).toEqual(new Error('There was an error'))
     })
   })
@@ -331,7 +330,7 @@ describe('lighthouse_service api', () => {
     it('when it is successful', async () => {
       useFetch.mockResolvedValue({ data: { value: {} } })
 
-      const response = await lighthouse.deleteReports(filenames)
+      const response = await lighthouseService.deleteReports(filenames)
 
       expect(useFetch).toHaveBeenCalledWith(
         expect.stringMatching('^' + config.lighthouseBaseURL),
@@ -351,7 +350,7 @@ describe('lighthouse_service api', () => {
     it('when there is an error', async () => {
       useFetch.mockImplementationOnce(() => Promise.reject(new Error('There was an error')))
 
-      const response = await lighthouse.deleteReports()
+      const response = await lighthouseService.deleteReports()
 
       expect(response.success).toBeFalsy()
       expect(response.error).toEqual(new Error('There was an error'))
@@ -362,7 +361,7 @@ describe('lighthouse_service api', () => {
     it('when the request is successful', async () => {
       useFetch.mockResolvedValue({ data: { value: ReportsJson } })
 
-      const response = await lighthouse.getReports()
+      const response = await lighthouseService.getReports()
 
       expect(useFetch).toHaveBeenCalledWith(
         expect.stringMatching('^' + config.lighthouseBaseURL),
@@ -375,7 +374,7 @@ describe('lighthouse_service api', () => {
     it('when the request fails', async () => {
       useFetch.mockImplementationOnce(() => Promise.reject(new Error('There was an error')))
 
-      const response = await lighthouse.getReports()
+      const response = await lighthouseService.getReports()
       expect(response.success).toBeFalsy()
       expect(response.error).toEqual(new Error('There was an error'))
     })
@@ -387,7 +386,7 @@ describe('lighthouse_service api', () => {
         data: { value: { reports: [ReportsJson.reports[0]] } },
       })
 
-      const response = await lighthouse.createReport()
+      const response = await lighthouseService.createReport()
 
       expect(useFetch).toHaveBeenCalledWith(
         expect.stringMatching('^' + config.lighthouseBaseURL),
@@ -401,7 +400,7 @@ describe('lighthouse_service api', () => {
     it('when the request fails', async () => {
       useFetch.mockImplementationOnce(() => Promise.reject(new Error('There was an error')))
 
-      const response = await lighthouse.createReport()
+      const response = await lighthouseService.createReport()
 
       expect(response.success).toBeFalsy()
       expect(response.error).toEqual(new Error('There was an error'))
@@ -414,7 +413,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockResolvedValue(response)
 
-      const result = await lighthouse.getRobots()
+      const result = await lighthouseService.getRobots()
       const expected = { success: true, robots: RobotsJson.robots }
 
       expect(result).toEqual(expected)
@@ -427,7 +426,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockRejectedValue(response)
 
-      const result = await lighthouse.getRobots()
+      const result = await lighthouseService.getRobots()
       const expected = {
         success: false,
         errors: ['There was an error'],
@@ -441,7 +440,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockRejectedValue(response)
 
-      const result = await lighthouse.getRobots()
+      const result = await lighthouseService.getRobots()
       const expected = {
         success: false,
         errors: ['Network Error: Failed to get Robots from Lighthouse Service'],
@@ -459,7 +458,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockResolvedValue(response)
 
-      const result = await lighthouse.getFailureTypes()
+      const result = await lighthouseService.getFailureTypes()
       const expected = {
         success: true,
         failureTypes: FailureTypesJson.failure_types,
@@ -477,7 +476,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockRejectedValue(response)
 
-      const result = await lighthouse.getFailureTypes()
+      const result = await lighthouseService.getFailureTypes()
       const expected = {
         success: false,
         errors: ['There was an error'],
@@ -491,7 +490,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockRejectedValue(response)
 
-      const result = await lighthouse.getFailureTypes()
+      const result = await lighthouseService.getFailureTypes()
       const expected = {
         success: false,
         errors: ['Network Error: Failed to get Failure Types from Lighthouse Service'],
@@ -531,7 +530,7 @@ describe('lighthouse_service api', () => {
       useFetch.mockResolvedValue(response)
 
       const responseData = response.data.value.data
-      const result = await lighthouse.createDestinationPlateBeckman(form)
+      const result = await lighthouseService.createDestinationPlateBeckman(form)
       const expected = {
         success: true,
         response: `Successfully created destination plate, with barcode: ${responseData.plate_barcode}, and ${responseData.count_fit_to_pick_samples} fit to pick sample(s)`,
@@ -550,7 +549,7 @@ describe('lighthouse_service api', () => {
       }
       useFetch.mockRejectedValue(response)
 
-      const result = await lighthouse.createDestinationPlateBeckman(form)
+      const result = await lighthouseService.createDestinationPlateBeckman(form)
 
       const expected = { success: false, errors: ['There was an error'] }
 
@@ -580,7 +579,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockResolvedValue(response)
 
-      const result = await lighthouse.failDestinationPlateBeckman(form)
+      const result = await lighthouseService.failDestinationPlateBeckman(form)
       const expected = {
         success: true,
         response: `Successfully failed destination plate with barcode: ${barcode}`,
@@ -599,7 +598,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockResolvedValue(response)
 
-      const result = await lighthouse.failDestinationPlateBeckman(form)
+      const result = await lighthouseService.failDestinationPlateBeckman(form)
       const expected = { success: true, errors: ['some partial error message'] }
 
       expect(useFetch).toHaveBeenCalledTimes(1)
@@ -611,7 +610,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockRejectedValue(response)
 
-      const result = await lighthouse.failDestinationPlateBeckman(form)
+      const result = await lighthouseService.failDestinationPlateBeckman(form)
 
       const expected = { success: false, errors: ['There was an error'] }
 
@@ -636,7 +635,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockResolvedValue({ data: { value: response } })
 
-      const result = await lighthouse.generateTestRun(plateSpecs)
+      const result = await lighthouseService.generateTestRun(plateSpecs)
 
       const headers = { Authorization: config.lighthouseApiKey }
 
@@ -671,7 +670,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockRejectedValue(error)
 
-      const result = await lighthouse.generateTestRun(plateSpecs)
+      const result = await lighthouseService.generateTestRun(plateSpecs)
 
       expect(result.success).toBeFalsy()
       expect(result.error).toBe(
@@ -683,7 +682,7 @@ describe('lighthouse_service api', () => {
       const error = {}
       useFetch.mockRejectedValue(error)
 
-      const result = await lighthouse.generateTestRun(plateSpecs)
+      const result = await lighthouseService.generateTestRun(plateSpecs)
 
       expect(result.success).toBeFalsy()
       expect(result.error).toBe('An unexpected error has occurred')
@@ -694,7 +693,7 @@ describe('lighthouse_service api', () => {
       const error = { response: { data: { value: response } } }
 
       useFetch.mockRejectedValue(error)
-      const result = await lighthouse.generateTestRun(plateSpecs)
+      const result = await lighthouseService.generateTestRun(plateSpecs)
 
       expect(result.success).toBeFalsy()
       expect(result.error).toBe('Insertion failure')
@@ -738,7 +737,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockResolvedValue({ data: { value: response } })
 
-      const result = await lighthouse.getTestRuns(currentPage, maxResults)
+      const result = await lighthouseService.getTestRuns(currentPage, maxResults)
       const headers = { Authorization: config.lighthouseApiKey }
 
       expect(useFetch).toHaveBeenCalledWith(
@@ -774,7 +773,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockRejectedValue(error)
 
-      const result = await lighthouse.getTestRuns(currentPage, maxResults)
+      const result = await lighthouseService.getTestRuns(currentPage, maxResults)
 
       expect(result.success).toBeFalsy()
       expect(result.error).toBe('The method is not allowed for the requested URL.')
@@ -785,7 +784,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockRejectedValue(error)
 
-      const result = await lighthouse.getTestRuns(currentPage, maxResults)
+      const result = await lighthouseService.getTestRuns(currentPage, maxResults)
 
       expect(result.success).toBeFalsy()
       expect(result.error).toBe('An unexpected error has occurred')
@@ -806,7 +805,7 @@ describe('lighthouse_service api', () => {
         data: { value: response },
       })
 
-      const result = await lighthouse.getTestRun(id)
+      const result = await lighthouseService.getTestRun(id)
 
       const headers = { Authorization: config.lighthouseApiKey }
 
@@ -835,7 +834,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockRejectedValue(error)
 
-      const result = await lighthouse.getTestRun(id)
+      const result = await lighthouseService.getTestRun(id)
 
       expect(result.success).toBeFalsy()
       expect(result.error).toBe('The method is not allowed for the requested URL.')
@@ -846,7 +845,7 @@ describe('lighthouse_service api', () => {
 
       useFetch.mockRejectedValue(error)
 
-      const result = await lighthouse.getTestRun(id)
+      const result = await lighthouseService.getTestRun(id)
 
       expect(result.success).toBeFalsy()
       expect(result.error).toBe('An unexpected error has occurred')
@@ -855,7 +854,7 @@ describe('lighthouse_service api', () => {
 
   describe('#formatPlateSpecs', () => {
     it('returns the correct format', () => {
-      const result = lighthouse.formatPlateSpecs([
+      const result = lighthouseService.formatPlateSpecs([
         { numberOfPlates: 1, numberOfPositives: 2 },
         { numberOfPlates: 3, numberOfPositives: 4 },
       ])

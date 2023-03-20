@@ -2,15 +2,14 @@ import { mount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
 import ReportsJson from '../data/reports'
 import Reports from '@/pages/reports.vue'
-import lighthouse from '@/modules/lighthouse_service'
 
-vi.mock('@/modules/lighthouse_service')
+vi.mock('@/utils/lighthouse_service')
 
 describe('Reports', () => {
   let wrapper
 
   beforeEach(() => {
-    lighthouse.getReports.mockResolvedValue({
+    lighthouseService.getReports.mockResolvedValue({
       success: true,
       reports: ReportsJson.reports,
     })
@@ -33,7 +32,7 @@ describe('Reports', () => {
     })
 
     it('when the request fails', async () => {
-      lighthouse.getReports.mockResolvedValue({
+      lighthouseService.getReports.mockResolvedValue({
         success: false,
         reports: 'There was an error',
       })
@@ -47,7 +46,7 @@ describe('Reports', () => {
 
   describe('#createReport', () => {
     it('when the request is successful', async () => {
-      lighthouse.createReport.mockResolvedValue({
+      lighthouseService.createReport.mockResolvedValue({
         success: true,
         reports: [ReportsJson.reports[0]],
       })
@@ -60,7 +59,7 @@ describe('Reports', () => {
     })
 
     it('when the request fails', async () => {
-      lighthouse.createReport.mockReturnValue({
+      lighthouseService.createReport.mockReturnValue({
         success: false,
         error: 'There was an error',
       })
@@ -80,14 +79,14 @@ describe('Reports', () => {
   //   beforeEach(() => {
   //     reportFilenames = ReportsJson.reports.map((report) => report.filename).slice(0, 3)
   //     lessReportsJson = { reports: ReportsJson.reports.slice(3, 5) }
-  //     lighthouse.getReports.mockResolvedValue({
+  //     lighthouseService.getReports.mockResolvedValue({
   //       success: true,
   //       reports: ReportsJson.reports,
   //     })
   //   })
 
   //   it('when the request is successful', async () => {
-  //     lighthouse.deleteReports.mockResolvedValue({ success: true })
+  //     lighthouseService.deleteReports.mockResolvedValue({ success: true })
   //     await flushPromises()
   //     rows = wrapper.find('tbody').findAll('tr')
   //     const arr = [0, 1, 2]
@@ -95,7 +94,7 @@ describe('Reports', () => {
   //       rows.at(i).find('.selected input[type="checkbox"]').setChecked(true)
   //     })
   //     expect(wrapper.vm.reportsToDelete).toEqual(reportFilenames)
-  //     lighthouse.getReports.mockResolvedValue({
+  //     lighthouseService.getReports.mockResolvedValue({
   //       success: true,
   //       reports: lessReportsJson.reports,
   //     })
@@ -107,7 +106,7 @@ describe('Reports', () => {
   //   })
 
   //   it('when the request fails', async () => {
-  //     lighthouse.deleteReports.mockResolvedValue({
+  //     lighthouseService.deleteReports.mockResolvedValue({
   //       success: false,
   //       error: 'There was an error',
   //     })

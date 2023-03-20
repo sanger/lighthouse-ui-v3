@@ -1,5 +1,4 @@
 import { sourcePlate, destinationPlate } from '../data/biosero_plates'
-import lighthouseBiosero from '@/modules/lighthouse_service_biosero'
 
 const config = useRuntimeConfig()
 
@@ -26,7 +25,7 @@ describe('lighthouse_service_biosero api', () => {
       }
       useFetch.mockResolvedValue(response)
 
-      const result = await lighthouseBiosero.createDestinationPlateBiosero(form)
+      const result = await lighthouseServiceBiosero.createDestinationPlateBiosero(form)
       const expected = {
         success: true,
         response: `Successfully created destination plate with barcode: ${barcode}`,
@@ -64,7 +63,7 @@ describe('lighthouse_service_biosero api', () => {
       }
       useFetch.mockResolvedValue(response)
 
-      const result = await lighthouseBiosero.createDestinationPlateBiosero(form)
+      const result = await lighthouseServiceBiosero.createDestinationPlateBiosero(form)
 
       const expected = {
         success: false,
@@ -83,7 +82,7 @@ describe('lighthouse_service_biosero api', () => {
 
       useFetch.mockRejectedValue(errorResponse)
 
-      const result = await lighthouseBiosero.createDestinationPlateBiosero(form)
+      const result = await lighthouseServiceBiosero.createDestinationPlateBiosero(form)
 
       expect(useFetch).toHaveBeenCalledTimes(1)
       expect(result.success).toBe(false)
@@ -115,7 +114,7 @@ describe('lighthouse_service_biosero api', () => {
       }
       useFetch.mockResolvedValue(response)
 
-      const result = await lighthouseBiosero.failDestinationPlateBiosero(form)
+      const result = await lighthouseServiceBiosero.failDestinationPlateBiosero(form)
       const expected = {
         success: true,
         response: `Successfully failed destination plate with barcode: ${barcode}`,
@@ -155,7 +154,7 @@ describe('lighthouse_service_biosero api', () => {
       }
       useFetch.mockResolvedValue(response)
 
-      const result = await lighthouseBiosero.failDestinationPlateBiosero(form)
+      const result = await lighthouseServiceBiosero.failDestinationPlateBiosero(form)
       const expected = {
         success: false,
         error: { message: 'some error message' },
@@ -170,7 +169,7 @@ describe('lighthouse_service_biosero api', () => {
 
       useFetch.mockRejectedValue(errorResponse)
 
-      const result = await lighthouseBiosero.failDestinationPlateBiosero(form)
+      const result = await lighthouseServiceBiosero.failDestinationPlateBiosero(form)
       const expected = {
         success: false,
         error: { message: 'some error message' },
@@ -202,7 +201,7 @@ describe('lighthouse_service_biosero api', () => {
 
       useFetch.mockRejectedValue(errorResponse)
 
-      const result = await lighthouseBiosero.failDestinationPlateBiosero(form)
+      const result = await lighthouseServiceBiosero.failDestinationPlateBiosero(form)
 
       expect(useFetch).toHaveBeenCalledTimes(1)
       expect(result.success).toBe(false)
@@ -230,7 +229,7 @@ describe('lighthouse_service_biosero api', () => {
       const mockResponse = { data: { value: { plate: { data: sourcePlate } } } }
       useFetch.mockResolvedValue(mockResponse)
 
-      const result = await lighthouseBiosero.getBioseroPlate(sourcePlateBarcode, 'source')
+      const result = await lighthouseServiceBiosero.getBioseroPlate(sourcePlateBarcode, 'source')
 
       expect(result.success).toBeTruthy()
       expect(result.source).toBeTruthy()
@@ -242,7 +241,10 @@ describe('lighthouse_service_biosero api', () => {
       const mockResponse = { data: { value: { plate: { data: destinationPlate } } } }
       useFetch.mockResolvedValue(mockResponse)
 
-      const result = await lighthouseBiosero.getBioseroPlate(destinationPlateBarcode, 'destination')
+      const result = await lighthouseServiceBiosero.getBioseroPlate(
+        destinationPlateBarcode,
+        'destination'
+      )
 
       expect(result.success).toBeTruthy()
       expect(result.destination).toBeTruthy()
@@ -253,7 +255,10 @@ describe('lighthouse_service_biosero api', () => {
     it('when there is an error', async () => {
       useFetch.mockImplementationOnce(() => Promise.reject(new Error('There was an error')))
 
-      const result = await lighthouseBiosero.getBioseroPlate(destinationPlateBarcode, 'destination')
+      const result = await lighthouseServiceBiosero.getBioseroPlate(
+        destinationPlateBarcode,
+        'destination'
+      )
 
       expect(result.success).toBeFalsy()
       expect(result.barcode).toBeUndefined()

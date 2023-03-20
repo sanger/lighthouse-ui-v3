@@ -1,9 +1,8 @@
 import { mount } from '@vue/test-utils'
-import lighthouseBiosero from '@/modules/lighthouse_service_biosero'
 import BioseroPlateState from '@/pages/biosero_plate_state.vue'
 import { sourcePlate, destinationPlate } from '@/test/data/biosero_plates'
 
-vi.mock('@/modules/lighthouse_service_biosero')
+vi.mock('@/utils/lighthouse_service_biosero')
 
 describe('BioseroPlateState', () => {
   let wrapper
@@ -183,7 +182,7 @@ describe('BioseroPlateState', () => {
   describe('methods', () => {
     describe('findPlate', () => {
       it('calls getSourcePlate', async () => {
-        lighthouseBiosero.getBioseroPlate.mockReturnValue({
+        lighthouseServiceBiosero.getBioseroPlate.mockReturnValue({
           success: true,
           ...sourcePlate,
           source: true,
@@ -192,7 +191,7 @@ describe('BioseroPlateState', () => {
         await wrapper.setData({ barcode: sourcePlate.barcode })
         await wrapper.vm.findPlate()
 
-        expect(lighthouseBiosero.getBioseroPlate).toHaveBeenCalledWith(
+        expect(lighthouseServiceBiosero.getBioseroPlate).toHaveBeenCalledWith(
           sourcePlate.barcode,
           'source'
         )
@@ -205,18 +204,18 @@ describe('BioseroPlateState', () => {
           error: 'Could not find plate',
         }
         // getBioseroPlate gets called once for source plate, which we want to fail, and then called with destination plate
-        lighthouseBiosero.getBioseroPlate
+        lighthouseServiceBiosero.getBioseroPlate
           .mockReturnValueOnce(errorResponse)
           .mockReturnValue({ success: true, ...destinationPlate, destination: true })
 
         await wrapper.setData({ barcode: destinationPlate.barcode })
         await wrapper.vm.findPlate()
 
-        expect(lighthouseBiosero.getBioseroPlate).toHaveBeenCalledWith(
+        expect(lighthouseServiceBiosero.getBioseroPlate).toHaveBeenCalledWith(
           destinationPlate.barcode,
           'source'
         )
-        expect(lighthouseBiosero.getBioseroPlate).toHaveBeenCalledWith(
+        expect(lighthouseServiceBiosero.getBioseroPlate).toHaveBeenCalledWith(
           destinationPlate.barcode,
           'destination'
         )
@@ -228,7 +227,7 @@ describe('BioseroPlateState', () => {
           success: false,
           error: 'Could not find plate',
         }
-        lighthouseBiosero.getBioseroPlate.mockReturnValue(errorResponse)
+        lighthouseServiceBiosero.getBioseroPlate.mockReturnValue(errorResponse)
 
         await wrapper.setData({ barcode: 'Random barcode' })
         await wrapper.vm.findPlate()
@@ -252,7 +251,7 @@ describe('BioseroPlateState', () => {
           alertData: { variant: 'danger', message: 'test', show: true },
           filter: 'control_barcode',
         })
-        lighthouseBiosero.getBioseroPlate.mockReturnValue({
+        lighthouseServiceBiosero.getBioseroPlate.mockReturnValue({
           success: true,
           ...sourcePlate,
           source: true,

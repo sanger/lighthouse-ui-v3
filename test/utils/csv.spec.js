@@ -1,5 +1,4 @@
 import fs from 'fs'
-import csv from '@/modules/csv'
 import barcodes from '@/test/data/barcodes'
 
 describe('csv', () => {

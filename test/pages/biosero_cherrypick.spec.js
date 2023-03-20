@@ -1,11 +1,9 @@
 import { mount } from '@vue/test-utils'
 import AlertDialog from '@/components/AlertDialog'
-import lighthouse from '@/modules/lighthouse_service'
-import lighthouseBiosero from '@/modules/lighthouse_service_biosero'
 import BioseroCherrypick from '@/pages/biosero_cherrypick.vue'
 
-vi.mock('@/modules/lighthouse_service')
-vi.mock('@/modules/lighthouse_service_biosero')
+vi.mock('@/utils/lighthouse_service')
+vi.mock('@/utils/lighthouse_service_biosero')
 
 describe('Biosero Cherrypick', () => {
   let wrapper, failureTypes
@@ -16,7 +14,7 @@ describe('Biosero Cherrypick', () => {
       { type: 'Type 2', description: 'Description of error 2' },
     ]
 
-    lighthouse.getFailureTypes.mockReturnValue({
+    lighthouseService.getFailureTypes.mockReturnValue({
       success: true,
       failureTypes,
     })
@@ -30,7 +28,7 @@ describe('Biosero Cherrypick', () => {
 
   describe('mounted', () => {
     it('calls lighthouse initialiser methods', () => {
-      expect(lighthouse.getFailureTypes).toHaveBeenCalled()
+      expect(lighthouseService.getFailureTypes).toHaveBeenCalled()
     })
   })
 
@@ -48,7 +46,7 @@ describe('Biosero Cherrypick', () => {
 
     it('on failure calls showAlert', async () => {
       wrapper.vm.showAlert = vi.fn()
-      lighthouse.getFailureTypes.mockReturnValue({
+      lighthouseService.getFailureTypes.mockReturnValue({
         errors: ['No information exists for any Biosero failure types'],
         failureTypes: [],
       })
@@ -74,7 +72,7 @@ describe('Biosero Cherrypick', () => {
 
     it('on success it shows an alert', async () => {
       wrapper.vm.showAlert = vi.fn()
-      lighthouseBiosero.createDestinationPlateBiosero.mockReturnValue({
+      lighthouseServiceBiosero.createDestinationPlateBiosero.mockReturnValue({
         success: true,
         response: 'A successful response message',
       })
@@ -85,7 +83,7 @@ describe('Biosero Cherrypick', () => {
 
     it('on failure calls showAlert', async () => {
       wrapper.vm.showAlert = vi.fn()
-      lighthouseBiosero.createDestinationPlateBiosero.mockReturnValue({
+      lighthouseServiceBiosero.createDestinationPlateBiosero.mockReturnValue({
         success: false,
         error: {
           message: 'an error',
@@ -110,7 +108,7 @@ describe('Biosero Cherrypick', () => {
 
     it('on success it shows an alert', async () => {
       wrapper.vm.showAlert = vi.fn()
-      lighthouseBiosero.failDestinationPlateBiosero.mockReturnValue({
+      lighthouseServiceBiosero.failDestinationPlateBiosero.mockReturnValue({
         success: true,
         response: 'A successful response message',
       })
@@ -121,7 +119,7 @@ describe('Biosero Cherrypick', () => {
 
     it('on failure calls showAlert', async () => {
       wrapper.vm.showAlert = vi.fn()
-      lighthouseBiosero.failDestinationPlateBiosero.mockReturnValue({
+      lighthouseServiceBiosero.failDestinationPlateBiosero.mockReturnValue({
         success: false,
         error: { message: 'An error message' },
       })

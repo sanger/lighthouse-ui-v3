@@ -1,5 +1,4 @@
 import { mount } from '@vue/test-utils'
-import api from '@/modules/api'
 import SentinelCreateSamples from '@/pages/sentinel_create_samples'
 
 describe('lighthouse sentinel cherrypick', () => {

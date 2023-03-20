@@ -1,5 +1,3 @@
-import sequencescape from '@/modules/sequencescape'
-
 const config = useRuntimeConfig()
 
 describe('Sequencescape', () => {

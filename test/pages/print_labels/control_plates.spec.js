@@ -1,10 +1,9 @@
 import { mount } from '@vue/test-utils'
 import ControlPlates from '@/pages/print_labels/control_plates'
-import Sprint from '@/modules/sprint_general_labels'
 
 const config = useRuntimeConfig()
 
-vi.mock('@/modules/sprint_general_labels')
+vi.mock('@/utils/sprint_general_labels')
 
 describe('print control plate labels', () => {
   let wrapper, printers
@@ -77,13 +76,13 @@ describe('print control plate labels', () => {
     })
 
     it('successfully', async () => {
-      Sprint.printLabels.mockReturnValue({
+      sprintGeneralLabels.printLabels.mockReturnValue({
         success: true,
         message: 'Labels successfully printed',
       })
 
       await wrapper.vm.printLabels()
-      expect(Sprint.createLabelFields).toHaveBeenCalledWith({
+      expect(sprintGeneralLabels.createLabelFields).toHaveBeenCalledWith({
         barcodes: wrapper.vm.multiplyBarcodes(),
         text: 'Control',
       })
@@ -91,7 +90,7 @@ describe('print control plate labels', () => {
     })
 
     it('unsuccessfully', async () => {
-      Sprint.printLabels.mockReturnValue({
+      sprintGeneralLabels.printLabels.mockReturnValue({
         success: false,
         error: 'There was an error',
       })

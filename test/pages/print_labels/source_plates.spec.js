@@ -1,13 +1,11 @@
 import fs from 'fs'
 import { mount } from '@vue/test-utils'
 import SourcePlates from '@/pages/print_labels/source_plates'
-import Sprint from '@/modules/sprint_general_labels'
-import CSV from '@/modules/csv'
 import barcodes from '@/test/data/barcodes'
 
 const config = useRuntimeConfig()
 
-vi.mock('@/modules/csv')
+vi.mock('@/utils/csv')
 
 describe('print destination plate labels', () => {
   let wrapper, printers
@@ -74,10 +72,10 @@ describe('print destination plate labels', () => {
             }
           },
         })
-        mock = vi.spyOn(Sprint, 'printLabels')
+        mock = vi.spyOn(sprintGeneralLabels, 'printLabels')
         readFile = fs.readFileSync('./test/data/barcodes.csv', 'ascii')
         file = new File([readFile], 'barcodes.csv', { type: 'text/csv' })
-        CSV.parse.mockResolvedValue(barcodes)
+        csv.parse.mockResolvedValue(barcodes)
         wrapper.vm.getFile = vi.fn()
         wrapper.vm.getFile.mockReturnValue(file)
       })

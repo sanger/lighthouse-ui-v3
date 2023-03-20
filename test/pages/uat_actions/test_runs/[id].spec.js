@@ -1,10 +1,8 @@
 import { mount } from '@vue/test-utils'
 import TestRun from '@/pages/uat_actions/test_runs/[id]'
-import lighthouse from '@/modules/lighthouse_service'
-import Sprint from '@/modules/sprint_general_labels'
 
-vi.mock('@/modules/lighthouse_service')
-vi.mock('@/modules/sprint_general_labels')
+vi.mock('@/utils/lighthouse_service')
+vi.mock('@/utils/sprint_general_labels')
 
 describe('TestRuns.vue', () => {
   let wrapper, testRunData, $route
@@ -24,7 +22,7 @@ describe('TestRuns.vue', () => {
       barcodes: '[["TEST-111", "number of positives: 1"],["TEST-222", "number of positives: 2"]]',
     }
 
-    lighthouse.getTestRun.mockResolvedValue({ success: true, response: testRunData })
+    lighthouseService.getTestRun.mockResolvedValue({ success: true, response: testRunData })
 
     wrapper = mount(TestRun, {
       data() {
@@ -69,7 +67,7 @@ describe('TestRuns.vue', () => {
 
   describe('#created unsuccessful', () => {
     beforeEach(() => {
-      lighthouse.getTestRun.mockResolvedValue({ success: false, error: 'An error' })
+      lighthouseService.getTestRun.mockResolvedValue({ success: false, error: 'An error' })
 
       wrapper = mount(TestRun, {
         global: {
@@ -97,17 +95,17 @@ describe('TestRuns.vue', () => {
 
   describe('#print', () => {
     it('successfully', async () => {
-      Sprint.printLabels.mockReturnValue({
+      sprintGeneralLabels.printLabels.mockReturnValue({
         success: true,
         message: 'Labels successfully printed',
       })
       await wrapper.vm.print()
-      expect(Sprint.printLabels).toHaveBeenCalled()
+      expect(sprintGeneralLabels.printLabels).toHaveBeenCalled()
       expect(wrapper.find('.alert').text()).toMatch('Labels successfully printed')
     })
 
     it('unsuccessfully', async () => {
-      Sprint.printLabels.mockReturnValue({
+      sprintGeneralLabels.printLabels.mockReturnValue({
         success: false,
         error: 'There was an error',
       })

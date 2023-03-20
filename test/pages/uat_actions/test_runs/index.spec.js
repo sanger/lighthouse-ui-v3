@@ -1,14 +1,13 @@
 import { mount } from '@vue/test-utils'
 import TestRuns from '@/pages/uat_actions/test_runs'
-import lighthouse from '@/modules/lighthouse_service'
 
-vi.mock('@/modules/lighthouse_service')
+vi.mock('@/utils/lighthouse_service')
 
 describe('TestRuns.vue', () => {
   let wrapper
 
   beforeEach(() => {
-    lighthouse.getTestRuns.mockResolvedValue({ success: true, response: [], total: 0 })
+    lighthouseService.getTestRuns.mockResolvedValue({ success: true, response: [], total: 0 })
     wrapper = mount(TestRuns)
     wrapper.vm.$refs.alert.show = vi.fn()
   })
@@ -53,7 +52,7 @@ describe('TestRuns.vue', () => {
         ],
         total: 23,
       }
-      lighthouse.getTestRuns.mockResolvedValue(testRunsData)
+      lighthouseService.getTestRuns.mockResolvedValue(testRunsData)
 
       wrapper.vm.refresh()
     })
@@ -93,7 +92,7 @@ describe('TestRuns.vue', () => {
         ],
         total: 23,
       }
-      lighthouse.getTestRuns.mockResolvedValue(testRunsData)
+      lighthouseService.getTestRuns.mockResolvedValue(testRunsData)
 
       wrapper.vm.refresh()
     })
@@ -113,7 +112,7 @@ describe('TestRuns.vue', () => {
         total: 0,
         error: 'An error',
       }
-      lighthouse.getTestRuns.mockResolvedValue(testRunsData)
+      lighthouseService.getTestRuns.mockResolvedValue(testRunsData)
       wrapper.vm.$refs.alert.show = vi.fn()
 
       wrapper.vm.refresh()
@@ -128,7 +127,7 @@ describe('TestRuns.vue', () => {
 
   describe('#getTestRuns failure', () => {
     beforeEach(() => {
-      lighthouse.getTestRuns.mockRejectedValue(new Error('There was an error'))
+      lighthouseService.getTestRuns.mockRejectedValue(new Error('There was an error'))
 
       wrapper.vm.refresh()
     })

@@ -1,9 +1,8 @@
 import { mount } from '@vue/test-utils'
 import BeckmanCherrypick from '@/pages/beckman_cherrypick.vue'
-import lighthouse from '@/modules/lighthouse_service'
 import AlertDialog from '@/components/AlertDialog'
 
-vi.mock('@/modules/lighthouse_service')
+vi.mock('@/utils/lighthouse_service')
 
 describe('Beckman Cherrypick', () => {
   let wrapper, robots, failureTypes
@@ -19,12 +18,12 @@ describe('Beckman Cherrypick', () => {
       { type: 'Type 2', description: 'Description of error 2' },
     ]
 
-    lighthouse.getRobots.mockReturnValue({
+    lighthouseService.getRobots.mockReturnValue({
       success: true,
       robots,
     })
 
-    lighthouse.getFailureTypes.mockReturnValue({
+    lighthouseService.getFailureTypes.mockReturnValue({
       success: true,
       failureTypes,
     })
@@ -38,8 +37,8 @@ describe('Beckman Cherrypick', () => {
 
   describe('mounted', () => {
     it('calls lighthouse initialiser methods', () => {
-      expect(lighthouse.getRobots).toHaveBeenCalled()
-      expect(lighthouse.getFailureTypes).toHaveBeenCalled()
+      expect(lighthouseService.getRobots).toHaveBeenCalled()
+      expect(lighthouseService.getFailureTypes).toHaveBeenCalled()
     })
   })
 
@@ -61,7 +60,7 @@ describe('Beckman Cherrypick', () => {
 
     it('on failure calls showAlert', async () => {
       wrapper.vm.showAlert = vi.fn()
-      lighthouse.getRobots.mockReturnValue({
+      lighthouseService.getRobots.mockReturnValue({
         errors: ['No information exists for any Beckman robots'],
         robots: [],
       })
@@ -83,7 +82,7 @@ describe('Beckman Cherrypick', () => {
 
     it('on failure calls showAlert', async () => {
       wrapper.vm.showAlert = vi.fn()
-      lighthouse.getFailureTypes.mockReturnValue({
+      lighthouseService.getFailureTypes.mockReturnValue({
         errors: ['No information exists for any Beckman failure types'],
         failureTypes: [],
       })
@@ -110,7 +109,7 @@ describe('Beckman Cherrypick', () => {
 
     it('on success it shows an alert', async () => {
       wrapper.vm.showAlert = vi.fn()
-      lighthouse.createDestinationPlateBeckman.mockReturnValue({
+      lighthouseService.createDestinationPlateBeckman.mockReturnValue({
         success: true,
         response: 'A successful response message',
       })
@@ -121,7 +120,7 @@ describe('Beckman Cherrypick', () => {
 
     it('on failure calls showAlert', async () => {
       wrapper.vm.showAlert = vi.fn()
-      lighthouse.createDestinationPlateBeckman.mockReturnValue({
+      lighthouseService.createDestinationPlateBeckman.mockReturnValue({
         success: false,
         errors: ['an error'],
       })
@@ -145,7 +144,7 @@ describe('Beckman Cherrypick', () => {
 
     it('on success it shows an alert', async () => {
       wrapper.vm.showAlert = vi.fn()
-      lighthouse.failDestinationPlateBeckman.mockReturnValue({
+      lighthouseService.failDestinationPlateBeckman.mockReturnValue({
         success: true,
         response: 'A successful response message',
       })
@@ -156,7 +155,7 @@ describe('Beckman Cherrypick', () => {
 
     it('on partial success it shows an alert', async () => {
       wrapper.vm.showAlert = vi.fn()
-      lighthouse.failDestinationPlateBeckman.mockReturnValue({
+      lighthouseService.failDestinationPlateBeckman.mockReturnValue({
         success: true,
         errors: ['A error message'],
       })
@@ -167,7 +166,7 @@ describe('Beckman Cherrypick', () => {
 
     it('on failure calls showAlert', async () => {
       wrapper.vm.showAlert = vi.fn()
-      lighthouse.failDestinationPlateBeckman.mockReturnValue({
+      lighthouseService.failDestinationPlateBeckman.mockReturnValue({
         success: false,
         errors: ['an error'],
       })
