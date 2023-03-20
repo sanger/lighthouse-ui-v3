@@ -136,10 +136,8 @@
 </template>
 
 <script>
-import lighthouse from '@/modules/lighthouse_service'
 import AlertDialog from '@/components/AlertDialog'
 import UATActionsRouter from '@/components/UATActionsRouter'
-import statuses from '@/modules/statuses'
 
 const MAX_NUMBER_OF_POSITIVES = 96
 const MAX_NUMBER_OF_PLATES = 200
@@ -202,7 +200,7 @@ export default {
     },
     async generateTestRun() {
       this.status = statuses.Busy
-      const response = await lighthouse.generateTestRun(this.plateSpecs)
+      const response = await lighthouseService.generateTestRun(this.plateSpecs)
       if (response.success) {
         this.status = statuses.Idle
         navigateTo(`/uat_actions/test_runs/${response.runId}`)

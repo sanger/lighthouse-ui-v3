@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import Sprint from '@/modules/sprint_general_labels'
 import PrintLabelsRouter from '@/components/PrintLabelsRouter'
 import StatusAlert from '@/components/StatusAlert'
 
@@ -86,11 +85,11 @@ export default {
       this.$refs.statusAlert.setStatus('Busy', 'Printing labels…')
 
       const barcodes = this.multiplyBarcodes()
-      const labelFields = Sprint.createLabelFields({
+      const labelFields = sprintGeneralLabels.createLabelFields({
         barcodes,
         text: 'Control',
       })
-      const response = await Sprint.printLabels({
+      const response = await sprintGeneralLabels.printLabels({
         labelFields,
         printer: this.printer,
       })

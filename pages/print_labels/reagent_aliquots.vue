@@ -53,7 +53,6 @@
 </template>
 
 <script>
-import PrintLabels from '@/modules/sprint_reagent_aliquot_labels'
 import PrintLabelsRouter from '@/components/PrintLabelsRouter'
 import StatusAlert from '@/components/StatusAlert'
 
@@ -102,7 +101,7 @@ export default {
     async printLabels() {
       this.$refs.statusAlert.setStatus('Busy', 'Printing labels…')
 
-      const response = await PrintLabels({
+      const response = await sprintReagentAliquotLabels({
         barcode: this.barcode,
         firstText: this.firstLineText,
         secondText: this.secondLineText,

@@ -69,8 +69,6 @@
 </template>
 
 <script>
-import lighthouseBiosero from '@/modules/lighthouse_service_biosero'
-
 export default {
   name: 'BioseroPlateState',
   data() {
@@ -164,11 +162,11 @@ export default {
     async findPlate() {
       this.filter = 'source_barcode' // Resets the filter each plate to prevent empty filter bug
       this.alertData = { variant: '', message: '', show: false } // Removes existing alerts when a new plate is scanned
-      let plate = await lighthouseBiosero.getBioseroPlate(this.barcode, 'source')
+      let plate = await lighthouseServiceBiosero.getBioseroPlate(this.barcode, 'source')
       if (plate.success) {
         this.plate = plate
       } else {
-        plate = await lighthouseBiosero.getBioseroPlate(this.barcode, 'destination')
+        plate = await lighthouseServiceBiosero.getBioseroPlate(this.barcode, 'destination')
         if (plate.success) {
           this.plate = plate
         } else {

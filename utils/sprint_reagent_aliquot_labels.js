@@ -1,4 +1,4 @@
-import { query, headers } from '@/modules/sprint_constants'
+import { query, headers } from '@/utils/sprint_constants'
 
 const config = useRuntimeConfig()
 

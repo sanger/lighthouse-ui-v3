@@ -39,8 +39,6 @@
 // https://ssg-confluence.internal.sanger.ac.uk/display/PSDPUB/%5BBiosero%5D+Cherrypicking+Events
 
 import BioseroCherrypickForm from '@/components/BioseroCherrypickForm'
-import lighthouse from '@/modules/lighthouse_service'
-import lighthouseBiosero from '@/modules/lighthouse_service_biosero'
 import AlertDialog from '@/components/AlertDialog'
 
 export default {
@@ -70,14 +68,14 @@ export default {
       }
     },
     getFailureTypes() {
-      this.getDataFromLighthouse(lighthouse.getFailureTypes(), 'failureTypes')
+      this.getDataFromLighthouse(lighthouseService.getFailureTypes(), 'failureTypes')
     },
     async create(form) {
-      const response = await lighthouseBiosero.createDestinationPlateBiosero(form)
+      const response = await lighthouseServiceBiosero.createDestinationPlateBiosero(form)
       this.handleResponse(response)
     },
     async fail(form) {
-      const response = await lighthouseBiosero.failDestinationPlateBiosero(form)
+      const response = await lighthouseServiceBiosero.failDestinationPlateBiosero(form)
       this.handleResponse(response)
     },
     handleResponse(response) {

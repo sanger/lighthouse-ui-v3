@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import Sprint from '@/modules/sprint_general_labels'
 import PrintLabelsRouter from '@/components/PrintLabelsRouter'
 import StatusAlert from '@/components/StatusAlert'
 
@@ -76,7 +75,7 @@ export default {
     async printLabels() {
       this.$refs.statusAlert.setStatus('Busy', 'Printing labels…')
 
-      const response = await Sprint.printLabels({
+      const response = await sprintGeneralLabels.printLabels({
         labelFields: [{ barcode: this.barcode, text: this.text }],
         printer: this.printer,
       })

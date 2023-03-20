@@ -97,10 +97,6 @@
 </template>
 
 <script>
-import labwhere from '@/modules/labwhere'
-import lighthouse from '@/modules/lighthouse_service'
-import statuses from '@/modules/statuses'
-
 const countByMustSequence = (accumulator, plate) =>
   accumulator + (plate.count_must_sequence > 0 ? 1 : 0)
 
@@ -297,7 +293,7 @@ export default {
         labwhereResponse.barcodes.length
       )} in the Lighthouse service`
 
-      const response = await lighthouse.findPlatesFromBarcodes(labwhereResponse)
+      const response = await lighthouseService.findPlatesFromBarcodes(labwhereResponse)
       this.lighthouseResponse = response
 
       if (response.success) {

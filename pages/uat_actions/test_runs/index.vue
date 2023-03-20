@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import lighthouse from '@/modules/lighthouse_service'
 import AlertDialog from '@/components/AlertDialog'
 import UATActionsRouter from '@/components/UATActionsRouter'
 export default {
@@ -87,7 +86,7 @@ export default {
       let response
 
       try {
-        response = await lighthouse.getTestRuns(this.currentPage, this.perPage)
+        response = await lighthouseService.getTestRuns(this.currentPage, this.perPage)
       } catch (error) {
         showError('An unknown error has occurred')
         return

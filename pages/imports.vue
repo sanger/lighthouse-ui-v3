@@ -71,8 +71,6 @@
 </template>
 
 <script>
-import lighthouse from '@/modules/lighthouse_service'
-
 export default {
   data() {
     return {
@@ -112,7 +110,7 @@ export default {
   },
   methods: {
     async getItemsProvider() {
-      const resp = await lighthouse.getImports()
+      const resp = await lighthouseService.getImports()
       return this.handleItemsResponse(resp)
     },
     handleItemsResponse(response) {

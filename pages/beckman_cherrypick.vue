@@ -44,7 +44,6 @@
 // https://ssg-confluence.internal.sanger.ac.uk/display/PSDPUB/%5BBeckman%5D+Cherrypicking+Events
 
 import BeckmanCherrypickForm from '@/components/BeckmanCherrypickForm'
-import lighthouse from '@/modules/lighthouse_service'
 import AlertDialog from '@/components/AlertDialog'
 
 export default {
@@ -76,17 +75,17 @@ export default {
       }
     },
     getRobots() {
-      this.getDataFromLighthouse(lighthouse.getRobots(), 'robots')
+      this.getDataFromLighthouse(lighthouseService.getRobots(), 'robots')
     },
     getFailureTypes() {
-      this.getDataFromLighthouse(lighthouse.getFailureTypes(), 'failureTypes')
+      this.getDataFromLighthouse(lighthouseService.getFailureTypes(), 'failureTypes')
     },
     async create(form) {
-      const response = await lighthouse.createDestinationPlateBeckman(form)
+      const response = await lighthouseService.createDestinationPlateBeckman(form)
       this.handleResponse(response)
     },
     async fail(form) {
-      const response = await lighthouse.failDestinationPlateBeckman(form)
+      const response = await lighthouseService.failDestinationPlateBeckman(form)
       this.handleResponse(response)
     },
     handleResponse(response) {
