@@ -19,7 +19,7 @@
   "devDependencies": {
     "@intlify/unplugin-vue-i18n": "^0.9.2",
     "eslint": "^8.36.0",
-    "eslint-config-prettier": "^8.7.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-vue": "^9.9.0",
     "flush-promises": "^1.0.2",
     "jsdom": "^21.1.1",
