@@ -34,6 +34,7 @@ export default defineNuxtConfig({
       projectId: '',
       studyId: '',
       printers: 'a,b,c',
+      enabledNavItems: 'box_buster',
     },
   },
   ssr: false, // Client-side rendering only because of limitations in bootstrap-vue-next

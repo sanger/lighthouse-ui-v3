@@ -25,18 +25,7 @@
 export default {
   computed: {
     navItems() {
-      return [
-        { path: '/reports', title: 'Reports' },
-        { path: '/box_buster', title: 'Box Buster' },
-        { path: '/sentinel_create_samples', title: 'Sentinel Sample Creation' },
-        { path: '/sentinel_cherrypick', title: 'Sentinel Cherrypick' },
-        { path: '/imports', title: 'Imports' },
-        { path: '/print_labels', title: 'Print Labels' },
-        { path: '/beckman_cherrypick', title: 'Beckman Cherrypick' },
-        { path: '/biosero_plate_state', title: 'Biosero Plate State' },
-        { path: '/biosero_cherrypick', title: 'Biosero Cherrypick' },
-        { path: '/uat_actions/generate_test_run', title: 'UAT Actions' },
-      ]
+      return prepareNavItems(this.$config.enabledNavItems)
     },
   },
 }
