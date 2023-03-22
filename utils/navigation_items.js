@@ -1,4 +1,4 @@
-const allNavigationItems = {
+export const allNavigationItems = {
   reports: { path: '/reports', title: 'Reports' },
   box_buster: { path: '/box_buster', title: 'Box Buster' },
   sentinel_create_samples: { path: '/sentinel_create_samples', title: 'Sentinel Sample Creation' },
@@ -11,7 +11,7 @@ const allNavigationItems = {
   uat_actions: { path: '/uat_actions/generate_test_run', title: 'UAT Actions' },
 }
 
-export const prepareNavItems = (enabledNavItems) => {
+export const selectNavItems = (enabledNavItems) => {
   const enabledKeys = enabledNavItems.split(',')
   return enabledKeys
     .map((key) => (Object.keys(allNavigationItems).includes(key) ? allNavigationItems[key] : null))

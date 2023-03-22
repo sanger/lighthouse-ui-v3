@@ -25,7 +25,7 @@
 export default {
   computed: {
     navItems() {
-      return prepareNavItems(this.$config.enabledNavItems)
+      return selectNavItems(this.$config.enabledNavItems)
     },
   },
 }
