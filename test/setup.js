@@ -21,6 +21,7 @@ vi.mock('#app', () => {
       projectId: '5',
       studyId: '10',
       printers: 'a,b,c',
+      enabledNavItems: 'box_buster',
     }),
   }
 })
