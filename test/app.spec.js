@@ -7,8 +7,7 @@ describe('App', () => {
   beforeEach(() => {
     $config = {
       appTagline: 'Test Tagline',
-      uatActions: true,
-      bioseroCherrypick: true,
+      enabledNavItems: 'box_buster,imports,print_labels',
     }
 
     wrapper = mount(App, {
@@ -28,8 +27,6 @@ describe('App', () => {
   })
 
   it('has a navbar', () => {
-    expect(wrapper.find('nav').text()).toBe(
-      'LighthouseTest TaglineReportsBox BusterSentinel Sample CreationSentinel CherrypickImportsPrint LabelsBeckman CherrypickBiosero Plate StateBiosero CherrypickUAT Actions'
-    )
+    expect(wrapper.find('nav').text()).toBe('LighthouseTest TaglineBox BusterImportsPrint Labels')
   })
 })

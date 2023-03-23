@@ -10,20 +10,9 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav class="ms-auto">
-            <b-nav-item to="/reports">Reports</b-nav-item>
-            <b-nav-item to="/box_buster">Box Buster</b-nav-item>
-            <b-nav-item to="/sentinel_create_samples">Sentinel Sample Creation</b-nav-item>
-            <b-nav-item to="/sentinel_cherrypick">Sentinel Cherrypick</b-nav-item>
-            <b-nav-item to="/imports">Imports</b-nav-item>
-            <b-nav-item to="/print_labels">Print Labels</b-nav-item>
-            <b-nav-item to="/beckman_cherrypick">Beckman Cherrypick</b-nav-item>
-            <b-nav-item to="/biosero_plate_state">Biosero Plate State</b-nav-item>
-            <b-nav-item v-if="featureFlagBioseroCherrypick" to="/biosero_cherrypick"
-              >Biosero Cherrypick</b-nav-item
-            >
-            <b-nav-item v-if="featureFlagUatActions" to="/uat_actions/generate_test_run"
-              >UAT Actions</b-nav-item
-            >
+            <b-nav-item v-for="item in navItems" :key="item.path" :to="item.path">
+              {{ item.title }}
+            </b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -34,11 +23,10 @@
 
 <script>
 export default {
-  data() {
-    return {
-      featureFlagUatActions: this.$config.uatActions,
-      featureFlagBioseroCherrypick: this.$config.bioseroCherrypick,
-    }
+  computed: {
+    navItems() {
+      return selectNavItems(this.$config.enabledNavItems)
+    },
   },
 }
 </script>
