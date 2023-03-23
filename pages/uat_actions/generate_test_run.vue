@@ -216,4 +216,8 @@ export default {
 }
 </script>
 
+<script setup>
+definePageMeta({ middleware: 'uat-actions' })
+</script>
+
 <style scoped lang="scss"></style>
