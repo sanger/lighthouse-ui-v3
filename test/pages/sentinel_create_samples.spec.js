@@ -69,153 +69,148 @@ describe('lighthouse sentinel cherrypick', () => {
 
   describe('#handleSentinelSampleCreation', () => {
     it('calls createSamples', async () => {
-      api.createSamples = vi.fn()
+      api.createSamples = vi.fn().mockReturnValue([])
       wrapper.vm.handleSentinelSampleCreationResponse = vi.fn()
       await wrapper.vm.handleSentinelSampleCreation()
       expect(api.createSamples).toHaveBeenCalled()
     })
 
-    it('calls createSamples with mocked return', async () => {
-      const expected = [{ it: 'worked' }]
-      api.createSamples = vi.fn().mockReturnValue(expected)
-      wrapper.vm.handleSentinelSampleCreationResponse = vi.fn()
-      await wrapper.vm.handleSentinelSampleCreation()
-      expect(wrapper.vm.handleSentinelSampleCreationResponse).toHaveBeenCalledWith(expected)
-    })
-  })
-
-  describe('#handleSentinelSampleCreationResponse', () => {
-    let response
-
-    it('on success it populates the table', async () => {
-      response = [
-        {
-          data: {
+    describe('response handling', () => {
+      it('on success it populates the table', async () => {
+        const response = [
+          {
             data: {
-              plate_barcode: 'aBarcode1',
-              centre: 'tst1',
-              count_fit_to_pick_samples: 3,
+              data: {
+                plate_barcode: 'aBarcode1',
+                centre: 'tst1',
+                count_fit_to_pick_samples: 3,
+              },
             },
           },
-        },
-        {
-          data: {
+          {
             data: {
-              plate_barcode: 'aBarcode2',
-              centre: 'tst1',
-              count_fit_to_pick_samples: 1,
+              data: {
+                plate_barcode: 'aBarcode2',
+                centre: 'tst1',
+                count_fit_to_pick_samples: 1,
+              },
             },
           },
-        },
-      ]
-      wrapper.vm.handleSentinelSampleCreationResponse(response)
-      await wrapper.vm.$nextTick()
+        ]
+        api.createSamples = vi.fn().mockReturnValue(response)
 
-      expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
-        /Sentinel samples successfully created in sequencescape/
-      )
-      expect(wrapper.vm.items).toEqual(response.map((r) => r.data).map((r) => r.data))
-    })
+        await wrapper.vm.handleSentinelSampleCreation()
+        await wrapper.vm.$nextTick()
 
-    it('on failure it shows an error message', async () => {
-      response = [
-        {
-          errors: ['an error 1'],
-        },
-        {
-          errors: ['an error 2', 'an error 3'],
-        },
-      ]
+        expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
+          /Sentinel samples successfully created in sequencescape/
+        )
+        expect(wrapper.vm.items).toEqual(response.map((r) => r.data.data))
+      })
 
-      wrapper.vm.handleSentinelSampleCreationResponse(response)
-      await wrapper.vm.$nextTick()
+      it('on failure it shows an error message', async () => {
+        const response = [
+          {
+            errors: ['an error 1'],
+          },
+          {
+            errors: ['an error 2', 'an error 3'],
+          },
+        ]
+        api.createSamples = vi.fn().mockReturnValue(response)
 
-      expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
-        /an error 1, an error 2, an error 3/
-      )
-      expect(wrapper.vm.items).toEqual([])
-    })
+        await wrapper.vm.handleSentinelSampleCreation()
+        await wrapper.vm.$nextTick()
 
-    it('on partial success/failure, last request successful', async () => {
-      response = [
-        {
-          errors: ['an error 1'],
-        },
-        {
-          errors: ['an error 2'],
-        },
-        {
-          data: {
+        expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
+          /an error 1, an error 2, an error 3/
+        )
+        expect(wrapper.vm.items).toEqual([])
+      })
+
+      it('on partial success/failure, last request successful', async () => {
+        const response = [
+          {
+            errors: ['an error 1'],
+          },
+          {
+            errors: ['an error 2'],
+          },
+          {
             data: {
-              plate_barcode: 'aBarcode1',
-              centre: 'tst1',
-              count_fit_to_pick_samples: 1,
+              data: {
+                plate_barcode: 'aBarcode1',
+                centre: 'tst1',
+                count_fit_to_pick_samples: 1,
+              },
             },
           },
-        },
-        {
-          data: {
+          {
             data: {
-              plate_barcode: 'aBarcode2',
-              centre: 'tst1',
-              count_fit_to_pick_samples: 1,
+              data: {
+                plate_barcode: 'aBarcode2',
+                centre: 'tst1',
+                count_fit_to_pick_samples: 1,
+              },
             },
           },
-        },
-      ]
+        ]
+        api.createSamples = vi.fn().mockReturnValue(response)
 
-      wrapper.vm.handleSentinelSampleCreationResponse(response)
-      await wrapper.vm.$nextTick()
+        await wrapper.vm.handleSentinelSampleCreation()
+        await wrapper.vm.$nextTick()
 
-      expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(/an error 1, an error 2/)
-      expect(wrapper.vm.items).toEqual(
-        response
-          .slice(2)
-          .map((r) => r.data)
-          .map((r) => r.data)
-      )
-    })
+        expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(/an error 1, an error 2/)
+        expect(wrapper.vm.items).toEqual(
+          response
+            .slice(2)
+            .map((r) => r.data)
+            .map((r) => r.data)
+        )
+      })
 
-    it('on partial success/failure, last request failed', async () => {
-      response = [
-        {
-          errors: ['an error 2'],
-        },
-        {
-          data: {
+      it('on partial success/failure, last request failed', async () => {
+        const response = [
+          {
+            errors: ['an error 2'],
+          },
+          {
             data: {
-              plate_barcode: 'aBarcode1',
-              centre: 'tst1',
-              count_fit_to_pick_samples: 1,
+              data: {
+                plate_barcode: 'aBarcode1',
+                centre: 'tst1',
+                count_fit_to_pick_samples: 1,
+              },
             },
           },
-        },
-        {
-          data: {
+          {
             data: {
-              plate_barcode: 'aBarcode2',
-              centre: 'tst1',
-              count_fit_to_pick_samples: 1,
+              data: {
+                plate_barcode: 'aBarcode2',
+                centre: 'tst1',
+                count_fit_to_pick_samples: 1,
+              },
             },
           },
-        },
-        {
-          errors: ['an error 1'],
-        },
-      ]
+          {
+            errors: ['an error 1'],
+          },
+        ]
+        api.createSamples = vi.fn().mockReturnValue(response)
 
-      wrapper.vm.handleSentinelSampleCreationResponse(response)
-      await wrapper.vm.$nextTick()
+        await wrapper.vm.handleSentinelSampleCreation()
+        await wrapper.vm.$nextTick()
 
-      expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
-        /Some samples were successfully created however: an error 2, an error 1/
-      )
-      expect(wrapper.vm.items).toEqual(
-        response
-          .slice(1, 3)
-          .map((r) => r.data)
-          .map((r) => r.data)
-      )
+        expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
+          /Some samples were successfully created however: an error 2, an error 1/
+        )
+        expect(wrapper.vm.items).toEqual(
+          response
+            .slice(1, 3)
+            .map((r) => r.data)
+            .map((r) => r.data)
+        )
+      })
     })
   })
 })

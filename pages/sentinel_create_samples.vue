@@ -100,19 +100,11 @@ export default {
 
       this.isCreating = true
       const resp = await api.createSamples(this.boxBarcode)
-      this.handleSentinelSampleCreationResponse(resp)
-      this.isCreating = false
-    },
-    // TODO: DPL-561 - make this more javascripty? destructuring?
-    handleSentinelSampleCreationResponse(resp) {
       const errored = resp.filter((obj) => Object.keys(obj).includes('errors'))
       const successful = resp.filter((obj) => Object.keys(obj).includes('data'))
-      if (successful.length > 0) {
-        this.items = successful.map((obj) => obj.data).map((obj) => obj.data)
-      } else {
-        this.items = []
-      }
+      this.items = successful.map((obj) => obj.data.data)
       this.sentinelSampleCreationAlert(errored, successful)
+      this.isCreating = false
     },
     sentinelSampleCreationAlert(errored, successful) {
       const msg = errored.map((e) => e.errors.join(', ')).join(', ')
