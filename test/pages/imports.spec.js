@@ -1,14 +1,16 @@
 import { mount } from '@vue/test-utils'
 import Imports from '@/pages/imports'
+import StatusAlert from '@/components/StatusAlert'
 
 vi.mock('@/utils/lighthouse_service')
 
 lighthouseService.getImports.mockResolvedValue({ success: false })
 
 describe('Imports', () => {
-  let wrapper
+  let wrapper, setAlertStatus
 
   beforeEach(() => {
+    setAlertStatus = vi.spyOn(StatusAlert.methods, 'setStatus')
     wrapper = mount(Imports, {
       data() {
         return {
@@ -54,21 +56,8 @@ describe('Imports', () => {
       response = { success: false, error: errorMsg }
       const resp = wrapper.vm.handleItemsResponse(response)
 
-      expect(wrapper.vm.alertData).toEqual({
-        variant: 'danger',
-        message: errorMsg,
-      })
-      expect(wrapper.vm.showDismissibleAlert).toBe(true)
+      expect(setAlertStatus).toHaveBeenCalledWith('Error', errorMsg)
       expect(resp).toEqual([])
-    })
-
-    it('on failure it shows an error message', async () => {
-      response = { success: false, error: 'an error message' }
-
-      wrapper.vm.handleItemsResponse(response)
-      await wrapper.vm.$nextTick()
-
-      expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(/an error message/)
     })
   })
 
