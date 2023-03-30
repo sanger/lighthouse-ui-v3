@@ -10,34 +10,34 @@
 export default {
   data() {
     return {
-      status: statuses.Idle,
+      status: Status.Idle,
       alertMessage: '',
       showAlert: false,
     }
   },
   computed: {
     isIdle() {
-      return this.status === statuses.Idle
+      return this.status === Status.Idle
     },
     isBusy() {
-      return this.status === statuses.Busy
+      return this.status === Status.Busy
     },
     isSuccess() {
-      return this.status === statuses.Success
+      return this.status === Status.Success
     },
     isError() {
-      return this.status === statuses.Error
+      return this.status === Status.Error
     },
     shouldShowAlert() {
       return this.isBusy || this.isError || this.isSuccess
     },
     alertVariant() {
       switch (this.status) {
-        case statuses.Error:
+        case Status.Error:
           return 'danger'
-        case statuses.Success:
+        case Status.Success:
           return 'success'
-        case statuses.Busy:
+        case Status.Busy:
           return 'warning'
         default:
           return ''
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     setStatus(status, message) {
-      this.status = statuses[status]
+      this.status = Status[status]
       this.alertMessage = message
       this.showAlert = this.shouldShowAlert
     },

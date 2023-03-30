@@ -53,7 +53,7 @@ describe('UAT Actions', () => {
       })
       expect(wrapper.vm.addToDart).toBe(false)
       expect(wrapper.vm.plateSpecs).toEqual([])
-      expect(wrapper.vm.status).toEqual(statuses.Idle)
+      expect(wrapper.vm.status).toEqual(Status.Idle)
     })
   })
 
@@ -74,7 +74,7 @@ describe('UAT Actions', () => {
     })
 
     it('when busy', () => {
-      wrapper.vm.status = statuses.Busy
+      wrapper.vm.status = Status.Busy
       expect(wrapper.vm.isBusy).toBeTruthy()
     })
   })
@@ -166,7 +166,7 @@ describe('UAT Actions', () => {
 
   describe('setting the status', () => {
     it('default should be idle', () => {
-      expect(wrapper.vm.status).toEqual(statuses.Idle)
+      expect(wrapper.vm.status).toEqual(Status.Idle)
     })
   })
 
@@ -243,21 +243,21 @@ describe('UAT Actions', () => {
         runId: 'anId123',
       })
 
-      expect(wrapper.vm.status).toEqual(statuses.Idle)
+      expect(wrapper.vm.status).toEqual(Status.Idle)
 
       // We dont want to await here because we want to test the status
       // while the promise is being processed.
       wrapper.find('#generateTestRunButton').trigger('click')
-      expect(wrapper.vm.status).toEqual(statuses.Busy)
+      expect(wrapper.vm.status).toEqual(Status.Busy)
 
       // Completely flush the promises to see that the request returned to idle status.
       await flushPromises()
-      expect(wrapper.vm.status).toEqual(statuses.Idle)
+      expect(wrapper.vm.status).toEqual(Status.Idle)
     })
 
     it.each([
-      [statuses.Idle, false],
-      [statuses.Busy, true],
+      [Status.Idle, false],
+      [Status.Busy, true],
     ])('when status is "%s" spinner visibility is "%s"', async (status, spinnerVisible) => {
       await wrapper.setData({
         status,
