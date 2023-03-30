@@ -16,7 +16,6 @@
             id="numberOfBarcodes"
             v-model="numberOfBarcodes"
             type="number"
-            value="1"
             min="1"
           ></b-form-input>
         </p>
