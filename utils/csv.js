@@ -1,4 +1,4 @@
-// this is done as lowest common demoninator to get it working
+// This is done as lowest common denominator to get it working
 // nothing fancy, no error checking
 // it will take a file, read it and return it
 // TODO: DPL-561 - add some error handling
