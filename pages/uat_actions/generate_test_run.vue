@@ -1,0 +1,223 @@
+<template>
+  <b-container>
+    <UATActionsRouter />
+
+    <h1 class="mt-3">UAT Actions</h1>
+
+    <AlertDialog id="alert" ref="alert"></AlertDialog>
+
+    <div
+      id="resetConfirm"
+      class="modal fade"
+      role="dialog"
+      aria-labelledby="resetConfirm-label"
+      aria-describedby="resetConfirm-body"
+      tabindex="-1"
+      aria-modal="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="resetConfirm-label" class="modal-title">Reset Confirmation</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div id="resetConfirm-body" class="modal-body">
+            <p class="my-4">Are you sure you want to reset?</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">
+              <div class="btn-content">Cancel</div></button
+            ><button
+              class="btn btn-danger btn-md btn"
+              type="button"
+              data-bs-dismiss="modal"
+              @click="resetPlateSpecs"
+            >
+              <div class="btn-content">Reset</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <b-card title="Generate Test Run">
+      <b-card-text>
+        Select the number of plates you want to generate test data for with the number of positive
+        samples per plate. You can add additional sets of plates up to a maximum of
+        {{ maxNumberOfPlates }}.
+      </b-card-text>
+      <b-card-text>
+        The <em>Generate</em> button will start the creation of the data, and you will be
+        automatically taken to the label printing screen when it is done.
+      </b-card-text>
+
+      <b-form v-if="!totalPlatesReached" id="platesSpecForm">
+        <b-card>
+          <b-row>
+            <b-col cols="md-auto" class="my-auto">
+              <label for="numberOfPlates">Number of plates</label>
+            </b-col>
+            <b-col cols="1" class="me-4">
+              <b-form-select
+                id="numberOfPlates"
+                v-model="form.numberOfPlates"
+                :options="numberOfPlatesOptions()"
+              ></b-form-select>
+            </b-col>
+
+            <b-col cols="md-auto" class="my-auto">
+              <label for="numberOfPositives">Number of positive samples</label>
+            </b-col>
+            <b-col cols="1" class="me-4">
+              <b-form-select
+                id="numberOfPositives"
+                v-model="form.numberOfPositives"
+                :options="numberOfPositivesOptions()"
+              ></b-form-select>
+            </b-col>
+
+            <b-col cols="1">
+              <b-button
+                id="addButton"
+                variant="primary"
+                :disabled="isBusy || totalPlates >= maxNumberOfPlates"
+                @click="add"
+                >Add</b-button
+              >
+            </b-col>
+          </b-row>
+        </b-card>
+      </b-form>
+
+      <b-card v-else id="maximumPlateMessage">
+        <span class="font-weight-bold">Maximum number of plates reached</span>
+      </b-card>
+
+      <br />
+      <b-table striped hover :items="plateSpecs"></b-table>
+
+      <b-row align-v="end" align-h="between">
+        <b-col>
+          Total plates:
+          <span :style="totalPlatesReached ? { color: 'red' } : { color: 'black' }"
+            >{{ totalPlates }}/{{ maxNumberOfPlates }}</span
+          >
+        </b-col>
+
+        <b-col cols="6" md="auto">
+          <b-button
+            id="resetButton"
+            data-bs-toggle="modal"
+            data-bs-target="#resetConfirm"
+            variant="outline-danger"
+            class="me-2"
+            :disabled="isBusy"
+            >Reset</b-button
+          >
+
+          <b-button
+            id="generateTestRunButton"
+            variant="primary"
+            :disabled="isBusy || !isValid"
+            @click="generateTestRun"
+          >
+            Generate test run
+            <b-spinner v-show="isBusy" id="busySpinner" small></b-spinner>
+          </b-button>
+        </b-col>
+      </b-row>
+    </b-card>
+  </b-container>
+</template>
+
+<script>
+import AlertDialog from '@/components/AlertDialog'
+import UATActionsRouter from '@/components/UATActionsRouter'
+
+const MAX_NUMBER_OF_POSITIVES = 96
+const MAX_NUMBER_OF_PLATES = 200
+
+function initialFormState() {
+  return {
+    numberOfPlates: 1,
+    numberOfPositives: 0,
+  }
+}
+
+export default {
+  name: 'GenerateTestRun',
+  components: {
+    AlertDialog,
+    UATActionsRouter,
+  },
+  data() {
+    return {
+      status: statuses.Idle,
+      form: initialFormState(),
+      addToDart: false,
+      plateSpecs: [],
+      maxNumberOfPlates: MAX_NUMBER_OF_PLATES,
+      maxNumberOfPositives: MAX_NUMBER_OF_POSITIVES,
+    }
+  },
+  computed: {
+    totalPlates() {
+      return this.plateSpecs.reduce(function (acc, obj) {
+        return acc + obj.numberOfPlates
+      }, 0)
+    },
+    isBusy() {
+      return this.status === statuses.Busy
+    },
+    isValid() {
+      return this.totalPlates > 0 && this.totalPlates <= this.maxNumberOfPlates
+    },
+    totalPlatesReached() {
+      return this.totalPlates === this.maxNumberOfPlates
+    },
+  },
+  methods: {
+    numberOfPositivesOptions() {
+      return Array.from({ length: this.maxNumberOfPositives + 1 }, (v, i) => i) // 0 - 96
+    },
+    numberOfPlatesOptions() {
+      return Array.from({ length: this.maxNumberOfPlates - this.totalPlates }, (v, i) => i + 1) // e.g default: 1-200
+    },
+    add() {
+      this.plateSpecs.push({
+        numberOfPlates: this.form.numberOfPlates,
+        numberOfPositives: this.form.numberOfPositives,
+      })
+      Object.assign(this.$data.form, initialFormState())
+    },
+    resetPlateSpecs() {
+      this.plateSpecs = []
+    },
+    async generateTestRun() {
+      this.status = statuses.Busy
+      const response = await lighthouseService.generateTestRun(this.plateSpecs)
+      if (response.success) {
+        this.status = statuses.Idle
+        navigateTo(`/uat_actions/test_runs/${response.runId}`)
+      } else {
+        this.status = statuses.Idle
+        this.showAlert(response.error, 'danger')
+      }
+    },
+    showAlert(message, type) {
+      return this.$refs.alert.show(message, type)
+    },
+  },
+}
+</script>
+
+<script setup>
+definePageMeta({ middleware: 'uat-actions' })
+</script>
+
+<style scoped lang="scss"></style>

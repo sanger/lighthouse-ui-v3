@@ -1,0 +1,168 @@
+// Lighthouse Service Biosero Module
+const config = useRuntimeConfig()
+
+/**
+ * - Returned on success: `{ success: true, response: "A successful message" }`
+ * - Returned on failure: `{ success: false, errors: ["A failure message"] }`
+ *
+ * @param {*} form
+ * @returns
+ */
+const createDestinationPlateBiosero = async (form) => {
+  try {
+    const url = `${config.lighthouseBaseURL}/events`
+    const body = {
+      event_type: 'lh_biosero_cp_destination_plate_partial_completed',
+      barcode: form.barcode,
+      user_id: form.username,
+    }
+    const headers = { Authorization: config.lighthouseApiKey }
+
+    const response = await useFetch(url, { body, headers, method: 'POST' })
+
+    /**
+    Example of success:
+
+    HTTP/1.0 201 CREATED
+    Content-Length: 258
+    Content-Type: application/json
+    Date: Tue, 13 Jul 2021 11:15:46 GMT
+    Location: http://localhost:8000/events/60ed75e2ffce63a55dec3bdf
+    Server: Werkzeug/2.0.1 Python/3.8.7
+
+    {
+        "_created": "2021-07-13T11:15:46",
+        "_etag": "95e225c1f1a3b82a35f11b9f53246d6db591900c",
+        "_id": "60ed75e2ffce63a55dec3bdf",
+        "_links": {
+            "self": {
+                "href": "events/60ed75e2ffce63a55dec3bdf",
+                "title": "Event"
+            }
+        },
+        "_status": "OK",
+        "_updated": "2021-07-13T11:15:46"
+    }
+    */
+
+    /**
+    Example of fail
+
+    HTTP/1.0 422 UNPROCESSABLE ENTITY
+    Content-Length: 233
+    Content-Type: application/json
+    Date: Tue, 13 Jul 2021 11:11:05 GMT
+    Server: Werkzeug/2.0.1 Python/3.8.7
+
+    {
+        "_error": {
+            "code": 422,
+            "message": "Insertion failure: 1 document(s) contain(s) error(s)"
+        },
+        "_issues": {
+            "event_type": "'barcode' cannot be empty with the 'lh_biosero_cp_destination_plate_partial_completed' event"
+        },
+        "_status": "ERR"
+    }
+     */
+    if (response.status === 201) {
+      // successfully created the event and performed subsequent processes
+      return {
+        success: true,
+        response: `Successfully created destination plate with barcode: ${form.barcode}`,
+      }
+    } else {
+      // contains status code and message
+      const error = response.data.value._error
+      return {
+        success: false,
+        error,
+      }
+    }
+  } catch (error) {
+    // failure
+    if (Object.prototype.hasOwnProperty.call(error, 'response')) {
+      return { success: false, error: error.response.data._error }
+    } else {
+      return { success: false, error }
+    }
+  }
+}
+
+/**
+ * - Returned on success: `{ success: true, errors: [] }`
+ * - Returned on partial success: `{ success: true, errors: ["A successful error message"] }`
+ * - Returned on failure: `{ success: false, errors: ["A failure message"] }`
+ *
+ * @param {*} form
+ * @returns
+ */
+const failDestinationPlateBiosero = async (form) => {
+  const url = `${config.lighthouseBaseURL}/events`
+  const body = {
+    event_type: 'lh_biosero_cp_destination_plate_failed',
+    barcode: form.barcode,
+    user_id: form.username,
+    failure_type: form.failureType,
+  }
+
+  const headers = { Authorization: config.lighthouseApiKey }
+
+  try {
+    const response = await useFetch(url, { body, headers, method: 'POST' })
+    if (response.data.value._status === 'OK') {
+      // successful insert of fail event
+      return {
+        success: true,
+        response: `Successfully failed destination plate with barcode: ${form.barcode}`,
+      }
+    } else {
+      // unable to insert the fail event
+      const errorMessage = response.data?.value._error.message || response._error
+      return {
+        success: false,
+        error: { message: errorMessage },
+      }
+    }
+  } catch (ex) {
+    // an unhandled exception was thrown either from cherrytrack or lighthouse
+    let errorMessage
+    const data = ex.response?.data?.value
+    if (data === undefined) {
+      // standard exception, use error message at top level
+      errorMessage = ex.message
+    } else {
+      // exception was from cherrytrack, add primary message
+      errorMessage = data._error?.message
+      // and then add more useful message from issues section if present
+      const wellsMessage = data._issues?.wells[0]
+      if (wellsMessage !== undefined) {
+        errorMessage += ` ${wellsMessage}`
+      }
+    }
+    return {
+      success: false,
+      error: { message: errorMessage },
+    }
+  }
+}
+
+const getBioseroPlate = async (barcode, type) => {
+  try {
+    const url = `${config.lighthouseBaseURL}/plates/cherrytrack`
+    const response = await useFetch(url, { params: { barcode, _type: type } })
+    const plate = { success: true, [type]: true, ...response.data.value.plate.data }
+
+    return plate
+  } catch (error) {
+    return { success: false }
+  }
+}
+
+const lighthouseBiosero = {
+  createDestinationPlateBiosero,
+  failDestinationPlateBiosero,
+  getBioseroPlate,
+}
+
+export default lighthouseBiosero

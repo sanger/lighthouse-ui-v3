@@ -1,0 +1,8 @@
+{
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "eslint.rules.customizations": [
+    { "rule": "no-undef", "severity": "off" },
+    { "rule": "vue/multi-word-component-names", "severity": "off" }
+  ]
+}
