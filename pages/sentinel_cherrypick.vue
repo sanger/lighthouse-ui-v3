@@ -14,7 +14,7 @@
 
     <form class="border">
       <div class="form-group row">
-        <label for="box-barcode" class="col-sm-4 col-form-label">
+        <label for="box-barcodes" class="col-sm-4 col-form-label">
           Please scan Lighthouse box barcode(s)
           <p class="labwhere-warning">
             Box and its contents need to be in LabWhere and samples created in Sequencescape, to
