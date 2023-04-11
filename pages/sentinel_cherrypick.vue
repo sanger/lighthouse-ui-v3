@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <h1 class="mt-3">Sentinel Cherrypick Batch Creation</h1>
-    <p class="lead">Create a cherrypick submission in Sequencescsape</p>
+    <p class="lead">Create a cherrypick submission in Sequencescape</p>
     <b-alert
       ref="alert"
       v-model="showDismissibleAlert"
