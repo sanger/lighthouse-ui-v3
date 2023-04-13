@@ -2,6 +2,7 @@
   <b-container>
     <h1 class="mt-3 mb-3">Deep-Well Plates</h1>
     <b-card
+      class="input-area"
       title="Import Deep-Well Plates"
       subtitle="Add externally sourced deep-well plates to Sequencescape so that they can be stamped to shallow-well plates using Limber."
     >
@@ -49,33 +50,86 @@ export default defineComponent({
   name: 'DeepWellPlates',
   data() {
     return {
-      plateBarcodes: '',
+      plateBarcodes: 'BB-00049030',
       resultFields: [
         { key: 'barcode', label: 'Plate Barcode' },
-        { key: 'result', label: 'Status / Errors' },
+        { key: 'status', label: 'Status / Errors' },
         { key: 'ready', label: 'Ready for Limber' },
       ],
-      results: [
-        {
-          barcode: 'TEST-123456',
-          result: "Error:  Plate with barcode 'TEST-123456' already exists.",
-          ready: 'Yes',
-        },
-      ],
+      results: Array<object>(),
     }
   },
   methods: {
     clearBarcodes() {
       this.plateBarcodes = ''
     },
-    submitBarcodes() {
-      console.log('Submitted')
+    async submitBarcodes() {
+      const barcodes = this.parseBarcodes(this.plateBarcodes)
+      const responses = await lighthouseService.createPlatesFromBarcodes({
+        barcodes,
+        type: 'rvi_deep_well_96',
+      })
+      this.handleSubmissionResponses(barcodes, responses)
+    },
+    /**
+     * Parse barcodes by splitting on white space, throwing away empty values and
+     * then removing duplicates from the list.
+     */
+    parseBarcodes(barcodes: string) {
+      const listNoBlanks = barcodes.split(/\s+/).filter((b) => b !== '')
+      return [...new Set(listNoBlanks)]
+    },
+    createStatus(response: object): string {
+      console.log(response.data.value)
+      console.log(response.error.value)
+
+      if (response.data.value !== null) {
+        return 'Plate was imported successfully.'
+      }
+
+      if (response.error.value !== null) {
+        const errors = response.error.value.data.errors.join('\n')
+        if (/is already in use\.$/.test(errors)) {
+          return 'The barcode already exists in Sequencescape.'
+        } else {
+          return `Errors:\n${errors}`
+        }
+      }
+
+      return 'Unhandled response received.'
+    },
+    createReady(status: string): string {
+      if (/^Errors:/.test(status)) {
+        return 'No'
+      }
+
+      if (/^Unhandled response received\.$:/.test(status)) {
+        return 'Unknown'
+      }
+
+      return 'Yes'
+    },
+    createResult(barcode: string, response: object): object {
+      const status = this.createStatus(response)
+      const ready = this.createReady(status)
+      return {
+        barcode: barcode,
+        status,
+        ready,
+      }
+    },
+    handleSubmissionResponses(barcodes: string[], responses: object[]) {
+      const newResults = barcodes.map((barcode, idx) => this.createResult(barcode, responses[idx]))
+      this.results = [...this.results, ...newResults]
     },
   },
 })
 </script>
 
 <style scoped>
+.input-area {
+  background-color: rgba(0, 0, 0, 0.03);
+}
 .tip {
   font-size: 85%;
 }

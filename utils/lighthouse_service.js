@@ -14,10 +14,10 @@ const handlePromise = async (promise) => {
 // Accepts a list of barcodes in the moduleOptions
 // Send a POST request to the Lighthouse service API to create each plate
 // Return list of responses
-const createPlatesFromBarcodes = async ({ barcodes }) => {
+const createPlatesFromBarcodes = async ({ barcodes, type = 'heron' }) => {
   const promises = barcodes.map((barcode) => {
     const url = `${config.lighthouseBaseURL}/plates/new`
-    return useFetch(url, { method: 'POST', body: { barcode } })
+    return useFetch(url, { method: 'POST', body: { barcode, type } })
   })
 
   const responses = await Promise.all(promises.map((promise) => handlePromise(promise)))
