@@ -29,8 +29,9 @@ describe('lighthouse_service api', () => {
         1,
         `${config.lighthouseBaseURL}/plates/new`,
         {
+          key: 'aBarcode1',
           method: 'POST',
-          body: { barcode: barcodes[0] },
+          body: { barcode: barcodes[0], type: 'heron' },
         },
         expect.any(String)
       )
@@ -61,8 +62,9 @@ describe('lighthouse_service api', () => {
         1,
         `${config.lighthouseBaseURL}/plates/new`,
         {
+          key: 'aBarcode1',
           method: 'POST',
-          body: { barcode: barcodes[0] },
+          body: { barcode: barcodes[0], type: 'heron' },
         },
         expect.any(String)
       )
@@ -92,8 +94,9 @@ describe('lighthouse_service api', () => {
         1,
         `${config.lighthouseBaseURL}/plates/new`,
         {
+          key: 'aBarcode1',
           method: 'POST',
-          body: { barcode: barcodes[0] },
+          body: { barcode: barcodes[0], type: 'heron' },
         },
         expect.any(String)
       )
@@ -101,8 +104,9 @@ describe('lighthouse_service api', () => {
         2,
         `${config.lighthouseBaseURL}/plates/new`,
         {
+          key: 'aBarcode2',
           method: 'POST',
-          body: { barcode: barcodes[1] },
+          body: { barcode: barcodes[1], type: 'heron' },
         },
         expect.any(String)
       )
@@ -144,8 +148,9 @@ describe('lighthouse_service api', () => {
         1,
         `${config.lighthouseBaseURL}/plates/new`,
         {
+          key: barcodes[0],
           method: 'POST',
-          body: { barcode: barcodes[0] },
+          body: { barcode: barcodes[0], type: 'heron' },
         },
         expect.any(String)
       )
@@ -153,8 +158,9 @@ describe('lighthouse_service api', () => {
         2,
         `${config.lighthouseBaseURL}/plates/new`,
         {
+          key: barcodes[1],
           method: 'POST',
-          body: { barcode: barcodes[1] },
+          body: { barcode: barcodes[1], type: 'heron' },
         },
         expect.any(String)
       )
@@ -188,8 +194,9 @@ describe('lighthouse_service api', () => {
         1,
         `${config.lighthouseBaseURL}/plates/new`,
         {
+          key: barcodes[0],
           method: 'POST',
-          body: { barcode: barcodes[0] },
+          body: { barcode: barcodes[0], type: 'heron' },
         },
         expect.any(String)
       )
@@ -197,8 +204,9 @@ describe('lighthouse_service api', () => {
         2,
         `${config.lighthouseBaseURL}/plates/new`,
         {
+          key: barcodes[1],
           method: 'POST',
-          body: { barcode: barcodes[1] },
+          body: { barcode: barcodes[1], type: 'heron' },
         },
         expect.any(String)
       )
