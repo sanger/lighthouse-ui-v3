@@ -70,7 +70,7 @@ export default defineComponent({
   data() {
     return {
       status: statuses.Idle,
-      plateBarcodes: 'BB-00049030',
+      plateBarcodes: '',
       resultFields: [
         { key: 'barcode', label: 'Plate Barcode' },
         { key: 'status', label: 'Status / Errors' },
