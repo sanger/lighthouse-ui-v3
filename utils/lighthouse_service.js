@@ -6,7 +6,7 @@ const handlePromise = async (promise) => {
   try {
     rawResponse = await promise
   } catch (resp) {
-    rawResponse = resp.response._data
+    rawResponse = resp.response.data.value
   }
   return rawResponse
 }
@@ -17,7 +17,7 @@ const handlePromise = async (promise) => {
 const createPlatesFromBarcodes = async ({ barcodes, type = 'heron' }) => {
   const promises = barcodes.map((barcode) => {
     const url = `${config.lighthouseBaseURL}/plates/new`
-    return $fetch(url, { method: 'POST', body: { barcode, type } })
+    return useFetch(url, { key: barcode, method: 'POST', body: { barcode, type } })
   })
 
   const responses = await Promise.all(promises.map(async (promise) => handlePromise(promise)))

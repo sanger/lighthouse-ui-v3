@@ -46,8 +46,10 @@
 </template>
 
 <script lang="ts">
-type Response = { data: object; errors: string[] }
-
+type Response = {
+  data: { value: object }
+  error: { value: { data: { errors: string[] } } }
+}
 export default defineComponent({
   name: 'DeepWellPlates',
   data() {
@@ -81,45 +83,35 @@ export default defineComponent({
       const listNoBlanks = barcodes.split(/\s+/).filter((b) => b !== '')
       return [...new Set(listNoBlanks)]
     },
-    createStatus(response: Response): string {
-      if (response.data !== undefined) {
-        return 'Plate was imported successfully.'
+    createStatus(response: Response): { status: string; ready: string; _rowVariant: string } {
+      if (response.data.value !== null) {
+        return { status: 'Plate was imported successfully.', ready: 'Yes', _rowVariant: 'success' }
       }
 
-      if (response.errors !== undefined) {
-        const errors = response.errors.join('\n')
+      if (response.error.value !== null) {
+        const errors = response.error.value.data.errors.join('; ')
         if (/is already in use\.$/.test(errors)) {
-          return 'The barcode already exists in Sequencescape.'
+          return {
+            status: 'The barcode already exists in Sequencescape.',
+            ready: 'Yes',
+            _rowVariant: 'success',
+          }
         } else {
-          return `Errors:\n${errors}`
+          return { status: `Errors:  ${errors}`, ready: 'No', _rowVariant: 'danger' }
         }
       }
 
-      return 'Unhandled response received.'
-    },
-    createReady(status: string): string {
-      if (/^Errors:/.test(status)) {
-        return 'No'
-      }
-
-      if (/^Unhandled response received\.$:/.test(status)) {
-        return 'Unknown'
-      }
-
-      return 'Yes'
-    },
-    createResult(barcode: string, response: Response): object {
-      const status = this.createStatus(response)
-      const ready = this.createReady(status)
       return {
-        barcode: barcode,
-        status,
-        ready,
+        status: 'Unhandled response received; please try again.',
+        ready: 'Unknown',
+        _rowVariant: 'warning',
       }
     },
     handleSubmissionResponses(barcodes: string[], responses: Response[]) {
-      const newResults = barcodes.map((barcode, idx) => this.createResult(barcode, responses[idx]))
-      this.results = [...this.results, ...newResults]
+      const newResults = barcodes.map((barcode, idx) => {
+        return { barcode, ...this.createStatus(responses[idx]) }
+      })
+      this.results = [...newResults, ...this.results]
     },
   },
 })
