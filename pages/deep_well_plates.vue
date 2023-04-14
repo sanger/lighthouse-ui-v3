@@ -47,9 +47,18 @@
 
 <script lang="ts">
 type Response = {
-  data: { value: object }
-  error: { value: { data: { errors: string[] } } }
+  data: { value: object | null }
+  error: { value: { data: { errors: string[] } } | null }
 }
+interface ResultStatus {
+  status: string
+  ready: string
+  _rowVariant: string
+}
+interface ResultRow extends ResultStatus {
+  barcode: string
+}
+
 export default defineComponent({
   name: 'DeepWellPlates',
   data() {
@@ -60,7 +69,7 @@ export default defineComponent({
         { key: 'status', label: 'Status / Errors' },
         { key: 'ready', label: 'Ready for Limber' },
       ],
-      results: Array<object>(),
+      results: Array<ResultRow>(),
     }
   },
   methods: {
@@ -83,7 +92,7 @@ export default defineComponent({
       const listNoBlanks = barcodes.split(/\s+/).filter((b) => b !== '')
       return [...new Set(listNoBlanks)]
     },
-    createStatus(response: Response): { status: string; ready: string; _rowVariant: string } {
+    createStatus(response: Response): ResultStatus {
       if (response.data.value !== null) {
         return { status: 'Plate was imported successfully.', ready: 'Yes', _rowVariant: 'success' }
       }
@@ -108,10 +117,9 @@ export default defineComponent({
       }
     },
     handleSubmissionResponses(barcodes: string[], responses: Response[]) {
-      const newResults = barcodes.map((barcode, idx) => {
+      this.results = barcodes.map((barcode, idx) => {
         return { barcode, ...this.createStatus(responses[idx]) }
       })
-      this.results = [...newResults, ...this.results]
     },
   },
 })
