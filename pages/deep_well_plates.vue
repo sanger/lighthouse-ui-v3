@@ -46,10 +46,7 @@
 </template>
 
 <script lang="ts">
-type Response = {
-  data: { value: object }
-  error: { value: { data: { errors: string[] } } }
-}
+type Response = { data: object; errors: string[] }
 
 export default defineComponent({
   name: 'DeepWellPlates',
@@ -85,12 +82,12 @@ export default defineComponent({
       return [...new Set(listNoBlanks)]
     },
     createStatus(response: Response): string {
-      if (response.data.value !== null) {
+      if (response.data !== undefined) {
         return 'Plate was imported successfully.'
       }
 
-      if (response.error.value !== null) {
-        const errors = response.error.value.data.errors.join('\n')
+      if (response.errors !== undefined) {
+        const errors = response.errors.join('\n')
         if (/is already in use\.$/.test(errors)) {
           return 'The barcode already exists in Sequencescape.'
         } else {
