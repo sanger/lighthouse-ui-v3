@@ -46,6 +46,11 @@
 </template>
 
 <script lang="ts">
+type Response = {
+  data: { value: object }
+  error: { value: { data: { errors: string[] } } }
+}
+
 export default defineComponent({
   name: 'DeepWellPlates',
   data() {
@@ -79,10 +84,7 @@ export default defineComponent({
       const listNoBlanks = barcodes.split(/\s+/).filter((b) => b !== '')
       return [...new Set(listNoBlanks)]
     },
-    createStatus(response: object): string {
-      console.log(response.data.value)
-      console.log(response.error.value)
-
+    createStatus(response: Response): string {
       if (response.data.value !== null) {
         return 'Plate was imported successfully.'
       }
@@ -109,7 +111,7 @@ export default defineComponent({
 
       return 'Yes'
     },
-    createResult(barcode: string, response: object): object {
+    createResult(barcode: string, response: Response): object {
       const status = this.createStatus(response)
       const ready = this.createReady(status)
       return {
@@ -118,7 +120,7 @@ export default defineComponent({
         ready,
       }
     },
-    handleSubmissionResponses(barcodes: string[], responses: object[]) {
+    handleSubmissionResponses(barcodes: string[], responses: Response[]) {
       const newResults = barcodes.map((barcode, idx) => this.createResult(barcode, responses[idx]))
       this.results = [...this.results, ...newResults]
     },
