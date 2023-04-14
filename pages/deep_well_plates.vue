@@ -25,8 +25,14 @@
         Clear
       </b-button>
       <div class="float-end">
-        <b-button id="submitBarcodes" variant="primary" @click="submitBarcodes()">
+        <b-button
+          id="submitBarcodes"
+          variant="primary"
+          :disabled="isBusy() || !isValid()"
+          @click="submitBarcodes()"
+        >
           Submit
+          <b-spinner v-show="isBusy()" id="busySpinner" small></b-spinner>
         </b-button>
       </div>
     </b-card>
@@ -63,6 +69,7 @@ export default defineComponent({
   name: 'DeepWellPlates',
   data() {
     return {
+      status: statuses.Idle,
       plateBarcodes: 'BB-00049030',
       resultFields: [
         { key: 'barcode', label: 'Plate Barcode' },
@@ -73,23 +80,31 @@ export default defineComponent({
     }
   },
   methods: {
+    isBusy(): boolean {
+      return this.status === statuses.Busy
+    },
+    isValid(): boolean {
+      return this.parsedBarcodes().length > 0
+    },
     clearBarcodes() {
       this.plateBarcodes = ''
     },
     async submitBarcodes() {
-      const barcodes = this.parseBarcodes(this.plateBarcodes)
+      this.status = statuses.Busy
+      const barcodes = this.parsedBarcodes()
       const responses = await lighthouseService.createPlatesFromBarcodes({
         barcodes,
         type: 'rvi_deep_well_96',
       })
       this.handleSubmissionResponses(barcodes, responses)
+      this.status = statuses.Idle
     },
     /**
      * Parse barcodes by splitting on white space, throwing away empty values and
      * then removing duplicates from the list.
      */
-    parseBarcodes(barcodes: string) {
-      const listNoBlanks = barcodes.split(/\s+/).filter((b) => b !== '')
+    parsedBarcodes() {
+      const listNoBlanks = this.plateBarcodes.split(/\s+/).filter((b) => b !== '')
       return [...new Set(listNoBlanks)]
     },
     createStatus(response: Response): ResultStatus {
