@@ -29,7 +29,7 @@ describe('lighthouse_service api', () => {
         1,
         `${config.lighthouseBaseURL}/plates/new`,
         {
-          key: 'aBarcode1',
+          key: barcodes[0],
           method: 'POST',
           body: { barcode: barcodes[0], type: 'heron' },
         },
@@ -62,9 +62,43 @@ describe('lighthouse_service api', () => {
         1,
         `${config.lighthouseBaseURL}/plates/new`,
         {
-          key: 'aBarcode1',
+          key: barcodes[0],
           method: 'POST',
           body: { barcode: barcodes[0], type: 'heron' },
+        },
+        expect.any(String)
+      )
+    })
+
+    it.each(['heron', 'rvi_deep_well'])("#passes the type '%s' through fetch", async (type) => {
+      const barcodes = ['aBarcode1']
+
+      const response = {
+        data: {
+          value: {
+            plate_barcode: 'aBarcode1',
+            centre: 'tst1',
+            count_fit_to_pick_samples: 3,
+          },
+        },
+      }
+
+      useFetch.mockResolvedValue(response)
+
+      const result = await lighthouseService.createPlatesFromBarcodes({
+        barcodes,
+        type,
+      })
+
+      expect(result).toEqual([response])
+      expect(useFetch).toHaveBeenCalledTimes(1)
+      expect(useFetch).toHaveBeenNthCalledWith(
+        1,
+        `${config.lighthouseBaseURL}/plates/new`,
+        {
+          key: barcodes[0],
+          method: 'POST',
+          body: { barcode: barcodes[0], type },
         },
         expect.any(String)
       )
@@ -94,7 +128,7 @@ describe('lighthouse_service api', () => {
         1,
         `${config.lighthouseBaseURL}/plates/new`,
         {
-          key: 'aBarcode1',
+          key: barcodes[0],
           method: 'POST',
           body: { barcode: barcodes[0], type: 'heron' },
         },
@@ -104,7 +138,7 @@ describe('lighthouse_service api', () => {
         2,
         `${config.lighthouseBaseURL}/plates/new`,
         {
-          key: 'aBarcode2',
+          key: barcodes[1],
           method: 'POST',
           body: { barcode: barcodes[1], type: 'heron' },
         },
