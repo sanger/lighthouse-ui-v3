@@ -1,7 +1,7 @@
 const config = useRuntimeConfig()
 
-const createPayloadForCherrypickBatch = (barcodes, runtimeOptions = config) => {
-  const { asynchronous, studyId, projectId } = runtimeOptions
+const createPayloadForCherrypickBatch = (barcodes) => {
+  const { asynchronous, studyId, projectId } = config.public
   return {
     data: {
       type: 'pick_lists',
@@ -21,7 +21,7 @@ const createCherrypickBatch = async (barcodes) => {
   const body = createPayloadForCherrypickBatch(barcodes)
 
   try {
-    const response = await useFetch(`${config.sequencescapeBaseURL}/pick_lists`, {
+    const response = await useFetch(`${config.public.sequencescapeBaseURL}/pick_lists`, {
       body,
       headers: {
         'Content-Type': 'application/vnd.api+json',

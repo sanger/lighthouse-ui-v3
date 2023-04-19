@@ -69,7 +69,7 @@ export default {
       printerSelected: null,
       printerOptions: [
         { value: null, text: 'Please select a printer' },
-        ...config.printers.split(','),
+        ...config.public.printers.split(','),
       ],
     }
   },

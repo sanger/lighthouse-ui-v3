@@ -6,8 +6,10 @@ describe('App', () => {
 
   beforeEach(() => {
     $config = {
-      appTagline: 'Test Tagline',
-      enabledNavItems: 'box_buster,imports,print_labels',
+      public: {
+        appTagline: 'Test Tagline',
+        enabledNavItems: 'box_buster,imports,print_labels',
+      },
     }
 
     wrapper = mount(App, {

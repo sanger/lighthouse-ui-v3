@@ -56,7 +56,7 @@ export default {
     printers: {
       type: Array,
       default() {
-        return config.printers.split(',')
+        return config.public.printers.split(',')
       },
     },
   },

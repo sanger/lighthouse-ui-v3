@@ -2,7 +2,7 @@ const config = useRuntimeConfig()
 
 const getPlatesFromBoxBarcodes = async (...boxBarcodes) => {
   try {
-    const url = `${config.labwhereBaseURL}/labwares?location_barcodes=${boxBarcodes}`
+    const url = `${config.public.labwhereBaseURL}/labwares?location_barcodes=${boxBarcodes}`
     const response = await useFetch(url)
 
     const barcodes = response.data.value.map((plate) => plate.barcode)
