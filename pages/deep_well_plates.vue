@@ -39,7 +39,7 @@
     <br />
     <h3>Import Results</h3>
     <b-table
-      id="imports-table"
+      id="resultsTable"
       class="mt-3"
       show-empty
       responsive
