@@ -108,31 +108,39 @@ export default defineComponent({
       return [...new Set(listNoBlanks)]
     },
     createStatus(response: Response): ResultStatus {
-      if (response.data.value !== null) {
-        return { status: 'Plate was imported successfully.', ready: 'Yes', _rowVariant: 'success' }
-      }
-
-      if (response.error.value !== null) {
-        if (response.error.value.statusCode === 500) {
+      try {
+        if (response.data.value !== null) {
           return {
-            status: 'There was a problem processing the request; please try again.',
-            ready: 'Unknown',
-            _rowVariant: 'warning',
+            status: 'Plate was imported successfully.',
+            ready: 'Yes',
+            _rowVariant: 'success',
           }
         }
 
-        if (response.error.value.data?.errors !== null) {
-          const errors = response.error.value.data.errors.join('; ')
-          if (/is already in use\.$/.test(errors)) {
+        if (response.error?.value !== null) {
+          if (response.error.value.statusCode === 500) {
             return {
-              status: 'The barcode already exists in Sequencescape.',
-              ready: 'Yes',
-              _rowVariant: 'success',
+              status: 'There was a problem processing the request; please try again.',
+              ready: 'Unknown',
+              _rowVariant: 'warning',
             }
-          } else {
-            return { status: `Errors:  ${errors}`, ready: 'No', _rowVariant: 'danger' }
+          }
+
+          if (response.error.value.data?.errors !== null) {
+            const errors = response.error.value.data.errors.join('; ')
+            if (/is already in use\.$/.test(errors)) {
+              return {
+                status: 'The barcode already exists in Sequencescape.',
+                ready: 'Yes',
+                _rowVariant: 'success',
+              }
+            } else {
+              return { status: `Errors:  ${errors}`, ready: 'No', _rowVariant: 'danger' }
+            }
           }
         }
+      } catch {
+        // Fall into the unhandled response below
       }
 
       return {
