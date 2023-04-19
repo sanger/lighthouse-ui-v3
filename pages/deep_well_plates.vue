@@ -54,7 +54,7 @@
 <script lang="ts">
 type Response = {
   data: { value: object | null }
-  error: { value: { data: { errors: string[] } } | null }
+  error: { value: { data: { errors: string[] }; statusCode: number } | null }
 }
 interface ResultStatus {
   status: string
@@ -113,15 +113,25 @@ export default defineComponent({
       }
 
       if (response.error.value !== null) {
-        const errors = response.error.value.data.errors.join('; ')
-        if (/is already in use\.$/.test(errors)) {
+        if (response.error.value.statusCode === 500) {
           return {
-            status: 'The barcode already exists in Sequencescape.',
-            ready: 'Yes',
-            _rowVariant: 'success',
+            status: 'There was a problem processing the request; please try again.',
+            ready: 'Unknown',
+            _rowVariant: 'warning',
           }
-        } else {
-          return { status: `Errors:  ${errors}`, ready: 'No', _rowVariant: 'danger' }
+        }
+
+        if (response.error.value.data?.errors !== null) {
+          const errors = response.error.value.data.errors.join('; ')
+          if (/is already in use\.$/.test(errors)) {
+            return {
+              status: 'The barcode already exists in Sequencescape.',
+              ready: 'Yes',
+              _rowVariant: 'success',
+            }
+          } else {
+            return { status: `Errors:  ${errors}`, ready: 'No', _rowVariant: 'danger' }
+          }
         }
       }
 
