@@ -9,7 +9,7 @@ describe('Print ad-hoc plate labels', () => {
   let wrapper, printers
 
   beforeEach(() => {
-    printers = config.printers.split(',')
+    printers = config.public.printers.split(',')
     wrapper = mount(AdHocPlate, {
       data() {
         return {}

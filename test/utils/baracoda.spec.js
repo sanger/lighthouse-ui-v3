@@ -16,7 +16,7 @@ describe('PlateBarcode', () => {
       expect(useFetch).toHaveBeenCalledTimes(1)
       expect(useFetch).toHaveBeenNthCalledWith(
         1,
-        `${config.baracodaBaseURL}/barcodes_group/ABC/new`,
+        `${config.public.baracodaBaseURL}/barcodes_group/ABC/new`,
         {
           params: { count: 5 },
           method: 'POST',

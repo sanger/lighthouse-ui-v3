@@ -27,7 +27,7 @@ describe('lighthouse_service api', () => {
       expect(useFetch).toHaveBeenCalledTimes(1)
       expect(useFetch).toHaveBeenNthCalledWith(
         1,
-        `${config.lighthouseBaseURL}/plates/new`,
+        `${config.public.lighthouseBaseURL}/plates/new`,
         {
           method: 'POST',
           body: { barcode: barcodes[0] },
@@ -59,7 +59,7 @@ describe('lighthouse_service api', () => {
       expect(useFetch).toHaveBeenCalledTimes(1)
       expect(useFetch).toHaveBeenNthCalledWith(
         1,
-        `${config.lighthouseBaseURL}/plates/new`,
+        `${config.public.lighthouseBaseURL}/plates/new`,
         {
           method: 'POST',
           body: { barcode: barcodes[0] },
@@ -90,7 +90,7 @@ describe('lighthouse_service api', () => {
       expect(useFetch).toHaveBeenCalledTimes(2)
       expect(useFetch).toHaveBeenNthCalledWith(
         1,
-        `${config.lighthouseBaseURL}/plates/new`,
+        `${config.public.lighthouseBaseURL}/plates/new`,
         {
           method: 'POST',
           body: { barcode: barcodes[0] },
@@ -99,7 +99,7 @@ describe('lighthouse_service api', () => {
       )
       expect(useFetch).toHaveBeenNthCalledWith(
         2,
-        `${config.lighthouseBaseURL}/plates/new`,
+        `${config.public.lighthouseBaseURL}/plates/new`,
         {
           method: 'POST',
           body: { barcode: barcodes[1] },
@@ -142,7 +142,7 @@ describe('lighthouse_service api', () => {
       expect(useFetch).toHaveBeenCalledTimes(2)
       expect(useFetch).toHaveBeenNthCalledWith(
         1,
-        `${config.lighthouseBaseURL}/plates/new`,
+        `${config.public.lighthouseBaseURL}/plates/new`,
         {
           method: 'POST',
           body: { barcode: barcodes[0] },
@@ -151,7 +151,7 @@ describe('lighthouse_service api', () => {
       )
       expect(useFetch).toHaveBeenNthCalledWith(
         2,
-        `${config.lighthouseBaseURL}/plates/new`,
+        `${config.public.lighthouseBaseURL}/plates/new`,
         {
           method: 'POST',
           body: { barcode: barcodes[1] },
@@ -186,7 +186,7 @@ describe('lighthouse_service api', () => {
       expect(useFetch).toHaveBeenCalledTimes(2)
       expect(useFetch).toHaveBeenNthCalledWith(
         1,
-        `${config.lighthouseBaseURL}/plates/new`,
+        `${config.public.lighthouseBaseURL}/plates/new`,
         {
           method: 'POST',
           body: { barcode: barcodes[0] },
@@ -195,7 +195,7 @@ describe('lighthouse_service api', () => {
       )
       expect(useFetch).toHaveBeenNthCalledWith(
         2,
-        `${config.lighthouseBaseURL}/plates/new`,
+        `${config.public.lighthouseBaseURL}/plates/new`,
         {
           method: 'POST',
           body: { barcode: barcodes[1] },
@@ -229,7 +229,7 @@ describe('lighthouse_service api', () => {
       expect(useFetch).toHaveBeenCalledTimes(1)
       expect(useFetch).toHaveBeenNthCalledWith(
         1,
-        `${config.lighthouseBaseURL}/plates`,
+        `${config.public.lighthouseBaseURL}/plates`,
         {
           params: {
             barcodes: barcodes[0],
@@ -266,7 +266,7 @@ describe('lighthouse_service api', () => {
       expect(useFetch).toHaveBeenCalledTimes(1)
       expect(useFetch).toHaveBeenNthCalledWith(
         1,
-        `${config.lighthouseBaseURL}/plates`,
+        `${config.public.lighthouseBaseURL}/plates`,
         {
           params: {
             barcodes: barcodes[0] + ',' + barcodes[1],
@@ -286,7 +286,7 @@ describe('lighthouse_service api', () => {
       expect(useFetch.mock.calls).toHaveLength(1)
       expect(useFetch).toHaveBeenNthCalledWith(
         1,
-        `${config.lighthouseBaseURL}/imports`,
+        `${config.public.lighthouseBaseURL}/imports`,
         {
           params: {
             max_results: '10000',
@@ -333,7 +333,7 @@ describe('lighthouse_service api', () => {
       const response = await lighthouseService.deleteReports(filenames)
 
       expect(useFetch).toHaveBeenCalledWith(
-        expect.stringMatching('^' + config.lighthouseBaseURL),
+        expect.stringMatching('^' + config.public.lighthouseBaseURL),
         {
           body: {
             data: {
@@ -364,7 +364,7 @@ describe('lighthouse_service api', () => {
       const response = await lighthouseService.getReports()
 
       expect(useFetch).toHaveBeenCalledWith(
-        expect.stringMatching('^' + config.lighthouseBaseURL),
+        expect.stringMatching('^' + config.public.lighthouseBaseURL),
         expect.any(String)
       )
       expect(response.success).toBeTruthy()
@@ -389,7 +389,7 @@ describe('lighthouse_service api', () => {
       const response = await lighthouseService.createReport()
 
       expect(useFetch).toHaveBeenCalledWith(
-        expect.stringMatching('^' + config.lighthouseBaseURL),
+        expect.stringMatching('^' + config.public.lighthouseBaseURL),
         { method: 'POST' },
         expect.any(String)
       )
@@ -538,7 +538,7 @@ describe('lighthouse_service api', () => {
       expect(useFetch).toHaveBeenCalledTimes(1)
       expect(result).toEqual(expected)
       expect(useFetch).toHaveBeenCalledWith(
-        `${config.lighthouseBaseURL}/cherrypicked-plates/create?barcode=${barcode}&robot=${robotSerialNumber}&user_id=${username}`,
+        `${config.public.lighthouseBaseURL}/cherrypicked-plates/create?barcode=${barcode}&robot=${robotSerialNumber}&user_id=${username}`,
         expect.any(String)
       )
     })
@@ -588,7 +588,7 @@ describe('lighthouse_service api', () => {
       expect(useFetch).toHaveBeenCalledTimes(1)
       expect(result).toEqual(expected)
       expect(useFetch).toHaveBeenCalledWith(
-        `${config.lighthouseBaseURL}/cherrypicked-plates/fail?barcode=${barcode}&robot=${robotSerialNumber}&user_id=${username}&failure_type=${failureType}`,
+        `${config.public.lighthouseBaseURL}/cherrypicked-plates/fail?barcode=${barcode}&robot=${robotSerialNumber}&user_id=${username}&failure_type=${failureType}`,
         expect.any(String)
       )
     })
@@ -637,7 +637,7 @@ describe('lighthouse_service api', () => {
 
       const result = await lighthouseService.generateTestRun(plateSpecs)
 
-      const headers = { Authorization: config.lighthouseApiKey }
+      const headers = { Authorization: config.public.lighthouseApiKey }
 
       const expectedPath = /\/cherrypick-test-data$/
       const expectedBody = {
@@ -738,7 +738,7 @@ describe('lighthouse_service api', () => {
       useFetch.mockResolvedValue({ data: { value: response } })
 
       const result = await lighthouseService.getTestRuns(currentPage, maxResults)
-      const headers = { Authorization: config.lighthouseApiKey }
+      const headers = { Authorization: config.public.lighthouseApiKey }
 
       expect(useFetch).toHaveBeenCalledWith(
         expect.stringMatching(/\/cherrypick-test-data$/),
@@ -807,7 +807,7 @@ describe('lighthouse_service api', () => {
 
       const result = await lighthouseService.getTestRun(id)
 
-      const headers = { Authorization: config.lighthouseApiKey }
+      const headers = { Authorization: config.public.lighthouseApiKey }
 
       const expectedPath = /cherrypick-test-data\/123/
 

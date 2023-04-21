@@ -10,13 +10,13 @@ const config = useRuntimeConfig()
  */
 const createDestinationPlateBiosero = async (form) => {
   try {
-    const url = `${config.lighthouseBaseURL}/events`
+    const url = `${config.public.lighthouseBaseURL}/events`
     const body = {
       event_type: 'lh_biosero_cp_destination_plate_partial_completed',
       barcode: form.barcode,
       user_id: form.username,
     }
-    const headers = { Authorization: config.lighthouseApiKey }
+    const headers = { Authorization: config.public.lighthouseApiKey }
 
     const response = await useFetch(url, { body, headers, method: 'POST' })
 
@@ -98,7 +98,7 @@ const createDestinationPlateBiosero = async (form) => {
  * @returns
  */
 const failDestinationPlateBiosero = async (form) => {
-  const url = `${config.lighthouseBaseURL}/events`
+  const url = `${config.public.lighthouseBaseURL}/events`
   const body = {
     event_type: 'lh_biosero_cp_destination_plate_failed',
     barcode: form.barcode,
@@ -106,7 +106,7 @@ const failDestinationPlateBiosero = async (form) => {
     failure_type: form.failureType,
   }
 
-  const headers = { Authorization: config.lighthouseApiKey }
+  const headers = { Authorization: config.public.lighthouseApiKey }
 
   try {
     const response = await useFetch(url, { body, headers, method: 'POST' })
@@ -149,7 +149,7 @@ const failDestinationPlateBiosero = async (form) => {
 
 const getBioseroPlate = async (barcode, type) => {
   try {
-    const url = `${config.lighthouseBaseURL}/plates/cherrytrack`
+    const url = `${config.public.lighthouseBaseURL}/plates/cherrytrack`
     const response = await useFetch(url, { params: { barcode, _type: type } })
     const plate = { success: true, [type]: true, ...response.data.value.plate.data }
 
