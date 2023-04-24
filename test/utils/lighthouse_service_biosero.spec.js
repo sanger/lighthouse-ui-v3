@@ -33,7 +33,7 @@ describe('lighthouse_service_biosero api', () => {
       expect(useFetch).toHaveBeenCalledTimes(1)
       expect(result).toEqual(expected)
       expect(useFetch).toHaveBeenCalledWith(
-        `${config.lighthouseBaseURL}/events`,
+        `${config.public.lighthouseBaseURL}/events`,
         {
           body: {
             barcode,
@@ -41,7 +41,7 @@ describe('lighthouse_service_biosero api', () => {
             event_type: 'lh_biosero_cp_destination_plate_partial_completed',
           },
           headers: {
-            Authorization: config.lighthouseApiKey,
+            Authorization: config.public.lighthouseApiKey,
           },
           method: 'POST',
         },
@@ -123,7 +123,7 @@ describe('lighthouse_service_biosero api', () => {
       expect(useFetch).toHaveBeenCalledTimes(1)
       expect(result).toEqual(expected)
       expect(useFetch).toHaveBeenCalledWith(
-        `${config.lighthouseBaseURL}/events`,
+        `${config.public.lighthouseBaseURL}/events`,
         {
           body: {
             barcode,
@@ -132,7 +132,7 @@ describe('lighthouse_service_biosero api', () => {
             failure_type: failureType,
           },
           headers: {
-            Authorization: config.lighthouseApiKey,
+            Authorization: config.public.lighthouseApiKey,
           },
           method: 'POST',
         },

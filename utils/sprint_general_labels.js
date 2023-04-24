@@ -72,7 +72,7 @@ const printLabels = async ({ labelFields, printer }) => {
   try {
     const body = createPrintRequestBody({ labelFields, printer })
 
-    const response = await useFetch(config.sprintBaseURL, { body, headers, method: 'POST' })
+    const response = await useFetch(config.public.sprintBaseURL, { body, headers, method: 'POST' })
 
     // because this is GraphQL it will always be a success unless it is a 500
     // so we need to extract the error messages and turn it into an error object
@@ -101,7 +101,7 @@ const printLabels = async ({ labelFields, printer }) => {
 const printDestinationPlateLabels = async ({ numberOfBarcodes, printer }) => {
   try {
     let response = await Baracoda.createBarcodes({
-      barcodesGroup: config.destinationPlateBarcodesGroup,
+      barcodesGroup: config.public.destinationPlateBarcodesGroup,
       count: numberOfBarcodes,
     })
 
@@ -109,7 +109,7 @@ const printDestinationPlateLabels = async ({ numberOfBarcodes, printer }) => {
     if (!response.success) throw response.error
 
     // we need to turn the barcodes into a bunch of label fields
-    const labelFields = createLabelFields({ ...response, text: config.projectAcronym })
+    const labelFields = createLabelFields({ ...response, text: config.public.projectAcronym })
 
     // print the labels
     // TODO: DPL-561 - similar implementation to printLabels. Can we pass a function?

@@ -9,7 +9,7 @@ describe('print destination plate labels', () => {
   let wrapper, printers
 
   beforeEach(() => {
-    printers = config.printers.split(',')
+    printers = config.public.printers.split(',')
     wrapper = mount(PrintDestinationPlateLabels)
   })
 

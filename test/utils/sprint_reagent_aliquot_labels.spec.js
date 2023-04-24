@@ -111,7 +111,7 @@ describe('Sprint module', () => {
       const response = await PrintLabels(args)
 
       expect(useFetch).toHaveBeenCalledWith(
-        config.sprintBaseURL,
+        config.public.sprintBaseURL,
         {
           body: createPrintRequestBody(args),
           headers: SprintHeaders,

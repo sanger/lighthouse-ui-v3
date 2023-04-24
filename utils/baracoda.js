@@ -4,7 +4,7 @@ const config = useRuntimeConfig()
 const createBarcodes = async ({ barcodesGroup, count }) => {
   try {
     const response = await useFetch(
-      `${config.baracodaBaseURL}/barcodes_group/${barcodesGroup}/new`,
+      `${config.public.baracodaBaseURL}/barcodes_group/${barcodesGroup}/new`,
       {
         params: { count },
         method: 'POST',
