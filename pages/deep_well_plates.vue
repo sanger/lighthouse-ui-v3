@@ -6,7 +6,11 @@
       title="Import Deep-Well Plates"
       subtitle="Add externally sourced deep-well plates to Sequencescape so that they can be stamped to shallow-well plates using Limber."
     >
-      <label for="plate-barcodes" class="mt-3 mb-2">Please scan plate barcode(s):</label>
+      <div class="mt-3 alert alert-warning">
+        <b>Note:</b> Once plates have been imported through this page, they will no longer be
+        suitable for picking as part of the Heron pipeline.
+      </div>
+      <label for="plate-barcodes" class="mb-2">Please scan plate barcode(s):</label>
       <b-form-textarea
         id="plate-barcodes"
         ref="plateBarcodesInput"
