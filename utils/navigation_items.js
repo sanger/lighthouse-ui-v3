@@ -1,6 +1,7 @@
 export const allNavigationItems = {
   reports: { path: '/reports', title: 'Reports' },
   box_buster: { path: '/box_buster', title: 'Box Buster' },
+  deep_well_plates: { path: '/deep_well_plates', title: 'Deep-Well Plates' },
   sentinel_create_samples: { path: '/sentinel_create_samples', title: 'Sentinel Sample Creation' },
   sentinel_cherrypick: { path: '/sentinel_cherrypick', title: 'Sentinel Cherrypick' },
   imports: { path: '/imports', title: 'Imports' },

@@ -7,7 +7,7 @@
         <b-tab title="Create">
           <b-card
             title="Create Destination Plate"
-            sub-title="Generate destination plate from DART data so it can continue in pipeline partially filled."
+            subtitle="Generate destination plate from DART data so it can continue in pipeline partially filled."
           >
             <BeckmanCherrypickForm
               v-slot="{ form, formInvalid }"
@@ -22,7 +22,7 @@
         </b-tab>
 
         <b-tab title="Fail">
-          <b-card title="Fail Destination Plate" sub-title="Fail destination plate with a reason.">
+          <b-card title="Fail Destination Plate" subtitle="Fail destination plate with a reason.">
             <BeckmanCherrypickForm
               v-slot="{ form, formInvalid }"
               :action="'fail'"
