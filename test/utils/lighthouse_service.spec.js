@@ -94,7 +94,7 @@ describe('lighthouse_service api', () => {
       expect(useFetch).toHaveBeenCalledTimes(1)
       expect(useFetch).toHaveBeenNthCalledWith(
         1,
-        `${config.lighthouseBaseURL}/plates/new`,
+        `${config.public.lighthouseBaseURL}/plates/new`,
         {
           key: barcodes[0],
           method: 'POST',
