@@ -28,6 +28,7 @@ export default defineNuxtConfig({
       sprintBaseURL: 'http://sprint',
       baracodaBaseURL: 'http://baracoda',
 
+      appTitle: 'Title',
       appTagline: 'Tagline',
       destinationPlateBarcodesGroup: '',
       projectAcronym: '',
