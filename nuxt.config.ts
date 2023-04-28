@@ -15,7 +15,8 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
   },
-  modules: ['nuxt-vitest', 'bootstrap-vue-next/nuxt'],
+  css: ['bootstrap/dist/css/bootstrap.min.css'],
+  modules: ['nuxt-vitest', '@bootstrap-vue-next/nuxt'],
   runtimeConfig: {
     public: {
       // TODO: Make values in this section private by moving them out to the root level of this runtimeConfig.
