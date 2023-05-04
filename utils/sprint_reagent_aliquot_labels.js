@@ -74,7 +74,7 @@ const printLabels = async ({ barcode, firstText, secondText, printer, quantity }
       quantity: parsedQuantity,
     })
 
-    const response = await useFetch(config.sprintBaseURL, { body, headers, method: 'POST' })
+    const response = await useFetch(config.public.sprintBaseURL, { body, headers, method: 'POST' })
 
     // because this is GraphQL it will always be a success unless it is a 500
     // so we need to extract the error messages and turn it into an error object

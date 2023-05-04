@@ -2,7 +2,9 @@
 export default defineNuxtConfig({
   app: {
     head: {
-      title: `Lighthouse ${process.env.NUXT_PUBLIC_APP_TAGLINE?.toUpperCase() || 'TAGLINE'}`,
+      title: `${process.env.NUXT_PUBLIC_APP_TITLE || 'App Title'} ${
+        process.env.NUXT_PUBLIC_APP_TAGLINE?.toUpperCase() || 'TAGLINE'
+      }`,
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -15,7 +17,8 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
   },
-  modules: ['nuxt-vitest', 'bootstrap-vue-next/nuxt'],
+  css: ['bootstrap/dist/css/bootstrap.min.css'],
+  modules: ['nuxt-vitest', '@bootstrap-vue-next/nuxt'],
   runtimeConfig: {
     public: {
       // TODO: Make values in this section private by moving them out to the root level of this runtimeConfig.
@@ -27,6 +30,7 @@ export default defineNuxtConfig({
       sprintBaseURL: 'http://sprint',
       baracodaBaseURL: 'http://baracoda',
 
+      appTitle: 'Title',
       appTagline: 'Tagline',
       destinationPlateBarcodesGroup: '',
       projectAcronym: '',

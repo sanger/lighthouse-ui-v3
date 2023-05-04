@@ -14,20 +14,20 @@ const handlePromise = async (promise) => {
 // Accepts a list of barcodes in the moduleOptions
 // Send a POST request to the Lighthouse service API to create each plate
 // Return list of responses
-const createPlatesFromBarcodes = async ({ barcodes }) => {
+const createPlatesFromBarcodes = async ({ barcodes, type = 'heron' }) => {
   const promises = barcodes.map((barcode) => {
-    const url = `${config.lighthouseBaseURL}/plates/new`
-    return useFetch(url, { method: 'POST', body: { barcode } })
+    const url = `${config.public.lighthouseBaseURL}/plates/new`
+    return useFetch(url, { key: barcode, method: 'POST', body: { barcode, type } })
   })
 
-  const responses = await Promise.all(promises.map((promise) => handlePromise(promise)))
+  const responses = await Promise.all(promises.map(async (promise) => handlePromise(promise)))
   return responses
 }
 
 // Accepts a list of barcodes in the moduleOptions
 // Send a GET request to the Lighthouse service API
 const findPlatesFromBarcodes = async ({ barcodes }) => {
-  const url = `${config.lighthouseBaseURL}/plates`
+  const url = `${config.public.lighthouseBaseURL}/plates`
   try {
     const response = await useFetch(url, {
       params: {
@@ -50,7 +50,7 @@ const getSearchDateString = (daysAgo) => {
 const getImports = async () => {
   try {
     const response = await useFetch(
-      `${config.lighthouseBaseURL}/imports`,
+      `${config.public.lighthouseBaseURL}/imports`,
       // Get results for the past 4 weeks, in reverse date order, limited to 10000 results
       {
         params: {
@@ -75,7 +75,7 @@ const getImports = async () => {
 // Delete list of reports using full filenames
 const deleteReports = async (filenames) => {
   try {
-    await useFetch(`${config.lighthouseBaseURL}/delete_reports`, {
+    await useFetch(`${config.public.lighthouseBaseURL}/delete_reports`, {
       method: 'POST',
       body: {
         data: {
@@ -97,7 +97,7 @@ const deleteReports = async (filenames) => {
 // Get all of the reports
 const getReports = async () => {
   try {
-    const response = await useFetch(`${config.lighthouseBaseURL}/reports`)
+    const response = await useFetch(`${config.public.lighthouseBaseURL}/reports`)
     return {
       success: true,
       reports: response.data.value.reports,
@@ -113,7 +113,7 @@ const getReports = async () => {
 // Create a reports
 const createReport = async () => {
   try {
-    const response = await useFetch(`${config.lighthouseBaseURL}/reports/new`, {
+    const response = await useFetch(`${config.public.lighthouseBaseURL}/reports/new`, {
       method: 'POST',
     })
     return {
@@ -131,7 +131,7 @@ const createReport = async () => {
 // Get Robots
 const getRobots = async () => {
   try {
-    const response = await useFetch(`${config.lighthouseBaseURL}/beckman/robots`)
+    const response = await useFetch(`${config.public.lighthouseBaseURL}/beckman/robots`)
     return {
       success: true,
       robots: response.data.value.robots,
@@ -150,7 +150,7 @@ const getRobots = async () => {
 // Get Failure Types
 const getFailureTypes = async () => {
   try {
-    const response = await useFetch(`${config.lighthouseBaseURL}/beckman/failure-types`)
+    const response = await useFetch(`${config.public.lighthouseBaseURL}/beckman/failure-types`)
     return {
       success: true,
       failureTypes: response.data.value.failure_types,
@@ -176,7 +176,7 @@ const getFailureTypes = async () => {
 const createDestinationPlateBeckman = async (form) => {
   try {
     const response = await useFetch(
-      `${config.lighthouseBaseURL}` +
+      `${config.public.lighthouseBaseURL}` +
         '/cherrypicked-plates' +
         '/create?' +
         `barcode=${form.barcode}&` +
@@ -210,7 +210,7 @@ const createDestinationPlateBeckman = async (form) => {
 const failDestinationPlateBeckman = async (form) => {
   try {
     const response = await useFetch(
-      `${config.lighthouseBaseURL}` +
+      `${config.public.lighthouseBaseURL}` +
         '/cherrypicked-plates' +
         '/fail?' +
         `barcode=${form.barcode}&` +
@@ -263,9 +263,9 @@ const generateTestRun = async (plateSpecs) => {
     const body = {
       plate_specs: plateSpecsParam,
     }
-    const headers = { Authorization: config.lighthouseApiKey }
+    const headers = { Authorization: config.public.lighthouseApiKey }
 
-    const response = await useFetch(`${config.lighthouseBaseURL}/cherrypick-test-data`, {
+    const response = await useFetch(`${config.public.lighthouseBaseURL}/cherrypick-test-data`, {
       method: 'POST',
       body,
       headers,
@@ -288,9 +288,9 @@ const generateTestRun = async (plateSpecs) => {
  */
 const getTestRuns = async (currentPage, maxResults) => {
   try {
-    const headers = { Authorization: config.lighthouseApiKey }
+    const headers = { Authorization: config.public.lighthouseApiKey }
 
-    const response = await useFetch(`${config.lighthouseBaseURL}/cherrypick-test-data`, {
+    const response = await useFetch(`${config.public.lighthouseBaseURL}/cherrypick-test-data`, {
       headers,
       params: {
         max_results: maxResults,
@@ -322,11 +322,14 @@ const getTestRuns = async (currentPage, maxResults) => {
  */
 const getTestRun = async (id) => {
   try {
-    const headers = { Authorization: config.lighthouseApiKey }
+    const headers = { Authorization: config.public.lighthouseApiKey }
 
-    const response = await useFetch(`${config.lighthouseBaseURL}/cherrypick-test-data/${id}`, {
-      headers,
-    })
+    const response = await useFetch(
+      `${config.public.lighthouseBaseURL}/cherrypick-test-data/${id}`,
+      {
+        headers,
+      }
+    )
 
     return {
       success: true,

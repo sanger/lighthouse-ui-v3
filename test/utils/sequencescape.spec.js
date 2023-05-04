@@ -1,5 +1,3 @@
-const config = useRuntimeConfig()
-
 describe('Sequencescape', () => {
   let barcodes
 
@@ -11,7 +9,7 @@ describe('Sequencescape', () => {
     let payload, payloadAttributes
 
     beforeEach(() => {
-      payload = sequencescape.createPayloadForCherrypickBatch(barcodes, config)
+      payload = sequencescape.createPayloadForCherrypickBatch(barcodes)
       payloadAttributes = payload.data.attributes
     })
 
