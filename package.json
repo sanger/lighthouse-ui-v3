@@ -28,7 +28,7 @@
     "flush-promises": "^1.0.2",
     "jsdom": "^22.0.0",
     "nuxt": "^3.4.3",
-    "nuxt-vitest": "^0.6.10",
+    "nuxt-vitest": "^0.6.12",
     "prettier": "^2.8.8",
     "sass": "^1.62.1",
     "vue-i18n": "^9.2.2"
