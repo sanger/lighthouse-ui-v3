@@ -100,26 +100,31 @@ const printLabels = async ({ labelFields, printer }) => {
 */
 const printDestinationPlateLabels = async ({ numberOfBarcodes, printer }) => {
   try {
-    let response = await Baracoda.createBarcodes({
+    const barcodeResponse = await Baracoda.createBarcodes({
       barcodesGroup: config.public.destinationPlateBarcodesGroup,
       count: numberOfBarcodes,
     })
 
     // we don't want to proceed unless the barcodes have been created
-    if (!response.success) throw response.error
-
-    // we need to turn the barcodes into a bunch of label fields
-    const labelFields = createLabelFields({ ...response, text: config.public.projectAcronym })
-
-    // print the labels
-    // TODO: DPL-561 - similar implementation to printLabels. Can we pass a function?
-    response = await Sprint.printLabels({ labelFields, printer })
-
-    if (response.success) {
-      return response
+    if (!barcodeResponse.success) {
+      throw barcodeResponse.error
     }
 
-    throw response.error
+    // we need to turn the barcodes into a bunch of label fields
+    const labelFields = createLabelFields({
+      ...barcodeResponse,
+      text: config.public.projectAcronym,
+    })
+
+    // print the labels
+    const printResponse = await Sprint.printLabels({ labelFields, printer })
+
+    // we don't want to proceed unless the print was successful
+    if (!printResponse.success) {
+      throw printResponse.error
+    }
+
+    return printResponse
   } catch (error) {
     return {
       success: false,
