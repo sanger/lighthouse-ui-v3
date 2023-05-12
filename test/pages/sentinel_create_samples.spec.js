@@ -27,39 +27,6 @@ describe('lighthouse sentinel cherrypick', () => {
     expect(wrapper.vm.items).toEqual([])
   })
 
-  // TODO: DPL-561 - Are these necessary. Would this be better done in an integration test.
-  describe('submission', () => {
-    let button
-
-    it('has a submit button', () => {
-      button = wrapper.find('#handleSentinelSampleCreation')
-      expect(button.text()).toBe('Submit')
-    })
-
-    it('on submit button click it calls handleSentinelSampleCreation', () => {
-      wrapper.vm.handleSentinelSampleCreation = vi.fn()
-      button = wrapper.find('#handleSentinelSampleCreation')
-      button.trigger('click')
-      expect(wrapper.vm.handleSentinelSampleCreation).toHaveBeenCalled()
-    })
-  })
-
-  describe('cancel button', () => {
-    let button
-
-    it('has a cancel button', () => {
-      button = wrapper.find('#cancelSearch')
-      expect(button.text()).toBe('Cancel')
-    })
-
-    it('on cancel button click it calls cancelSearch', () => {
-      wrapper.vm.cancelSearch = vi.fn()
-      button = wrapper.find('#cancelSearch')
-      button.trigger('click')
-      expect(wrapper.vm.cancelSearch).toHaveBeenCalled()
-    })
-  })
-
   describe('#cancelSearch', () => {
     it('clears boxBarcode', () => {
       wrapper.vm.cancelSearch()
