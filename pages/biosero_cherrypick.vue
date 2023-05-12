@@ -7,7 +7,7 @@
         <b-tab title="Create">
           <b-card
             title="Create Destination Plate"
-            sub-title="Generate destination plate from CherryTrack data so it can continue in pipeline partially filled."
+            subtitle="Generate destination plate from CherryTrack data so it can continue in pipeline partially filled."
           >
             <BioseroCherrypickForm v-slot="{ form, formInvalid }" :action="'create'">
               <b-button variant="primary" :disabled="formInvalid" @click="create(form)"
@@ -18,7 +18,7 @@
         </b-tab>
 
         <b-tab title="Fail">
-          <b-card title="Fail Destination Plate" sub-title="Fail destination plate with a reason.">
+          <b-card title="Fail Destination Plate" subtitle="Fail destination plate with a reason.">
             <BioseroCherrypickForm
               v-slot="{ form, formInvalid }"
               :action="'fail'"

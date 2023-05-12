@@ -16,7 +16,6 @@
             id="numberOfBarcodes"
             v-model="numberOfBarcodes"
             type="number"
-            value="1"
             min="1"
           ></b-form-input>
         </p>
@@ -53,7 +52,7 @@ export default {
     printers: {
       type: Array,
       default() {
-        return config.printers.split(',')
+        return config.public.printers.split(',')
       },
     },
   },

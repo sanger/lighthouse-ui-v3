@@ -24,8 +24,8 @@ describe('UAT Actions', () => {
     })
 
     it('is not displayed when the maximum plates is reached', async () => {
-      wrapper.vm.maxNumberOfPlates = 2
-      wrapper.vm.plateSpecs = [
+      wrapper.vm.$data.maxNumberOfPlates = 2
+      wrapper.vm.$data.plateSpecs = [
         { numberOfPlates: 1, numberOfPositives: 1 },
         { numberOfPlates: 1, numberOfPositives: 3 },
       ]
@@ -60,10 +60,11 @@ describe('UAT Actions', () => {
   // computed
   describe('totalPlates', () => {
     it('totals the number of plates', () => {
-      wrapper.vm.plateSpecs = [
+      wrapper.vm.$data.plateSpecs = [
         { numberOfPlates: 2, numberOfPositives: 1 },
         { numberOfPlates: 11, numberOfPositives: 3 },
       ]
+
       expect(wrapper.vm.totalPlates).toEqual(2 + 11)
     })
   })
@@ -74,7 +75,8 @@ describe('UAT Actions', () => {
     })
 
     it('when busy', () => {
-      wrapper.vm.status = Status.Busy
+      wrapper.vm.$data.status = Status.Busy
+
       expect(wrapper.vm.isBusy).toBeTruthy()
     })
   })
@@ -85,10 +87,11 @@ describe('UAT Actions', () => {
     })
 
     it('when valid', () => {
-      wrapper.vm.plateSpecs = [
+      wrapper.vm.$data.plateSpecs = [
         { numberOfPlates: 2, numberOfPositives: 1 },
         { numberOfPlates: 11, numberOfPositives: 3 },
       ]
+
       expect(wrapper.vm.isValid).toBeTruthy()
     })
   })
@@ -197,9 +200,10 @@ describe('UAT Actions', () => {
   })
 
   describe('#generateTestRun', () => {
-    let wrapper
+    let wrapper, showAlert
 
     beforeEach(() => {
+      showAlert = vi.spyOn(GenerateTestRun.methods, 'showAlert')
       wrapper = mount(GenerateTestRun, {
         data() {
           return {
@@ -207,7 +211,6 @@ describe('UAT Actions', () => {
           }
         },
       })
-      wrapper.vm.showAlert = vi.fn()
     })
 
     it('when the request is successful', async () => {
@@ -217,11 +220,12 @@ describe('UAT Actions', () => {
       })
 
       await wrapper.find('#generateTestRunButton').trigger('click')
+
       expect(lighthouseService.generateTestRun).toHaveBeenCalledWith([
         { numberOfPlates: 1, numberOfPositives: 2 },
       ])
       expect(navigateTo).toHaveBeenCalled()
-      expect(wrapper.vm.showAlert).not.toHaveBeenCalled()
+      expect(showAlert).not.toHaveBeenCalled()
     })
 
     it('when the request fails', async () => {
@@ -231,10 +235,11 @@ describe('UAT Actions', () => {
       })
 
       await wrapper.find('#generateTestRunButton').trigger('click')
+
       expect(lighthouseService.generateTestRun).toHaveBeenCalledWith([
         { numberOfPlates: 1, numberOfPositives: 2 },
       ])
-      expect(wrapper.vm.showAlert).toHaveBeenCalledWith('There was an error', 'danger')
+      expect(showAlert).toHaveBeenCalledWith('There was an error', 'danger')
     })
 
     it('updates the status', async () => {

@@ -2,9 +2,10 @@
   <div>
     <div>
       <b-navbar class="navbar-dark" toggleable="md" variant="primary">
-        <b-navbar-brand to="/"
-          >Lighthouse<br /><span class="tagline">{{ $config.appTagline }}</span></b-navbar-brand
-        >
+        <b-navbar-brand to="/">
+          {{ $config.public.appTitle }}<br />
+          <span class="tagline">{{ $config.public.appTagline }}</span>
+        </b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -25,7 +26,7 @@
 export default {
   computed: {
     navItems() {
-      return selectNavItems(this.$config.enabledNavItems)
+      return selectNavItems(this.$config.public.enabledNavItems)
     },
   },
 }

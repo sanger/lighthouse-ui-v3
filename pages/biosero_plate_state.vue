@@ -59,7 +59,7 @@
     </b-card>
 
     <div id="plate-container">
-      <b-table id="plate-table" :fields="plateFields" :items="plateItems" fixed bordered></b-table>
+      <b-table id="plate-table" :fields="plateFields" :items="plateItems" bordered></b-table>
     </div>
   </b-container>
 </template>
@@ -217,6 +217,7 @@ export default {
   },
 }
 </script>
+
 <style>
 #plate-container {
   width: 100%;
@@ -225,5 +226,6 @@ export default {
 #plate-table {
   min-width: 1200px;
   word-wrap: break-word;
+  table-layout: fixed;
 }
 </style>

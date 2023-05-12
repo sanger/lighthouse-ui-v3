@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <h1 class="mt-3">Sentinel Cherrypick Batch Creation</h1>
-    <p class="lead">Create a cherrypick submission in Sequencescsape</p>
+    <p class="lead">Create a cherrypick submission in Sequencescape</p>
     <b-alert
       ref="alert"
       v-model="showDismissibleAlert"
@@ -14,7 +14,7 @@
 
     <form class="border">
       <div class="form-group row">
-        <label for="box-barcode" class="col-sm-4 col-form-label">
+        <label for="box-barcodes" class="col-sm-4 col-form-label">
           Please scan Lighthouse box barcode(s)
           <p class="labwhere-warning">
             Box and its contents need to be in LabWhere and samples created in Sequencescape, to

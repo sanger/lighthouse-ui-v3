@@ -236,7 +236,6 @@ export default {
       return this.status === Status.Error
     },
   },
-  created() {},
   methods: {
     isBarcodeDuplicate(barcode) {
       if (this.scanned_barcodes.indexOf(barcode) !== this.scanned_barcodes.lastIndexOf(barcode)) {
