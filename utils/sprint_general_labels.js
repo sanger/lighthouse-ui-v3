@@ -1,39 +1,16 @@
 import Baracoda from '@/utils/baracoda'
+import Mustache from 'mustache'
 import { query, headers } from '@/utils/sprint_constants'
+import layoutTemplate from '@/label_layouts/sprint_general_label_layout.json'
 
 const config = useRuntimeConfig()
 
 // Will create a new layout object for a print job
 // Requires barcode which will be used for barcode and text field
-// TODO: DPL-561 - how do we turn this into external json
-const createLayout = ({ barcode, text }) => ({
-  barcodeFields: [
-    {
-      x: 20,
-      y: 1,
-      cellWidth: 0.2,
-      barcodeType: 'code39',
-      value: barcode,
-      height: 5,
-    },
-  ],
-  textFields: [
-    {
-      x: 3,
-      y: 3,
-      value: barcode,
-      font: 'proportional',
-      fontSize: 1.7,
-    },
-    {
-      x: 70,
-      y: 3,
-      value: text,
-      font: 'proportional',
-      fontSize: 1.7,
-    },
-  ],
-})
+const createLayout = (fields) => {
+  const jsonString = JSON.stringify(layoutTemplate)
+  return JSON.parse(Mustache.render(jsonString, fields))
+}
 
 /*
   Creates the print request body

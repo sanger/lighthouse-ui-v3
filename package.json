@@ -12,7 +12,8 @@
     "test": "vitest"
   },
   "dependencies": {
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "mustache": "^4.2.0"
   },
   "devDependencies": {
     "@bootstrap-vue-next/nuxt": "^0.0.6",
