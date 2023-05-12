@@ -1,7 +1,4 @@
-import PrintLabels, {
-  createLayout,
-  createPrintRequestBody,
-} from '@/utils/sprint_reagent_aliquot_labels'
+import PrintLabels, { createPrintRequestBody } from '@/utils/sprint_reagent_aliquot_labels'
 import { headers as SprintHeaders } from '@/utils/sprint_constants'
 import { mockError } from '@/test/constants'
 
@@ -45,12 +42,6 @@ const labelFields = {
 const printer = 'heron-bc3'
 
 describe('Sprint module', () => {
-  describe('#createLayout', () => {
-    it('generates the correct layout', () => {
-      expect(createLayout(labelFields)).toEqual(layout)
-    })
-  })
-
   describe('#createPrintRequestBody', () => {
     it('should produce the correct json if there is a single quantity', () => {
       const body = createPrintRequestBody({

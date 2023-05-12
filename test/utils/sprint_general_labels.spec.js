@@ -49,10 +49,6 @@ const labelFields = [
 ]
 
 describe('Sprint', () => {
-  it('#createLayout', () => {
-    expect(sprintGeneralLabels.createLayout(labelFields[0])).toEqual(layout)
-  })
-
   describe('#createPrintRequestBody', () => {
     it('should produce the correct json if there is a single barcode', () => {
       const body = sprintGeneralLabels.createPrintRequestBody({
