@@ -1,5 +1,6 @@
+import { mockError } from '@/test/constants'
+
 const config = useRuntimeConfig()
-const errorResponse = new Error('There was an error')
 
 describe('PlateBarcode', () => {
   let barcodes
@@ -44,12 +45,12 @@ describe('PlateBarcode', () => {
     })
 
     it('unsuccessfully', async () => {
-      useFetch.mockRejectedValue(errorResponse)
+      useFetch.mockRejectedValue(mockError)
 
       const response = await baracoda.createBarcodes({ barcodesGroup: 'ABC', count: 5 })
 
       expect(response.success).toBeFalsy()
-      expect(response.error).toEqual(errorResponse)
+      expect(response.error).toEqual(mockError)
     })
   })
 })

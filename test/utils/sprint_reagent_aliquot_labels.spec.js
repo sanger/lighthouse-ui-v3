@@ -3,11 +3,9 @@ import PrintLabels, {
   createPrintRequestBody,
 } from '@/utils/sprint_reagent_aliquot_labels'
 import { headers as SprintHeaders } from '@/utils/sprint_constants'
+import { mockError } from '@/test/constants'
 
 const config = useRuntimeConfig()
-
-// TODO: DPL-561 - move out into helper
-const errorResponse = new Error('There was an error')
 
 const layout = {
   barcodeFields: [
@@ -135,13 +133,13 @@ describe('Sprint module', () => {
     )
 
     it('return unsuccessful when sprint fails', async () => {
-      useFetch.mockRejectedValue(errorResponse)
+      useFetch.mockRejectedValue(mockError)
 
       const args = { ...baseArgs, quantity: 1 }
       const response = await PrintLabels(args)
 
       expect(response.success).toBeFalsy()
-      expect(response.error).toEqual(errorResponse)
+      expect(response.error).toEqual(mockError)
     })
 
     it('returns unsuccessful when sprint returns an error', async () => {

@@ -1,4 +1,5 @@
 import { headers as SprintHeaders } from '@/utils/sprint_constants'
+import { mockError } from '@/test/constants'
 
 const config = useRuntimeConfig()
 
@@ -9,9 +10,6 @@ vi.mock('@/utils/baracoda', () => {
     },
   }
 })
-
-// TODO: DPL-561 - move out into helper
-const errorResponse = new Error('There was an error')
 
 const layout = {
   barcodeFields: [
@@ -120,12 +118,12 @@ describe('Sprint', () => {
     })
 
     it('when sprint fails', async () => {
-      useFetch.mockRejectedValue(errorResponse)
+      useFetch.mockRejectedValue(mockError)
 
       const response = await sprintGeneralLabels.printLabels(args)
 
       expect(response.success).toBeFalsy()
-      expect(response.error).toEqual(errorResponse)
+      expect(response.error).toEqual(mockError)
     })
 
     it('when sprint returns an error', async () => {
@@ -191,19 +189,19 @@ describe('Sprint', () => {
       it('when baracoda fails', async () => {
         baracoda.createBarcodes.mockResolvedValue({
           success: false,
-          error: errorResponse,
+          error: mockError,
         })
         const response = await sprintGeneralLabels.printDestinationPlateLabels(args)
         expect(response.success).toBeFalsy()
-        expect(response.error).toEqual(errorResponse)
+        expect(response.error).toEqual(mockError)
       })
 
       it('unsuccessfully', async () => {
         baracoda.createBarcodes.mockResolvedValue({ success: true, barcodes })
-        mock.mockRejectedValue(errorResponse)
+        mock.mockRejectedValue(mockError)
         const response = await sprintGeneralLabels.printDestinationPlateLabels(args)
         expect(response.success).toBeFalsy()
-        expect(response.error).toEqual(errorResponse)
+        expect(response.error).toEqual(mockError)
       })
     })
   })
