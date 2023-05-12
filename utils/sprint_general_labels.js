@@ -107,7 +107,7 @@ const printDestinationPlateLabels = async ({ numberOfBarcodes, printer }) => {
 
     // we don't want to proceed unless the barcodes have been created
     if (!barcodeResponse.success) {
-      throw barcodeResponse.error
+      return barcodeResponse
     }
 
     // we need to turn the barcodes into a bunch of label fields
@@ -119,11 +119,7 @@ const printDestinationPlateLabels = async ({ numberOfBarcodes, printer }) => {
     // print the labels
     const printResponse = await Sprint.printLabels({ labelFields, printer })
 
-    // we don't want to proceed unless the print was successful
-    if (!printResponse.success) {
-      throw printResponse.error
-    }
-
+    // even if success is false, the object here is in the correct format
     return printResponse
   } catch (error) {
     return {
