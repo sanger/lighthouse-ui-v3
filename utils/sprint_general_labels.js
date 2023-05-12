@@ -1,16 +1,10 @@
 import Baracoda from '@/utils/baracoda'
-import Mustache from 'mustache'
 import { query, headers } from '@/utils/sprint_constants'
-import layoutTemplate from '@/label_layouts/sprint_general_label_layout.json'
+import layoutTemplate from '@/config/templates/sprint_general_label_layout.json'
+import SprintLabelLayout from './sprint_label_layout'
 
 const config = useRuntimeConfig()
-
-// Will create a new layout object for a print job
-// Requires barcode which will be used for barcode and text field
-const createLayout = (fields) => {
-  const jsonString = JSON.stringify(layoutTemplate)
-  return JSON.parse(Mustache.render(jsonString, fields))
-}
+const labelLayout = new SprintLabelLayout(layoutTemplate)
 
 /*
   Creates the print request body
@@ -24,7 +18,7 @@ const createPrintRequestBody = ({ labelFields, printer }) => ({
     printer,
     printRequest: {
       // turns each labelField into a layout
-      layouts: labelFields.map((labelField) => createLayout(labelField)),
+      layouts: labelFields.map((labelField) => labelLayout.create(labelField)),
     },
   },
 })
@@ -107,7 +101,6 @@ const printDestinationPlateLabels = async ({ numberOfBarcodes, printer }) => {
 }
 
 const Sprint = {
-  createLayout,
   createPrintRequestBody,
   printLabels,
   printDestinationPlateLabels,
