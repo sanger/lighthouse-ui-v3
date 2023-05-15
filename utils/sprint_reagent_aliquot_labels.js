@@ -1,9 +1,9 @@
 import { query, headers } from '@/utils/sprint_constants'
 import layoutTemplate from '@/config/templates/sprint_reagent_aliquot_label_layout.json'
-import SprintLabelLayout from './sprint_label_layout'
+import TemplateRenderer from './template_renderer'
 
 const config = useRuntimeConfig()
-const labelLayout = new SprintLabelLayout(layoutTemplate)
+const renderLayout = TemplateRenderer(layoutTemplate)
 
 /*
   Creates the print request body
@@ -18,7 +18,7 @@ const createPrintRequestBody = ({ barcode, firstText, secondText, printer, quant
     printRequest: {
       // turns each labelField into a layout
       layouts: Array.from({ length: quantity }, () =>
-        labelLayout.create({ barcode, firstText, secondText })
+        renderLayout({ barcode, firstText, secondText })
       ),
     },
   },

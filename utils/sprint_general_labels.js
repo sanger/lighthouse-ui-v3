@@ -1,10 +1,10 @@
 import Baracoda from '@/utils/baracoda'
 import { query, headers } from '@/utils/sprint_constants'
 import layoutTemplate from '@/config/templates/sprint_general_label_layout.json'
-import SprintLabelLayout from './sprint_label_layout'
+import TemplateRenderer from './template_renderer'
 
 const config = useRuntimeConfig()
-const labelLayout = new SprintLabelLayout(layoutTemplate)
+const renderLayout = TemplateRenderer(layoutTemplate)
 
 /*
   Creates the print request body
@@ -18,7 +18,7 @@ const createPrintRequestBody = ({ labelFields, printer }) => ({
     printer,
     printRequest: {
       // turns each labelField into a layout
-      layouts: labelFields.map((labelField) => labelLayout.create(labelField)),
+      layouts: labelFields.map((labelField) => renderLayout(labelField)),
     },
   },
 })

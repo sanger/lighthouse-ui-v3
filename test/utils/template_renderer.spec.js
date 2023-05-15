@@ -1,4 +1,4 @@
-import SprintLabelLayout from '@/utils/sprint_label_layout'
+import TemplateRenderer from '@/utils/template_renderer'
 
 const template = {
   key1: [
@@ -49,16 +49,16 @@ const layout = {
   ],
 }
 
-describe('SprintLabelLayout', () => {
+describe('TemplateRenderer', () => {
   let subject
 
   beforeEach(() => {
-    subject = new SprintLabelLayout(template)
+    subject = templateRenderer(template)
   })
 
   describe('#create', () => {
     it('generates the expected layout', () => {
-      expect(subject.create(data)).toEqual(layout)
+      expect(subject(data)).toEqual(layout)
     })
   })
 })
