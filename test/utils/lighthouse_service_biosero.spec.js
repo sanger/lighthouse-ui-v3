@@ -1,4 +1,5 @@
 import { sourcePlate, destinationPlate } from '../data/biosero_plates'
+import { mockError } from '@/test/constants'
 
 const config = useRuntimeConfig()
 
@@ -78,15 +79,13 @@ describe('lighthouse_service_biosero api', () => {
     })
 
     it('on failure with exception', async () => {
-      const errorResponse = new Error('There was an error')
-
-      useFetch.mockRejectedValue(errorResponse)
+      useFetch.mockRejectedValue(mockError)
 
       const result = await lighthouseServiceBiosero.createDestinationPlateBiosero(form)
 
       expect(useFetch).toHaveBeenCalledTimes(1)
       expect(result.success).toBe(false)
-      expect(result.error).toEqual(errorResponse)
+      expect(result.error).toEqual(mockError)
     })
   })
 
@@ -165,14 +164,12 @@ describe('lighthouse_service_biosero api', () => {
     })
 
     it('on failure with standard exception', async () => {
-      const errorResponse = new Error('some error message')
-
-      useFetch.mockRejectedValue(errorResponse)
+      useFetch.mockRejectedValue(mockError)
 
       const result = await lighthouseServiceBiosero.failDestinationPlateBiosero(form)
       const expected = {
         success: false,
-        error: { message: 'some error message' },
+        error: { message: mockError.message },
       }
 
       expect(useFetch).toHaveBeenCalledTimes(1)
@@ -253,7 +250,7 @@ describe('lighthouse_service_biosero api', () => {
     })
 
     it('when there is an error', async () => {
-      useFetch.mockImplementationOnce(() => Promise.reject(new Error('There was an error')))
+      useFetch.mockRejectedValue(mockError)
 
       const result = await lighthouseServiceBiosero.getBioseroPlate(
         destinationPlateBarcode,

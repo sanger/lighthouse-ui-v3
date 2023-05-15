@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import TestRuns from '@/pages/uat_actions/test_runs'
+import { mockError } from '@/test/constants'
 
 vi.mock('@/utils/lighthouse_service')
 
