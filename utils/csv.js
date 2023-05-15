@@ -1,20 +1,24 @@
-// This is done as lowest common denominator to get it working
-// nothing fancy, no error checking
-// it will take a file, read it and return it
-// TODO: DPL-561 - add some error handling
 const read = async (file) => {
   const reader = new FileReader()
-
-  const promise = new Promise((resolve) => {
-    reader.onload = () => {
-      const result = reader.result
-      resolve(result)
+  const promise = new Promise((resolve, reject) => {
+    try {
+      reader.onload = () => {
+        const result = reader.result
+        resolve(result)
+      }
+      reader.readAsText(file)
+    } catch (error) {
+      reject(error)
     }
-    reader.readAsText(file)
   })
 
-  // the promise is in essence a file stream
-  return await promise
+  try {
+    // the promise is in essence a file stream
+    const data = await promise
+    return { success: true, data }
+  } catch (error) {
+    return { success: false, error }
+  }
 }
 
 const parse = (data) => {

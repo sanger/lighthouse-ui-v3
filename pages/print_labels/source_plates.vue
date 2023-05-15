@@ -97,8 +97,14 @@ export default {
       this.$refs.statusAlert.setStatus('Busy', 'Printing labels…')
 
       const file = this.getFile()
-      const read = await csv.read(file)
-      const labelFields = csv.parse(read)
+      const csvRead = await csv.read(file)
+
+      if (!csvRead.success) {
+        this.$refs.statusAlert.setStatus('Error', csvRead.error)
+        return
+      }
+
+      const labelFields = csv.parse(csvRead.data)
       const response = await sprintGeneralLabels.printLabels({
         labelFields,
         printer: this.printer,

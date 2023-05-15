@@ -1,5 +1,6 @@
 import fs from 'fs'
 import barcodes from '@/test/data/barcodes'
+import { mockError } from '@/test/constants'
 
 describe('csv', () => {
   let file
@@ -9,14 +10,40 @@ describe('csv', () => {
     file = new File([readFile], 'barcodes.csv', { type: 'text/csv' })
   })
 
-  it('#read', async () => {
-    const result = await csv.read(file)
-    expect(result).toBeDefined()
+  afterEach(() => {
+    vi.clearAllMocks()
   })
 
-  it('#parse', async () => {
-    const result = await csv.read(file)
-    const json = csv.parse(result)
-    expect(json).toEqual(barcodes)
+  describe('#read', () => {
+    it('successfully reads a valid file', async () => {
+      const result = await csv.read(file)
+
+      expect(result).toBeDefined()
+      expect(result.success).toBeTruthy()
+      expect(result.data).toBeDefined()
+      expect(result.error).not.toBeDefined()
+    })
+
+    it('fails gracefully when the file cannot be read', async () => {
+      vi.spyOn(FileReader.prototype, 'readAsText').mockImplementationOnce(() => {
+        throw mockError
+      })
+
+      const result = await csv.read(file)
+
+      expect(result).toBeDefined()
+      expect(result.success).toBeFalsy()
+      expect(result.data).not.toBeDefined()
+      expect(result.error).toBe(mockError)
+    })
+  })
+
+  describe('#parse', () => {
+    it('parses a valid CSV file correctly', async () => {
+      const { data } = await csv.read(file)
+      const json = csv.parse(data)
+
+      expect(json).toEqual(barcodes)
+    })
   })
 })

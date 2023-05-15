@@ -2,6 +2,7 @@ import fs from 'fs'
 import { mount } from '@vue/test-utils'
 import SourcePlates from '@/pages/print_labels/source_plates'
 import barcodes from '@/test/data/barcodes'
+import { mockError } from '@/test/constants'
 
 const config = useRuntimeConfig()
 
@@ -36,8 +37,6 @@ describe('print destination plate labels', () => {
   // trigger browser operations outside our control.
 
   describe('printing labels', () => {
-    let mock
-
     describe('when the filename has not been entered', () => {
       beforeEach(() => {
         wrapper = mount(SourcePlates, {
@@ -57,7 +56,7 @@ describe('print destination plate labels', () => {
     })
 
     describe('when the filename has been entered', () => {
-      let readFile, file
+      let readFile, file, sprintMock
 
       afterEach(() => {
         vi.resetAllMocks()
@@ -72,7 +71,7 @@ describe('print destination plate labels', () => {
             }
           },
         })
-        mock = vi.spyOn(sprintGeneralLabels, 'printLabels')
+        sprintMock = vi.spyOn(sprintGeneralLabels, 'printLabels')
         readFile = fs.readFileSync('./test/data/barcodes.csv', 'ascii')
         file = new File([readFile], 'barcodes.csv', { type: 'text/csv' })
         csv.parse.mockResolvedValue(barcodes)
@@ -80,22 +79,42 @@ describe('print destination plate labels', () => {
         wrapper.vm.getFile.mockReturnValue(file)
       })
 
-      it('successfully', async () => {
-        mock.mockResolvedValue({
-          success: true,
-          message: 'successfully printed 5 labels to heron-bc3',
+      describe('the file can be read', () => {
+        beforeEach(() => {
+          csv.read.mockResolvedValue({ success: true, data: '' })
         })
-        await wrapper.vm.printLabels()
-        expect(wrapper.find('.alert').text()).toMatch('successfully printed 5 labels to heron-bc3')
+
+        it('successfully prints the labels', async () => {
+          sprintMock.mockResolvedValue({
+            success: true,
+            message: 'successfully printed 5 labels to heron-bc3',
+          })
+          await wrapper.vm.printLabels()
+          expect(wrapper.find('.alert').text()).toMatch(
+            'successfully printed 5 labels to heron-bc3'
+          )
+        })
+
+        it('fails to print the labels', async () => {
+          sprintMock.mockReturnValue({
+            success: false,
+            error: 'There was an error',
+          })
+          await wrapper.vm.printLabels()
+          expect(wrapper.find('.alert').text()).toMatch('There was an error')
+        })
       })
 
-      it('unsuccessfully', async () => {
-        mock.mockReturnValue({
-          success: false,
-          error: 'There was an error',
+      describe('the file fails to be read', () => {
+        beforeEach(() => {
+          csv.read.mockResolvedValue({ success: false, error: mockError })
         })
-        await wrapper.vm.printLabels()
-        expect(wrapper.find('.alert').text()).toMatch('There was an error')
+
+        it('fails to print the labels', async () => {
+          await wrapper.vm.printLabels()
+
+          expect(wrapper.find('.alert').text()).toMatch(mockError.message)
+        })
       })
     })
   })
