@@ -70,34 +70,27 @@ const printLabels = async ({ labelFields, printer }) => {
   and send a request to sprint to print labels
 */
 const printDestinationPlateLabels = async ({ numberOfBarcodes, printer }) => {
-  try {
-    const barcodeResponse = await Baracoda.createBarcodes({
-      barcodesGroup: config.public.destinationPlateBarcodesGroup,
-      count: numberOfBarcodes,
-    })
+  const barcodeResponse = await Baracoda.createBarcodes({
+    barcodesGroup: config.public.destinationPlateBarcodesGroup,
+    count: numberOfBarcodes,
+  })
 
-    // we don't want to proceed unless the barcodes have been created
-    if (!barcodeResponse.success) {
-      return barcodeResponse
-    }
-
-    // we need to turn the barcodes into a bunch of label fields
-    const labelFields = createLabelFields({
-      ...barcodeResponse,
-      text: config.public.projectAcronym,
-    })
-
-    // print the labels
-    const printResponse = await Sprint.printLabels({ labelFields, printer })
-
-    // even if success is false, the object here is in the correct format
-    return printResponse
-  } catch (error) {
-    return {
-      success: false,
-      error,
-    }
+  // we don't want to proceed unless the barcodes have been created
+  if (!barcodeResponse.success) {
+    return barcodeResponse
   }
+
+  // we need to turn the barcodes into a bunch of label fields
+  const labelFields = createLabelFields({
+    ...barcodeResponse,
+    text: config.public.projectAcronym,
+  })
+
+  // print the labels
+  const printResponse = await Sprint.printLabels({ labelFields, printer })
+
+  // even if success is false, the object here is in the correct format
+  return printResponse
 }
 
 const Sprint = {

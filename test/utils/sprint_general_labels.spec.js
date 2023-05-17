@@ -148,14 +148,14 @@ describe('Sprint', () => {
   })
 
   describe('print different types of labels', () => {
-    let mock, args
+    let printLabelsMock, args
 
     afterEach(() => {
       vi.resetAllMocks()
     })
 
     beforeEach(() => {
-      mock = vi.spyOn(sprintGeneralLabels, 'printLabels')
+      printLabelsMock = vi.spyOn(sprintGeneralLabels, 'printLabels')
     })
 
     describe('#printDestinationPlateLabels', () => {
@@ -168,13 +168,13 @@ describe('Sprint', () => {
 
       it('successfully', async () => {
         baracoda.createBarcodes.mockResolvedValue({ success: true, barcodes })
-        mock.mockResolvedValue({
+        printLabelsMock.mockResolvedValue({
           success: true,
           message: 'Successfully printed 5 labels to heron-bc3',
         })
 
         const response = await sprintGeneralLabels.printDestinationPlateLabels(args)
-        expect(mock).toHaveBeenCalledWith({
+        expect(printLabelsMock).toHaveBeenCalledWith({
           printer: 'heron-bc3',
           labelFields: sprintGeneralLabels.createLabelFields({ barcodes, text: 'TEST' }),
         })
@@ -194,8 +194,10 @@ describe('Sprint', () => {
 
       it('unsuccessfully', async () => {
         baracoda.createBarcodes.mockResolvedValue({ success: true, barcodes })
-        mock.mockRejectedValue(mockError)
+        printLabelsMock.mockResolvedValue({ success: false, error: mockError })
+
         const response = await sprintGeneralLabels.printDestinationPlateLabels(args)
+
         expect(response.success).toBeFalsy()
         expect(response.error).toEqual(mockError)
       })
