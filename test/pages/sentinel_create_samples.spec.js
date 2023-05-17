@@ -128,12 +128,7 @@ describe('lighthouse sentinel cherrypick', () => {
         await wrapper.vm.$nextTick()
 
         expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(/an error 1, an error 2/)
-        expect(wrapper.vm.items).toEqual(
-          response
-            .slice(2)
-            .map((r) => r.data)
-            .map((r) => r.data)
-        )
+        expect(wrapper.vm.items).toEqual(response.slice(2).map((r) => r.data.data))
       })
 
       it('on partial success/failure, last request failed', async () => {
@@ -171,12 +166,7 @@ describe('lighthouse sentinel cherrypick', () => {
         expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
           /Some samples were successfully created however: an error 2, an error 1/
         )
-        expect(wrapper.vm.items).toEqual(
-          response
-            .slice(1, 3)
-            .map((r) => r.data)
-            .map((r) => r.data)
-        )
+        expect(wrapper.vm.items).toEqual(response.slice(1, 3).map((r) => r.data.data))
       })
     })
   })
