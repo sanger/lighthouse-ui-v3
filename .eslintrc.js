@@ -24,4 +24,13 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ['*.ts'],
+      parser: '@typescript-eslint/parser',
+      rules: {
+        'no-unused-vars': 'off', // Auto-importing makes values look unused
+      },
+    },
+  ],
 }

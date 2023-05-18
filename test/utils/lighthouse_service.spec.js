@@ -1,6 +1,7 @@
 import ReportsJson from '../data/reports'
 import RobotsJson from '../data/robots'
 import FailureTypesJson from '../data/failures_types.json'
+import { mockError } from '@/test/constants'
 
 const config = useRuntimeConfig()
 
@@ -350,9 +351,9 @@ describe('lighthouse_service api', () => {
     })
 
     it('when there is an error', async () => {
-      useFetch.mockImplementationOnce(() => Promise.reject(new Error('There was an error')))
+      useFetch.mockImplementationOnce(() => Promise.reject(mockError))
       const response = await lighthouseService.getImports()
-      expect(response.error).toEqual(new Error('There was an error'))
+      expect(response.error).toEqual(mockError)
     })
   })
 
@@ -390,12 +391,12 @@ describe('lighthouse_service api', () => {
     })
 
     it('when there is an error', async () => {
-      useFetch.mockImplementationOnce(() => Promise.reject(new Error('There was an error')))
+      useFetch.mockRejectedValue(mockError)
 
       const response = await lighthouseService.deleteReports()
 
       expect(response.success).toBeFalsy()
-      expect(response.error).toEqual(new Error('There was an error'))
+      expect(response.error).toEqual(mockError)
     })
   })
 
@@ -414,11 +415,11 @@ describe('lighthouse_service api', () => {
     })
 
     it('when the request fails', async () => {
-      useFetch.mockImplementationOnce(() => Promise.reject(new Error('There was an error')))
+      useFetch.mockRejectedValue(mockError)
 
       const response = await lighthouseService.getReports()
       expect(response.success).toBeFalsy()
-      expect(response.error).toEqual(new Error('There was an error'))
+      expect(response.error).toEqual(mockError)
     })
   })
 
@@ -440,12 +441,12 @@ describe('lighthouse_service api', () => {
     })
 
     it('when the request fails', async () => {
-      useFetch.mockImplementationOnce(() => Promise.reject(new Error('There was an error')))
+      useFetch.mockRejectedValue(mockError)
 
       const response = await lighthouseService.createReport()
 
       expect(response.success).toBeFalsy()
-      expect(response.error).toEqual(new Error('There was an error'))
+      expect(response.error).toEqual(mockError)
     })
   })
 

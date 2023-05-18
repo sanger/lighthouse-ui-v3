@@ -233,7 +233,7 @@ export default {
       return `Box found: ${this.prev_barcode}`
     },
     isError() {
-      return this.status === statuses.Error
+      return this.status === Status.Error
     },
   },
   methods: {
@@ -277,7 +277,7 @@ export default {
         return this.sortedPlates(plates)
       } catch (error) {
         this.isBusy = false
-        this.status = statuses.Error
+        this.status = Status.Error
 
         return []
       }

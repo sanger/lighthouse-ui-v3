@@ -5,9 +5,7 @@
       Import status of CSV files processed by the crawler. Data shown only includes the last 4
       weeks, up to 10,000 results.
     </p>
-    <b-alert ref="alert" v-model="showDismissibleAlert" dismissible :variant="alertData.variant">
-      {{ alertData.message }}
-    </b-alert>
+    <StatusAlert ref="statusAlert" />
     <br />
     <b-form-group
       label="Filter"
@@ -71,7 +69,12 @@
 </template>
 
 <script>
+import StatusAlert from '@/components/StatusAlert'
+
 export default {
+  components: {
+    StatusAlert,
+  },
   data() {
     return {
       fields: [
@@ -94,8 +97,6 @@ export default {
       sortDesc: true,
       perPage: 10,
       currentPage: 1,
-      showDismissibleAlert: false,
-      alertData: { variant: '', message: '' },
       items: [],
       filter: '',
     }
@@ -117,9 +118,7 @@ export default {
       if (response.success) {
         return response.data._items
       } else {
-        this.alertData.variant = 'danger'
-        this.alertData.message = response.error
-        this.showDismissibleAlert = true
+        this.$refs.statusAlert.setStatus('Error', response.error)
         return []
       }
     },

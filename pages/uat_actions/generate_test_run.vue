@@ -132,7 +132,7 @@ export default {
   },
   data() {
     return {
-      status: statuses.Idle,
+      status: Status.Idle,
       form: initialFormState(),
       addToDart: false,
       plateSpecs: [],
@@ -148,7 +148,7 @@ export default {
       }, 0)
     },
     isBusy() {
-      return this.status === statuses.Busy
+      return this.status === Status.Busy
     },
     isValid() {
       return this.totalPlates > 0 && this.totalPlates <= this.maxNumberOfPlates
@@ -179,13 +179,13 @@ export default {
       this.resetModalVisible = shouldShow
     },
     async generateTestRun() {
-      this.status = statuses.Busy
+      this.status = Status.Busy
       const response = await lighthouseService.generateTestRun(this.plateSpecs)
       if (response.success) {
-        this.status = statuses.Idle
+        this.status = Status.Idle
         navigateTo(`/uat_actions/test_runs/${response.runId}`)
       } else {
-        this.status = statuses.Idle
+        this.status = Status.Idle
         this.showAlert(response.error, 'danger')
       }
     },

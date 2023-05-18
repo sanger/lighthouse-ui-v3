@@ -73,7 +73,7 @@ export default defineComponent({
   name: 'DeepWellPlates',
   data() {
     return {
-      status: statuses.Idle,
+      status: Status.Idle,
       plateBarcodes: '',
       resultFields: [
         { key: 'barcode', label: 'Plate Barcode' },
@@ -85,7 +85,7 @@ export default defineComponent({
   },
   methods: {
     isBusy(): boolean {
-      return this.status === statuses.Busy
+      return this.status === Status.Busy
     },
     isValid(): boolean {
       return this.parsedBarcodes().length > 0
@@ -94,14 +94,14 @@ export default defineComponent({
       this.plateBarcodes = ''
     },
     async submitBarcodes() {
-      this.status = statuses.Busy
+      this.status = Status.Busy
       const barcodes = this.parsedBarcodes()
       const responses = await lighthouseService.createPlatesFromBarcodes({
         barcodes,
         type: 'rvi_deep_well_96',
       })
       this.handleSubmissionResponses(barcodes, responses)
-      this.status = statuses.Idle
+      this.status = Status.Idle
     },
     /**
      * Parse barcodes by splitting on white space, throwing away empty values and

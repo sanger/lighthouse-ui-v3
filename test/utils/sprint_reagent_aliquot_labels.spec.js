@@ -1,13 +1,8 @@
-import PrintLabels, {
-  createLayout,
-  createPrintRequestBody,
-} from '@/utils/sprint_reagent_aliquot_labels'
+import PrintLabels, { createPrintRequestBody } from '@/utils/sprint_reagent_aliquot_labels'
 import { headers as SprintHeaders } from '@/utils/sprint_constants'
+import { mockError } from '@/test/constants'
 
 const config = useRuntimeConfig()
-
-// TODO: DPL-561 - move out into helper
-const errorResponse = new Error('There was an error')
 
 const layout = {
   barcodeFields: [
@@ -47,12 +42,6 @@ const labelFields = {
 const printer = 'heron-bc3'
 
 describe('Sprint module', () => {
-  describe('#createLayout', () => {
-    it('generates the correct layout', () => {
-      expect(createLayout(labelFields)).toEqual(layout)
-    })
-  })
-
   describe('#createPrintRequestBody', () => {
     it('should produce the correct json if there is a single quantity', () => {
       const body = createPrintRequestBody({
@@ -135,13 +124,13 @@ describe('Sprint module', () => {
     )
 
     it('return unsuccessful when sprint fails', async () => {
-      useFetch.mockRejectedValue(errorResponse)
+      useFetch.mockRejectedValue(mockError)
 
       const args = { ...baseArgs, quantity: 1 }
       const response = await PrintLabels(args)
 
       expect(response.success).toBeFalsy()
-      expect(response.error).toEqual(errorResponse)
+      expect(response.error).toEqual(mockError)
     })
 
     it('returns unsuccessful when sprint returns an error', async () => {

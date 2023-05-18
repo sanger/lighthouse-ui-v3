@@ -1,39 +1,10 @@
 import Baracoda from '@/utils/baracoda'
 import { query, headers } from '@/utils/sprint_constants'
+import layoutTemplate from '@/config/templates/sprint_general_label_layout.json'
+import TemplateRenderer from './template_renderer'
 
 const config = useRuntimeConfig()
-
-// Will create a new layout object for a print job
-// Requires barcode which will be used for barcode and text field
-// TODO: DPL-561 - how do we turn this into external json
-const createLayout = ({ barcode, text }) => ({
-  barcodeFields: [
-    {
-      x: 20,
-      y: 1,
-      cellWidth: 0.2,
-      barcodeType: 'code39',
-      value: barcode,
-      height: 5,
-    },
-  ],
-  textFields: [
-    {
-      x: 3,
-      y: 3,
-      value: barcode,
-      font: 'proportional',
-      fontSize: 1.7,
-    },
-    {
-      x: 70,
-      y: 3,
-      value: text,
-      font: 'proportional',
-      fontSize: 1.7,
-    },
-  ],
-})
+const renderLayout = TemplateRenderer(layoutTemplate)
 
 /*
   Creates the print request body
@@ -47,7 +18,7 @@ const createPrintRequestBody = ({ labelFields, printer }) => ({
     printer,
     printRequest: {
       // turns each labelField into a layout
-      layouts: labelFields.map((labelField) => createLayout(labelField)),
+      layouts: labelFields.map((labelField) => renderLayout(labelField)),
     },
   },
 })
@@ -99,37 +70,30 @@ const printLabels = async ({ labelFields, printer }) => {
   and send a request to sprint to print labels
 */
 const printDestinationPlateLabels = async ({ numberOfBarcodes, printer }) => {
-  try {
-    let response = await Baracoda.createBarcodes({
-      barcodesGroup: config.public.destinationPlateBarcodesGroup,
-      count: numberOfBarcodes,
-    })
+  const barcodeResponse = await Baracoda.createBarcodes({
+    barcodesGroup: config.public.destinationPlateBarcodesGroup,
+    count: numberOfBarcodes,
+  })
 
-    // we don't want to proceed unless the barcodes have been created
-    if (!response.success) throw response.error
-
-    // we need to turn the barcodes into a bunch of label fields
-    const labelFields = createLabelFields({ ...response, text: config.public.projectAcronym })
-
-    // print the labels
-    // TODO: DPL-561 - similar implementation to printLabels. Can we pass a function?
-    response = await Sprint.printLabels({ labelFields, printer })
-
-    if (response.success) {
-      return response
-    }
-
-    throw response.error
-  } catch (error) {
-    return {
-      success: false,
-      error,
-    }
+  // we don't want to proceed unless the barcodes have been created
+  if (!barcodeResponse.success) {
+    return barcodeResponse
   }
+
+  // we need to turn the barcodes into a bunch of label fields
+  const labelFields = createLabelFields({
+    ...barcodeResponse,
+    text: config.public.projectAcronym,
+  })
+
+  // print the labels
+  const printResponse = await Sprint.printLabels({ labelFields, printer })
+
+  // even if success is false, the object here is in the correct format
+  return printResponse
 }
 
 const Sprint = {
-  createLayout,
   createPrintRequestBody,
   printLabels,
   printDestinationPlateLabels,
