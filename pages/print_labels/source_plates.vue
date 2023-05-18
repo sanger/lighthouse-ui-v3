@@ -104,9 +104,15 @@ export default {
         return
       }
 
-      const labelFields = csv.parse(csvRead.data)
+      const csvParse = csv.parse(csvRead.data)
+
+      if (!csvParse.success) {
+        this.$refs.statusAlert.setStatus('Error', csvParse.error)
+        return
+      }
+
       const response = await sprintGeneralLabels.printLabels({
-        labelFields,
+        labelFields: csvParse.data,
         printer: this.printer,
       })
 

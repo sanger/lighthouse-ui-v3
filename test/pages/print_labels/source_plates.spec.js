@@ -58,10 +58,6 @@ describe('print destination plate labels', () => {
     describe('when the filename has been entered', () => {
       let readFile, file, sprintMock
 
-      afterEach(() => {
-        vi.resetAllMocks()
-      })
-
       beforeEach(() => {
         wrapper = mount(SourcePlates, {
           data() {
@@ -74,7 +70,6 @@ describe('print destination plate labels', () => {
         sprintMock = vi.spyOn(sprintGeneralLabels, 'printLabels')
         readFile = fs.readFileSync('./test/data/barcodes.csv', 'ascii')
         file = new File([readFile], 'barcodes.csv', { type: 'text/csv' })
-        csv.parse.mockResolvedValue(barcodes)
         wrapper.vm.getFile = vi.fn()
         wrapper.vm.getFile.mockReturnValue(file)
       })
@@ -84,24 +79,44 @@ describe('print destination plate labels', () => {
           csv.read.mockResolvedValue({ success: true, data: '' })
         })
 
-        it('successfully prints the labels', async () => {
-          sprintMock.mockResolvedValue({
-            success: true,
-            message: 'successfully printed 5 labels to heron-bc3',
+        describe('csv parsing succeeds', () => {
+          beforeEach(() => {
+            csv.parse.mockReturnValue({ success: true, data: barcodes })
           })
-          await wrapper.vm.printLabels()
-          expect(wrapper.find('.alert').text()).toMatch(
-            'successfully printed 5 labels to heron-bc3'
-          )
+
+          it('successfully prints the labels', async () => {
+            sprintMock.mockResolvedValue({
+              success: true,
+              message: 'successfully printed 5 labels to heron-bc3',
+            })
+            await wrapper.vm.printLabels()
+            expect(wrapper.find('.alert').text()).toMatch(
+              'successfully printed 5 labels to heron-bc3'
+            )
+          })
+
+          it('fails to print the labels', async () => {
+            sprintMock.mockReturnValue({
+              success: false,
+              error: 'There was an error',
+            })
+            await wrapper.vm.printLabels()
+            expect(wrapper.find('.alert').text()).toMatch('There was an error')
+          })
         })
 
-        it('fails to print the labels', async () => {
-          sprintMock.mockReturnValue({
-            success: false,
-            error: 'There was an error',
+        describe('csv parsing fails', () => {
+          beforeEach(() => {
+            csv.parse.mockReturnValue({
+              success: false,
+              error: mockError,
+            })
           })
-          await wrapper.vm.printLabels()
-          expect(wrapper.find('.alert').text()).toMatch('There was an error')
+
+          it('reports the error as an alert', async () => {
+            await wrapper.vm.printLabels()
+            expect(wrapper.find('.alert').text()).toMatch(mockError.message)
+          })
         })
       })
 
