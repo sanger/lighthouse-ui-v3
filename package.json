@@ -18,7 +18,7 @@
   "devDependencies": {
     "@bootstrap-vue-next/nuxt": "^0.0.6",
     "@intlify/unplugin-vue-i18n": "^0.10.0",
-    "@typescript-eslint/eslint-plugin": "^5.59.6",
+    "@typescript-eslint/eslint-plugin": "^5.59.7",
     "@volar-plugins/vetur": "^2.0.0",
     "bootstrap": "^5.2.3",
     "eslint": "^8.41.0",
