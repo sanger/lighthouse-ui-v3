@@ -21,7 +21,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.6",
     "@volar-plugins/vetur": "^2.0.0",
     "bootstrap": "^5.2.3",
-    "eslint": "^8.41.0",
+    "eslint": "^8.42.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-vue": "^9.14.1",
