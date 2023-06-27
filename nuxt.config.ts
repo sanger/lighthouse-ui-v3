@@ -23,13 +23,6 @@ export default defineNuxtConfig({
   },
   css: ['bootstrap/dist/css/bootstrap.min.css'],
   modules: ['nuxt-vitest', '@bootstrap-vue-next/nuxt'],
-  vite: {
-    plugins: [
-      VueI18nVitePlugin({
-        include: [resolve(dirname(fileURLToPath(import.meta.url)), './locales/*.json')],
-      }),
-    ],
-  },
   runtimeConfig: {
     public: {
       // TODO: Make values in this section private by moving them out to the root level of this runtimeConfig.
@@ -53,4 +46,11 @@ export default defineNuxtConfig({
     },
   },
   ssr: false, // Client-side rendering only because of limitations in bootstrap-vue-next
+  vite: {
+    plugins: [
+      VueI18nVitePlugin({
+        include: [resolve(dirname(fileURLToPath(import.meta.url)), './locales/*.json')],
+      }),
+    ],
+  },
 })
