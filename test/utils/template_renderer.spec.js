@@ -53,7 +53,7 @@ describe('TemplateRenderer', () => {
   let subject
 
   beforeEach(() => {
-    subject = templateRenderer(template)
+    subject = TemplateRenderer(template)
   })
 
   describe('#create', () => {
