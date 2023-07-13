@@ -22,11 +22,7 @@
       <b-button id="searchPlates" variant="primary" @click="findPlate">Search</b-button>
     </p>
 
-    <p>
-      <b-alert id="alert" v-model="alertData.show" dismissible fade :variant="alertData.variant">
-        {{ alertData.message }}
-      </b-alert>
-    </p>
+    <StatusAlert ref="statusAlert" />
 
     <b-card id="plate-summary" title="Plate Summary">
       <div v-if="plate.source">
@@ -69,15 +65,19 @@
 </template>
 
 <script>
+import StatusAlert from '@/components/StatusAlert'
+
 export default {
   name: 'BioseroPlateState',
+  components: {
+    StatusAlert,
+  },
   data() {
     return {
       barcode: '',
       lastPlateBarcode: '',
       plate: { source: false, destination: false },
       filter: 'source_barcode',
-      alertData: { variant: '', message: '', show: false },
       plateFields: [
         { key: 'row', label: '', isRowHeader: true },
         '1',
@@ -161,7 +161,7 @@ export default {
   methods: {
     async findPlate() {
       this.filter = 'source_barcode' // Resets the filter each plate to prevent empty filter bug
-      this.alertData = { variant: '', message: '', show: false } // Removes existing alerts when a new plate is scanned
+      this.$refs.statusAlert.setStatus('Idle', '') // Removes existing alerts when a new plate is scanned
       let plate = await lighthouseServiceBiosero.getBioseroPlate(this.barcode, 'source')
       if (plate.success) {
         this.plate = plate
@@ -171,9 +171,9 @@ export default {
           this.plate = plate
         } else {
           this.plate = { source: false, destination: false }
-          this.showAlert(
-            `Could not find a plate used on a Biosero system with barcode: ${this.barcode}`,
-            'danger'
+          this.$refs.statusAlert.setStatus(
+            'Error',
+            `Could not find a plate used on a Biosero system with barcode: ${this.barcode}`
           )
         }
       }
@@ -213,11 +213,6 @@ export default {
         })
         return row
       })
-    },
-    showAlert(message, variant) {
-      this.alertData.variant = variant
-      this.alertData.message = message
-      this.alertData.show = true
     },
   },
 }

@@ -1,4 +1,5 @@
 import { headers as SprintHeaders } from '@/utils/sprint_constants'
+import { mockError } from '@/test/constants'
 
 const config = useRuntimeConfig()
 
@@ -9,9 +10,6 @@ vi.mock('@/utils/baracoda', () => {
     },
   }
 })
-
-// TODO: DPL-561 - move out into helper
-const errorResponse = new Error('There was an error')
 
 const layout = {
   barcodeFields: [
@@ -51,10 +49,6 @@ const labelFields = [
 ]
 
 describe('Sprint', () => {
-  it('#createLayout', () => {
-    expect(sprintGeneralLabels.createLayout(labelFields[0])).toEqual(layout)
-  })
-
   describe('#createPrintRequestBody', () => {
     it('should produce the correct json if there is a single barcode', () => {
       const body = sprintGeneralLabels.createPrintRequestBody({
@@ -120,12 +114,12 @@ describe('Sprint', () => {
     })
 
     it('when sprint fails', async () => {
-      useFetch.mockRejectedValue(errorResponse)
+      useFetch.mockRejectedValue(mockError)
 
       const response = await sprintGeneralLabels.printLabels(args)
 
       expect(response.success).toBeFalsy()
-      expect(response.error).toEqual(errorResponse)
+      expect(response.error).toEqual(mockError)
     })
 
     it('when sprint returns an error', async () => {
@@ -154,14 +148,14 @@ describe('Sprint', () => {
   })
 
   describe('print different types of labels', () => {
-    let mock, args
+    let printLabelsMock, args
 
     afterEach(() => {
       vi.resetAllMocks()
     })
 
     beforeEach(() => {
-      mock = vi.spyOn(sprintGeneralLabels, 'printLabels')
+      printLabelsMock = vi.spyOn(sprintGeneralLabels, 'printLabels')
     })
 
     describe('#printDestinationPlateLabels', () => {
@@ -174,13 +168,13 @@ describe('Sprint', () => {
 
       it('successfully', async () => {
         baracoda.createBarcodes.mockResolvedValue({ success: true, barcodes })
-        mock.mockResolvedValue({
+        printLabelsMock.mockResolvedValue({
           success: true,
           message: 'Successfully printed 5 labels to heron-bc3',
         })
 
         const response = await sprintGeneralLabels.printDestinationPlateLabels(args)
-        expect(mock).toHaveBeenCalledWith({
+        expect(printLabelsMock).toHaveBeenCalledWith({
           printer: 'heron-bc3',
           labelFields: sprintGeneralLabels.createLabelFields({ barcodes, text: 'TEST' }),
         })
@@ -191,19 +185,21 @@ describe('Sprint', () => {
       it('when baracoda fails', async () => {
         baracoda.createBarcodes.mockResolvedValue({
           success: false,
-          error: errorResponse,
+          error: mockError,
         })
         const response = await sprintGeneralLabels.printDestinationPlateLabels(args)
         expect(response.success).toBeFalsy()
-        expect(response.error).toEqual(errorResponse)
+        expect(response.error).toEqual(mockError)
       })
 
       it('unsuccessfully', async () => {
         baracoda.createBarcodes.mockResolvedValue({ success: true, barcodes })
-        mock.mockRejectedValue(errorResponse)
+        printLabelsMock.mockResolvedValue({ success: false, error: mockError })
+
         const response = await sprintGeneralLabels.printDestinationPlateLabels(args)
+
         expect(response.success).toBeFalsy()
-        expect(response.error).toEqual(errorResponse)
+        expect(response.error).toEqual(mockError)
       })
     })
   })

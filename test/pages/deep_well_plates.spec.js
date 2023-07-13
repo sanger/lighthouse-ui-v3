@@ -21,7 +21,7 @@ describe('Deep Well Plates', () => {
 
   describe('initial state', () => {
     it('is correct', () => {
-      expect(wrapper.vm.status).toBe(statuses.Idle)
+      expect(wrapper.vm.status).toBe(Status.Idle)
       expect(wrapper.vm.plateBarcodes).toBe('')
       expect(wrapper.vm.results).toEqual([])
     })

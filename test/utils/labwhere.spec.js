@@ -1,4 +1,5 @@
 import PlatesJson from '../data/labwhere_plates'
+import { mockError } from '@/test/constants'
 
 describe('Labwhere', () => {
   describe('#getPlatesFromBoxBarcodes', () => {
@@ -23,7 +24,7 @@ describe('Labwhere', () => {
     })
 
     it('when there is an error', async () => {
-      useFetch.mockRejectedValue(new Error('There was an error'))
+      useFetch.mockRejectedValue(mockError)
 
       const response = await labwhere.getPlatesFromBoxBarcodes(boxBarcodes)
 
@@ -33,13 +34,13 @@ describe('Labwhere', () => {
 
     // This is the same as the above but worth adding for consistency
     it('when the box does not exist', async () => {
-      useFetch.mockRejectedValue(new Error('There was an error'))
+      useFetch.mockRejectedValue(mockError)
 
       const response = await labwhere.getPlatesFromBoxBarcodes(['dodgybarcode'])
 
       expect(response.success).toBeFalsy()
       expect(response.barcodes).toBeUndefined()
-      expect(response.error).toEqual(new Error('There was an error'))
+      expect(response.error).toEqual(mockError)
     })
 
     it('when the box has no plates', async () => {

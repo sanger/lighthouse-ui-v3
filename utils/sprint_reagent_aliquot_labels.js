@@ -1,38 +1,9 @@
 import { query, headers } from '@/utils/sprint_constants'
+import layoutTemplate from '@/config/templates/sprint_reagent_aliquot_label_layout.json'
+import TemplateRenderer from './template_renderer'
 
 const config = useRuntimeConfig()
-
-// Will create a new layout object for a print job
-// Requires barcode and two lines of text
-// TODO: DPL-561 - how do we turn this into external json
-const createLayout = ({ barcode, firstText, secondText }) => ({
-  barcodeFields: [
-    {
-      x: 39,
-      y: 1,
-      cellWidth: 0.2,
-      barcodeType: 'code39',
-      value: barcode,
-      height: 4,
-    },
-  ],
-  textFields: [
-    {
-      x: 3,
-      y: 4,
-      value: firstText,
-      font: 'proportional',
-      fontSize: 2.3,
-    },
-    {
-      x: 3,
-      y: 7,
-      value: secondText,
-      font: 'proportional',
-      fontSize: 2.3,
-    },
-  ],
-})
+const renderLayout = TemplateRenderer(layoutTemplate)
 
 /*
   Creates the print request body
@@ -47,7 +18,7 @@ const createPrintRequestBody = ({ barcode, firstText, secondText, printer, quant
     printRequest: {
       // turns each labelField into a layout
       layouts: Array.from({ length: quantity }, () =>
-        createLayout({ barcode, firstText, secondText })
+        renderLayout({ barcode, firstText, secondText })
       ),
     },
   },
@@ -96,4 +67,4 @@ const printLabels = async ({ barcode, firstText, secondText, printer, quantity }
 }
 
 export default printLabels
-export { createLayout, createPrintRequestBody }
+export { createPrintRequestBody }

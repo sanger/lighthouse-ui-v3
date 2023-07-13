@@ -6,44 +6,18 @@
 
     <AlertDialog id="alert" ref="alert"></AlertDialog>
 
-    <div
-      id="resetConfirm"
-      class="modal fade"
-      role="dialog"
-      aria-labelledby="resetConfirm-label"
-      aria-describedby="resetConfirm-body"
-      tabindex="-1"
-      aria-modal="true"
+    <b-modal
+      id="resetModal"
+      ref="modal"
+      title="Reset Confirmation"
+      :static="true"
+      :model-value="resetModalVisible"
+      @ok="resetPlateSpecs"
+      @cancel="showResetModal(false)"
+      @close="showResetModal(false)"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 id="resetConfirm-label" class="modal-title">Reset Confirmation</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div id="resetConfirm-body" class="modal-body">
-            <p class="my-4">Are you sure you want to reset?</p>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">
-              <div class="btn-content">Cancel</div></button
-            ><button
-              class="btn btn-danger btn-md btn"
-              type="button"
-              data-bs-dismiss="modal"
-              @click="resetPlateSpecs"
-            >
-              <div class="btn-content">Reset</div>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+      <p class="my-4">Are you sure you want to reset?</p>
+    </b-modal>
 
     <b-card title="Generate Test Run">
       <b-card-text>
@@ -112,13 +86,13 @@
         <b-col cols="6" md="auto">
           <b-button
             id="resetButton"
-            data-bs-toggle="modal"
-            data-bs-target="#resetConfirm"
             variant="outline-danger"
             class="me-2"
             :disabled="isBusy"
-            >Reset</b-button
+            @click="showResetModal(true)"
           >
+            Reset
+          </b-button>
 
           <b-button
             id="generateTestRunButton"
@@ -136,6 +110,7 @@
 </template>
 
 <script>
+import { BModal } from 'bootstrap-vue-next'
 import AlertDialog from '@/components/AlertDialog'
 import UATActionsRouter from '@/components/UATActionsRouter'
 
@@ -157,12 +132,13 @@ export default {
   },
   data() {
     return {
-      status: statuses.Idle,
+      status: Status.Idle,
       form: initialFormState(),
       addToDart: false,
       plateSpecs: [],
       maxNumberOfPlates: MAX_NUMBER_OF_PLATES,
       maxNumberOfPositives: MAX_NUMBER_OF_POSITIVES,
+      resetModalVisible: false,
     }
   },
   computed: {
@@ -172,7 +148,7 @@ export default {
       }, 0)
     },
     isBusy() {
-      return this.status === statuses.Busy
+      return this.status === Status.Busy
     },
     isValid() {
       return this.totalPlates > 0 && this.totalPlates <= this.maxNumberOfPlates
@@ -197,15 +173,19 @@ export default {
     },
     resetPlateSpecs() {
       this.plateSpecs = []
+      this.resetModalVisible = false
+    },
+    showResetModal(shouldShow) {
+      this.resetModalVisible = shouldShow
     },
     async generateTestRun() {
-      this.status = statuses.Busy
+      this.status = Status.Busy
       const response = await lighthouseService.generateTestRun(this.plateSpecs)
       if (response.success) {
-        this.status = statuses.Idle
+        this.status = Status.Idle
         navigateTo(`/uat_actions/test_runs/${response.runId}`)
       } else {
-        this.status = statuses.Idle
+        this.status = Status.Idle
         this.showAlert(response.error, 'danger')
       }
     },

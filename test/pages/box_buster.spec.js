@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
 import BoxBuster from '@/pages/box_buster.vue'
 import { plateA, plateB, plateC, plateD, plateE, plateF } from '@/test/data/lighthouse_plates'
+import { mockError } from '@/test/constants'
 
 vi.mock('@/utils/labwhere')
 vi.mock('@/utils/lighthouse_service')
@@ -173,11 +174,9 @@ describe('BoxBuster', () => {
   })
 
   it('lets the user know if there are labwhere errors', async () => {
-    const ERROR_LABWHERE = 'Server Error'
-
     labwhere.getPlatesFromBoxBarcodes.mockResolvedValue({
       success: false,
-      error: new Error(ERROR_LABWHERE),
+      error: mockError,
     })
 
     lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
@@ -188,7 +187,7 @@ describe('BoxBuster', () => {
     await wrapper.vm.provider()
     await flushPromises()
 
-    expect(wrapper.find('#box-barcode').text()).toContain(ERROR_LABWHERE)
+    expect(wrapper.find('#box-barcode').text()).toContain(mockError.message)
   })
 
   describe('#platesProvider', () => {
@@ -238,7 +237,7 @@ describe('BoxBuster', () => {
     it('falls back to a plate lookup if there appears to be no box', async () => {
       labwhere.getPlatesFromBoxBarcodes.mockResolvedValue({
         success: false,
-        error: new Error('Server Error'),
+        error: mockError,
       })
       lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
         success: true,
@@ -298,14 +297,13 @@ describe('BoxBuster', () => {
     })
 
     it('displays lighthouse errors', async () => {
-      const ERROR_LIGHTHOUSE = 'Lighthouse error'
       labwhere.getPlatesFromBoxBarcodes.mockResolvedValue({
         success: true,
         barcodes: [],
       })
       lighthouseService.findPlatesFromBarcodes.mockResolvedValue({
         success: false,
-        error: new Error(ERROR_LIGHTHOUSE),
+        error: mockError,
       })
       wrapper.vm.sortedPlates = vi.fn()
       await wrapper.vm.provider()
@@ -317,7 +315,7 @@ describe('BoxBuster', () => {
       })
       expect(wrapper.vm.sortedPlates).not.toHaveBeenCalled()
       expect(wrapper.vm.plates).toEqual([])
-      expect(wrapper.find('#alert').text()).toContain(ERROR_LIGHTHOUSE)
+      expect(wrapper.find('#alert').text()).toContain(mockError.message)
     })
   })
 

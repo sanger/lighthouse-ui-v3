@@ -1,14 +1,16 @@
 import { mount } from '@vue/test-utils'
 import BioseroPlateState from '@/pages/biosero_plate_state.vue'
+import StatusAlert from '@/components/StatusAlert'
 import { sourcePlate, destinationPlate } from '@/test/data/biosero_plates'
 
 vi.mock('@/utils/lighthouse_service_biosero')
 
 describe('BioseroPlateState', () => {
-  let wrapper
+  let wrapper, setAlertStatus
   const PLATE_BARCODE = '12345'
 
   beforeEach(() => {
+    setAlertStatus = vi.spyOn(StatusAlert.methods, 'setStatus')
     wrapper = mount(BioseroPlateState, {
       data() {
         return {
@@ -40,7 +42,7 @@ describe('BioseroPlateState', () => {
     })
 
     it('initially hides the alert', () => {
-      expect(wrapper.find('#alert').exists()).toBeFalsy()
+      expect(wrapper.find('.alert').exists()).toBeFalsy()
     })
   })
 
@@ -232,8 +234,8 @@ describe('BioseroPlateState', () => {
         await wrapper.setData({ barcode: 'Random barcode' })
         await wrapper.vm.findPlate()
 
-        expect(wrapper.find('#alert').exists()).toBeTruthy()
-        expect(wrapper.find('#alert').text()).toContain(
+        expect(setAlertStatus).toHaveBeenCalledWith(
+          'Error',
           'Could not find a plate used on a Biosero system with barcode: Random barcode'
         )
         expect(wrapper.vm.plate).toEqual({ source: false, destination: false })
@@ -246,11 +248,11 @@ describe('BioseroPlateState', () => {
         expect(wrapper.vm.barcode).toBe('')
       })
 
-      it('clears the alertData and resets the filter', async () => {
+      it('clears the alert and resets the filter', async () => {
         await wrapper.setData({
-          alertData: { variant: 'danger', message: 'test', show: true },
           filter: 'control_barcode',
         })
+
         lighthouseServiceBiosero.getBioseroPlate.mockReturnValue({
           success: true,
           ...sourcePlate,
@@ -259,7 +261,7 @@ describe('BioseroPlateState', () => {
 
         await wrapper.vm.findPlate()
 
-        expect(wrapper.vm.alertData).toEqual({ variant: '', message: '', show: false })
+        expect(setAlertStatus).toHaveBeenCalledWith('Idle', '')
         expect(wrapper.vm.filter).toBe('source_barcode')
       })
     })

@@ -1,3 +1,5 @@
+import { mockError } from '../constants'
+
 describe('Sequencescape', () => {
   let barcodes
 
@@ -44,9 +46,9 @@ describe('Sequencescape', () => {
     })
 
     it('when there is an error', async () => {
-      useFetch.mockRejectedValue(new Error('There was an error'))
+      useFetch.mockRejectedValue(mockError)
       response = await sequencescape.createCherrypickBatch(barcodes)
-      expect(response.error).toEqual(new Error('There was an error'))
+      expect(response.error).toEqual(mockError)
     })
   })
 })

@@ -7,14 +7,14 @@ describe('StatusAlert.vue', () => {
   it('has an Idle status and no alert message by default', () => {
     wrapper = mount(StatusAlert, { stubs: { transition: false } })
 
-    expect(wrapper.vm.status).toBe(statuses.Idle)
+    expect(wrapper.vm.status).toBe(Status.Idle)
     expect(wrapper.vm.alertMessage).toBe('')
   })
 
   it("is hidden when status is 'Idle'", () => {
     wrapper = mount(StatusAlert, {
       data() {
-        return { alertMessage: 'Alert Message', status: statuses.Idle }
+        return { alertMessage: 'Alert Message', status: Status.Idle }
       },
     })
 
@@ -24,10 +24,10 @@ describe('StatusAlert.vue', () => {
 
   describe('setStatus()', () => {
     it.each([
-      ['Idle', 'Idle Alert', statuses.Idle, '', false],
-      ['Busy', 'Busy Alert', statuses.Busy, 'warning', true],
-      ['Error', 'Error Alert', statuses.Error, 'danger', true],
-      ['Success', 'Success Alert', statuses.Success, 'success', true],
+      ['Idle', 'Idle Alert', Status.Idle, '', false],
+      ['Busy', 'Busy Alert', Status.Busy, 'warning', true],
+      ['Error', 'Error Alert', Status.Error, 'danger', true],
+      ['Success', 'Success Alert', Status.Success, 'success', true],
     ])(
       "sets the status '%s' and alert message '%s'",
       (stringStatus, message, numericStatus, alertVariant, shouldShowAlert) => {
