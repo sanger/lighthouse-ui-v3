@@ -128,7 +128,7 @@ describe('TestRuns.vue', () => {
 
   describe('#getTestRuns failure', () => {
     beforeEach(() => {
-      lighthouseService.getTestRuns.mockRejectedValue(new Error('There was an error'))
+      lighthouseService.getTestRuns.mockRejectedValue(mockError)
 
       wrapper.vm.refresh()
     })
@@ -138,7 +138,7 @@ describe('TestRuns.vue', () => {
       expect(wrapper.find('tbody').findAll('tr')).toHaveLength(0)
       expect(wrapper.vm.$refs.alert.show).toHaveBeenCalledWith(
         'An unknown error has occurred',
-        'danger'
+        'danger',
       )
     })
   })
