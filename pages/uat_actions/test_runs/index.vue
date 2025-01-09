@@ -87,7 +87,7 @@ export default {
 
       try {
         response = await lighthouseService.getTestRuns(this.currentPage, this.perPage)
-      } catch (error) {
+      } catch {
         showError('An unknown error has occurred')
         return
       }

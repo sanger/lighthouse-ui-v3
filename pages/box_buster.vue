@@ -275,7 +275,7 @@ export default {
         this.barcode = ''
         this.isBusy = false
         return this.sortedPlates(plates)
-      } catch (error) {
+      } catch {
         this.isBusy = false
         this.status = Status.Error
 

@@ -154,7 +154,7 @@ const getBioseroPlate = async (barcode, type) => {
     const plate = { success: true, [type]: true, ...response.data.value.plate.data }
 
     return plate
-  } catch (error) {
+  } catch {
     return { success: false }
   }
 }
