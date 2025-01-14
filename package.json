@@ -12,7 +12,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.4.7",
     "mustache": "^4.2.0"
   },
   "devDependencies": {
