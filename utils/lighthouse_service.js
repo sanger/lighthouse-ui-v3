@@ -58,7 +58,7 @@ const getImports = async () => {
           sort: '-date',
           where: `{"date": {"$gt": "${getSearchDateString(28)}"}}`,
         },
-      }
+      },
     )
     return {
       success: true,
@@ -181,7 +181,7 @@ const createDestinationPlateBeckman = async (form) => {
         '/create?' +
         `barcode=${form.barcode}&` +
         `robot=${form.robotSerialNumber}&` +
-        `user_id=${form.username}`
+        `user_id=${form.username}`,
     )
     const responseData = response.data.value.data
     // success
@@ -216,7 +216,7 @@ const failDestinationPlateBeckman = async (form) => {
         `barcode=${form.barcode}&` +
         `robot=${form.robotSerialNumber}&` +
         `user_id=${form.username}&` +
-        `failure_type=${form.failureType}`
+        `failure_type=${form.failureType}`,
     )
     // partial success
     if (response.data.value.errors.length > 0) {
@@ -328,7 +328,7 @@ const getTestRun = async (id) => {
       `${config.public.lighthouseBaseURL}/cherrypick-test-data/${id}`,
       {
         headers,
-      }
+      },
     )
 
     return {

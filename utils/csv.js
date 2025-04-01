@@ -54,7 +54,7 @@ const validateData = (headers, rows) => {
       throw new CSVParsingError(
         `Line ${index + 2} has the wrong number of fields: ${cells.length} when there should be ${
           headers.length
-        }.`
+        }.`,
       )
     }
   })

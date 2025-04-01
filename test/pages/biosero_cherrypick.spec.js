@@ -55,7 +55,7 @@ describe('Biosero Cherrypick', () => {
       expect(wrapper.vm.failureTypes).toHaveLength(0)
       expect(wrapper.vm.showAlert).toHaveBeenCalledWith(
         'No information exists for any Biosero failure types',
-        'danger'
+        'danger',
       )
     })
   })

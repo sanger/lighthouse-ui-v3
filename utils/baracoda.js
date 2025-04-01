@@ -8,7 +8,7 @@ const createBarcodes = async ({ barcodesGroup, count }) => {
       {
         params: { count },
         method: 'POST',
-      }
+      },
     )
     return {
       success: true,

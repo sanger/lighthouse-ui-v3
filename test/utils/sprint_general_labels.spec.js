@@ -67,7 +67,7 @@ describe('Sprint', () => {
       expect(
         sprintGeneralLabels.createPrintRequestBody({
           labelFields,
-        }).variables.printRequest.layouts
+        }).variables.printRequest.layouts,
       ).toHaveLength(3)
     })
   })
@@ -107,7 +107,7 @@ describe('Sprint', () => {
           headers: SprintHeaders,
           method: 'POST',
         },
-        expect.any(String)
+        expect.any(String),
       )
       expect(response.success).toBeTruthy()
       expect(response.message).toBe('Successfully printed 3 labels to heron-bc3')
@@ -141,8 +141,8 @@ describe('Sprint', () => {
       expect(response.success).toBeFalsy()
       expect(response.error).toEqual(
         new Error(
-          'Exception while fetching data (/print) : Unknown printer without explicit printer type: bug'
-        )
+          'Exception while fetching data (/print) : Unknown printer without explicit printer type: bug',
+        ),
       )
     })
   })

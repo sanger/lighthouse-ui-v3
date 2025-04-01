@@ -195,7 +195,7 @@ describe('BioseroPlateState', () => {
 
         expect(lighthouseServiceBiosero.getBioseroPlate).toHaveBeenCalledWith(
           sourcePlate.barcode,
-          'source'
+          'source',
         )
         expect(wrapper.vm.plate).toEqual({ success: true, ...sourcePlate, source: true })
       })
@@ -215,11 +215,11 @@ describe('BioseroPlateState', () => {
 
         expect(lighthouseServiceBiosero.getBioseroPlate).toHaveBeenCalledWith(
           destinationPlate.barcode,
-          'source'
+          'source',
         )
         expect(lighthouseServiceBiosero.getBioseroPlate).toHaveBeenCalledWith(
           destinationPlate.barcode,
-          'destination'
+          'destination',
         )
         expect(wrapper.vm.plate).toEqual({ success: true, ...destinationPlate, destination: true })
       })
@@ -236,7 +236,7 @@ describe('BioseroPlateState', () => {
 
         expect(setAlertStatus).toHaveBeenCalledWith(
           'Error',
-          'Could not find a plate used on a Biosero system with barcode: Random barcode'
+          'Could not find a plate used on a Biosero system with barcode: Random barcode',
         )
         expect(wrapper.vm.plate).toEqual({ source: false, destination: false })
       })

@@ -18,7 +18,7 @@ const createPrintRequestBody = ({ barcode, firstText, secondText, printer, quant
     printRequest: {
       // turns each labelField into a layout
       layouts: Array.from({ length: quantity }, () =>
-        renderLayout({ barcode, firstText, secondText })
+        renderLayout({ barcode, firstText, secondText }),
       ),
     },
   },

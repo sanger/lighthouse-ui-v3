@@ -34,7 +34,7 @@ describe('lighthouse_service api', () => {
           method: 'POST',
           body: { barcode: barcodes[0], type: 'heron' },
         },
-        expect.any(String)
+        expect.any(String),
       )
     })
 
@@ -67,7 +67,7 @@ describe('lighthouse_service api', () => {
           method: 'POST',
           body: { barcode: barcodes[0], type: 'heron' },
         },
-        expect.any(String)
+        expect.any(String),
       )
     })
 
@@ -101,7 +101,7 @@ describe('lighthouse_service api', () => {
           method: 'POST',
           body: { barcode: barcodes[0], type },
         },
-        expect.any(String)
+        expect.any(String),
       )
     })
 
@@ -133,7 +133,7 @@ describe('lighthouse_service api', () => {
           method: 'POST',
           body: { barcode: barcodes[0], type: 'heron' },
         },
-        expect.any(String)
+        expect.any(String),
       )
       expect(useFetch).toHaveBeenNthCalledWith(
         2,
@@ -143,7 +143,7 @@ describe('lighthouse_service api', () => {
           method: 'POST',
           body: { barcode: barcodes[1], type: 'heron' },
         },
-        expect.any(String)
+        expect.any(String),
       )
     })
 
@@ -187,7 +187,7 @@ describe('lighthouse_service api', () => {
           method: 'POST',
           body: { barcode: barcodes[0], type: 'heron' },
         },
-        expect.any(String)
+        expect.any(String),
       )
       expect(useFetch).toHaveBeenNthCalledWith(
         2,
@@ -197,7 +197,7 @@ describe('lighthouse_service api', () => {
           method: 'POST',
           body: { barcode: barcodes[1], type: 'heron' },
         },
-        expect.any(String)
+        expect.any(String),
       )
     })
 
@@ -233,7 +233,7 @@ describe('lighthouse_service api', () => {
           method: 'POST',
           body: { barcode: barcodes[0], type: 'heron' },
         },
-        expect.any(String)
+        expect.any(String),
       )
       expect(useFetch).toHaveBeenNthCalledWith(
         2,
@@ -243,7 +243,7 @@ describe('lighthouse_service api', () => {
           method: 'POST',
           body: { barcode: barcodes[1], type: 'heron' },
         },
-        expect.any(String)
+        expect.any(String),
       )
     })
   })
@@ -279,7 +279,7 @@ describe('lighthouse_service api', () => {
             _exclude: 'pickable_samples',
           },
         },
-        expect.any(String)
+        expect.any(String),
       )
     })
 
@@ -316,7 +316,7 @@ describe('lighthouse_service api', () => {
             _exclude: 'pickable_samples',
           },
         },
-        expect.any(String)
+        expect.any(String),
       )
       expect(result).toEqual(expected)
     })
@@ -335,11 +335,11 @@ describe('lighthouse_service api', () => {
             max_results: '10000',
             sort: '-date',
             where: expect.stringMatching(
-              /\{"date": \{"\$gt": "\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}"\}\}/
+              /\{"date": \{"\$gt": "\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}"\}\}/,
             ),
           },
         },
-        expect.any(String)
+        expect.any(String),
       )
     })
 
@@ -385,7 +385,7 @@ describe('lighthouse_service api', () => {
           },
           method: 'POST',
         },
-        expect.any(String)
+        expect.any(String),
       )
       expect(response.success).toBeTruthy()
     })
@@ -408,7 +408,7 @@ describe('lighthouse_service api', () => {
 
       expect(useFetch).toHaveBeenCalledWith(
         expect.stringMatching('^' + config.public.lighthouseBaseURL),
-        expect.any(String)
+        expect.any(String),
       )
       expect(response.success).toBeTruthy()
       expect(response.reports).toEqual(ReportsJson.reports)
@@ -434,7 +434,7 @@ describe('lighthouse_service api', () => {
       expect(useFetch).toHaveBeenCalledWith(
         expect.stringMatching('^' + config.public.lighthouseBaseURL),
         { method: 'POST' },
-        expect.any(String)
+        expect.any(String),
       )
       expect(response.success).toBeTruthy()
       expect(response.reports).toEqual([ReportsJson.reports[0]])
@@ -582,7 +582,7 @@ describe('lighthouse_service api', () => {
       expect(result).toEqual(expected)
       expect(useFetch).toHaveBeenCalledWith(
         `${config.public.lighthouseBaseURL}/cherrypicked-plates/create?barcode=${barcode}&robot=${robotSerialNumber}&user_id=${username}`,
-        expect.any(String)
+        expect.any(String),
       )
     })
 
@@ -632,7 +632,7 @@ describe('lighthouse_service api', () => {
       expect(result).toEqual(expected)
       expect(useFetch).toHaveBeenCalledWith(
         `${config.public.lighthouseBaseURL}/cherrypicked-plates/fail?barcode=${barcode}&robot=${robotSerialNumber}&user_id=${username}&failure_type=${failureType}`,
-        expect.any(String)
+        expect.any(String),
       )
     })
 
@@ -697,7 +697,7 @@ describe('lighthouse_service api', () => {
           headers,
           method: 'POST',
         },
-        expect.any(String)
+        expect.any(String),
       )
       expect(result.success).toBeTruthy()
       expect(result.runId).toEqual(runId)
@@ -717,7 +717,7 @@ describe('lighthouse_service api', () => {
 
       expect(result.success).toBeFalsy()
       expect(result.error).toBe(
-        'Insertion failure: 1 document(s) contain(s) error(s): plate_specs: must be of list type; another: error message; '
+        'Insertion failure: 1 document(s) contain(s) error(s): plate_specs: must be of list type; another: error message; ',
       )
     })
 
@@ -793,7 +793,7 @@ describe('lighthouse_service api', () => {
             sort: '_created',
           },
         },
-        expect.any(String)
+        expect.any(String),
       )
       expect(result.success).toBeTruthy()
       expect(result.response).toEqual(response._items)
@@ -857,7 +857,7 @@ describe('lighthouse_service api', () => {
       expect(useFetch).toHaveBeenCalledWith(
         expect.stringMatching(expectedPath),
         { headers },
-        expect.any(String)
+        expect.any(String),
       )
 
       expect(result.success).toBeTruthy()

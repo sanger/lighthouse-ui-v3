@@ -69,7 +69,7 @@ describe('Beckman Cherrypick', () => {
       expect(wrapper.vm.robots).toHaveLength(0)
       expect(wrapper.vm.showAlert).toHaveBeenCalledWith(
         'No information exists for any Beckman robots',
-        'danger'
+        'danger',
       )
     })
   })
@@ -91,7 +91,7 @@ describe('Beckman Cherrypick', () => {
       expect(wrapper.vm.failureTypes).toHaveLength(0)
       expect(wrapper.vm.showAlert).toHaveBeenCalledWith(
         'No information exists for any Beckman failure types',
-        'danger'
+        'danger',
       )
     })
   })
