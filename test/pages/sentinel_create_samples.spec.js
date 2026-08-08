@@ -70,7 +70,7 @@ describe('lighthouse sentinel cherrypick', () => {
         await wrapper.vm.$nextTick()
 
         expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
-          /Sentinel samples successfully created in sequencescape/
+          /Sentinel samples successfully created in sequencescape/,
         )
         expect(wrapper.vm.items).toEqual(response.map((r) => r.data.data))
       })
@@ -90,7 +90,7 @@ describe('lighthouse sentinel cherrypick', () => {
         await wrapper.vm.$nextTick()
 
         expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
-          /an error 1, an error 2, an error 3/
+          /an error 1, an error 2, an error 3/,
         )
         expect(wrapper.vm.items).toEqual([])
       })
@@ -164,7 +164,7 @@ describe('lighthouse sentinel cherrypick', () => {
         await wrapper.vm.$nextTick()
 
         expect(wrapper.findComponent({ ref: 'alert' }).text()).toMatch(
-          /Some samples were successfully created however: an error 2, an error 1/
+          /Some samples were successfully created however: an error 2, an error 1/,
         )
         expect(wrapper.vm.items).toEqual(response.slice(1, 3).map((r) => r.data.data))
       })

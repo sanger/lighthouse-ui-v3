@@ -106,7 +106,7 @@ describe('Sprint module', () => {
           headers: SprintHeaders,
           method: 'POST',
         },
-        expect.any(String)
+        expect.any(String),
       )
       expect(response.success).toBeTruthy()
       expect(response.message).toBe(`Successfully printed ${quantity} ${labelsString} to heron-bc3`)
@@ -120,7 +120,7 @@ describe('Sprint module', () => {
 
         expect(response.success).toBeFalsy()
         expect(response.error).toEqual(new Error('Quantity should be between 1 and 100.'))
-      }
+      },
     )
 
     it('return unsuccessful when sprint fails', async () => {
@@ -153,8 +153,8 @@ describe('Sprint module', () => {
       expect(response.success).toBeFalsy()
       expect(response.error).toEqual(
         new Error(
-          'Exception while fetching data (/print) : Unknown printer without explicit printer type: bug'
-        )
+          'Exception while fetching data (/print) : Unknown printer without explicit printer type: bug',
+        ),
       )
     })
   })

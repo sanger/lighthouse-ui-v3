@@ -112,7 +112,7 @@ export default {
       } else if (this.plate.destination) {
         filters.push(
           { text: 'Control Barcode', value: 'control_barcode' },
-          { text: 'Control Type', value: 'control' }
+          { text: 'Control Type', value: 'control' },
         )
       }
       return filters
@@ -173,7 +173,7 @@ export default {
           this.plate = { source: false, destination: false }
           this.$refs.statusAlert.setStatus(
             'Error',
-            `Could not find a plate used on a Biosero system with barcode: ${this.barcode}`
+            `Could not find a plate used on a Biosero system with barcode: ${this.barcode}`,
           )
         }
       }
@@ -185,7 +185,7 @@ export default {
         const row = { row: header, _cellVariants: {} }
         this.plateFields.forEach((field) => {
           const well = this.plate.samples.find(
-            (well) => well.source_coordinate === `${header}${field}`
+            (well) => well.source_coordinate === `${header}${field}`,
           )
           if (well) {
             row[field] = well[this.filter]
@@ -200,7 +200,7 @@ export default {
         const row = { row: header, _cellVariants: {} }
         this.plateFields.forEach((field) => {
           const well = this.plate.wells.find(
-            (well) => well.destination_coordinate === `${header}${field}`
+            (well) => well.destination_coordinate === `${header}${field}`,
           )
           if (well) {
             row[field] = well[this.filter]

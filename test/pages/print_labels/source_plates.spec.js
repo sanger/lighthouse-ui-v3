@@ -91,7 +91,7 @@ describe('print destination plate labels', () => {
             })
             await wrapper.vm.printLabels()
             expect(wrapper.find('.alert').text()).toMatch(
-              'successfully printed 5 labels to heron-bc3'
+              'successfully printed 5 labels to heron-bc3',
             )
           })
 

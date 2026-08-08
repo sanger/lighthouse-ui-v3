@@ -46,7 +46,7 @@ describe('lighthouse_service_biosero api', () => {
           },
           method: 'POST',
         },
-        expect.any(String)
+        expect.any(String),
       )
     })
 
@@ -135,7 +135,7 @@ describe('lighthouse_service_biosero api', () => {
           },
           method: 'POST',
         },
-        expect.any(String)
+        expect.any(String),
       )
     })
 
@@ -240,7 +240,7 @@ describe('lighthouse_service_biosero api', () => {
 
       const result = await lighthouseServiceBiosero.getBioseroPlate(
         destinationPlateBarcode,
-        'destination'
+        'destination',
       )
 
       expect(result.success).toBeTruthy()
@@ -254,7 +254,7 @@ describe('lighthouse_service_biosero api', () => {
 
       const result = await lighthouseServiceBiosero.getBioseroPlate(
         destinationPlateBarcode,
-        'destination'
+        'destination',
       )
 
       expect(result.success).toBeFalsy()

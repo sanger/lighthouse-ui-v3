@@ -92,7 +92,7 @@ export default {
     async createReport() {
       this.setStatus(
         'Busy',
-        'Report creation takes about 30s to complete, please do not refresh the page'
+        'Report creation takes about 30s to complete, please do not refresh the page',
       )
       const response = await lighthouseService.createReport(this.$config)
       if (response.success) {

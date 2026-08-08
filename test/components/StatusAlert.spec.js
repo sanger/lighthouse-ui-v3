@@ -39,7 +39,7 @@ describe('StatusAlert.vue', () => {
         expect(wrapper.vm.status).toBe(numericStatus)
         expect(wrapper.vm.showAlert).toBe(shouldShowAlert)
         expect(wrapper.vm.alertVariant).toBe(alertVariant)
-      }
+      },
     )
   })
 })

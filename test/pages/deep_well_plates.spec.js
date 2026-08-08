@@ -169,7 +169,7 @@ describe('Deep Well Plates', () => {
 
       it('specifies that there was a problem with the request', () => {
         expect(resultRow.text()).toBe(
-          'barcode1There was a problem processing the request; please try again.Unknown'
+          'barcode1There was a problem processing the request; please try again.Unknown',
         )
       })
 
@@ -233,7 +233,7 @@ describe('Deep Well Plates', () => {
 
       it('specifies that there was a problem with the request', () => {
         expect(resultRow.text()).toBe(
-          'barcode1Errors:  Some kind of error; Another error messageNo'
+          'barcode1Errors:  Some kind of error; Another error messageNo',
         )
       })
 
@@ -255,7 +255,7 @@ describe('Deep Well Plates', () => {
 
       it('specifies that there was a problem with the request', () => {
         expect(resultRow.text()).toBe(
-          'barcode1Unhandled response received; please try again.Unknown'
+          'barcode1Unhandled response received; please try again.Unknown',
         )
       })
 

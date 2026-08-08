@@ -5,11 +5,11 @@ export default defineVitestConfig({
     environment: 'nuxt',
     environmentOptions: {
       nuxt: {
-        domEnvironment: 'jsdom'
-      }
+        domEnvironment: 'jsdom',
+      },
     },
     globals: true,
     root: '.',
     setupFiles: ['./test/setup.js'],
-  }
+  },
 })

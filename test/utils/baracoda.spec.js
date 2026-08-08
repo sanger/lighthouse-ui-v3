@@ -22,7 +22,7 @@ describe('PlateBarcode', () => {
           params: { count: 5 },
           method: 'POST',
         },
-        expect.any(String)
+        expect.any(String),
       )
     })
 

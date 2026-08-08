@@ -60,7 +60,7 @@
                 {{
                   $t(
                     'plates_with_samples_that_should_be_preferentially_sequenced',
-                    total_preferentially_sequence
+                    total_preferentially_sequence,
                   )
                 }}
               </li>
@@ -289,7 +289,7 @@ export default {
     async findPlatesInLighthouse(labwhereResponse) {
       this.currentState = `Checking ${this.$t(
         'plates',
-        labwhereResponse.barcodes.length
+        labwhereResponse.barcodes.length,
       )} in the Lighthouse service`
 
       const response = await lighthouseService.findPlatesFromBarcodes(labwhereResponse)

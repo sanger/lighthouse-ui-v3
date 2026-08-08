@@ -120,7 +120,7 @@ describe('sentinel cherrypick', () => {
       await wrapper.vm.$nextTick()
 
       expect(wrapper.findComponent({ ref: 'alert' }).text()).toBe(
-        'Could not retrieve plates from LabWhere'
+        'Could not retrieve plates from LabWhere',
       )
       expect(wrapper.vm.items).toEqual([])
     })
@@ -233,7 +233,7 @@ describe('sentinel cherrypick', () => {
         await wrapper.vm.$nextTick()
 
         expect(wrapper.findComponent({ ref: 'alert' }).text()).toBe(
-          'Cherrypicking batch successfully created. Go to this link to view it: http://localhost:3000/pick_lists/4'
+          'Cherrypicking batch successfully created. Go to this link to view it: http://localhost:3000/pick_lists/4',
         )
       })
 
